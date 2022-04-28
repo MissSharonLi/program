@@ -1,22 +1,35 @@
 <template>
   <view class="product__search__wrapper">
     <view class="search__input__content">
-      <input class="search__input" type="text" placeholder="搜索商品" @focus="handleOperation" />
+      <input
+        v-model="keyword"
+        class="search__input"
+        type="text"
+        placeholder="搜索商品"
+        @confirm="handleOperation(null, keyword)"
+      />
       <text class="search__text">取消</text>
     </view>
     <view class="search__panel__content">
       <view class="search__panel__wrapper">
         <view class="search__panel__item">
           <text class="search__panel__title">历史记录</text>
-          <image class="search__panel__icon" :src="require('@/assets/images/delete.png')"></image>
+          <image
+            v-if="mySearchList.length > 0"
+            class="search__panel__icon"
+            :src="require('@/assets/images/delete.png')"
+            @click="handleOperation(0)"
+          ></image>
         </view>
         <view class="search__panel__list">
-          <text class="button">海贼王</text>
-          <text class="button">皮卡丘</text>
-          <text class="button">鸣人</text>
-          <text class="button">海贼王</text>
-          <text class="button">皮卡丘</text>
-          <text class="button">鸣人</text>
+          <text
+            v-for="(item, index) in mySearchList"
+            :key="index"
+            class="button"
+            @click="handleOperation(null, item)"
+          >
+            {{ item }}
+          </text>
         </view>
       </view>
       <view class="search__panel__wrapper">
@@ -24,28 +37,49 @@
           <text class="search__panel__title">大家都在搜</text>
         </view>
         <view class="search__panel__list">
-          <text class="button">皮卡丘</text>
-          <text class="button">鸣人</text>
+          <text
+            v-for="(item, index) in searchList"
+            :key="index"
+            class="button"
+            @click="handleOperation(null, item)"
+          >
+            {{ item }}
+          </text>
         </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   name: 'Search',
   data() {
-    return {}
+    return {
+      keyword: '',
+      searchList: [],
+      mySearchList: []
+    }
+  },
+  onLoad() {
+    this.query()
   },
   methods: {
-    handleOperation(type) {
+    // 查询历史数据
+    async query() {
+      const { code, data } = await api.getSearchKeywords({ token: this.token })
+      if (code === 1) {
+        this.searchList = data.search_list || []
+        this.mySearchList = data.my_search_list || []
+      }
+    },
+    handleOperation(type, keyword) {
       switch (type) {
         case 0:
+          this.mySearchList.splice(0, this.mySearchList.length - 1)
           break
         default:
-          wx.navigateTo({
-            url: '/pages/product/index'
-          })
+          uni.navigateTo({ url: '/pages/product/index?keyword=' + keyword })
       }
     }
   }

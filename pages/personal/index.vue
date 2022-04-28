@@ -6,16 +6,16 @@
         <view class="personal__top__content">
           <view class="personal__top__item">
             <view class="left">
-              <image class="left__avator" :src="require('@/assets/images/avator.jpeg')"></image>
+              <image class="left__avator" :src="userInfo.avatar"></image>
               <view class="left__detail">
-                <text class="left__text">188****4567</text>
+                <text class="left__text">{{ userInfo.mobile }}</text>
                 <view class="left__button">
                   <text class="left__button__left">余</text>
                   <text class="left__button__left">余额3911</text>
                 </view>
               </view>
             </view>
-            <view class="right">未绑定</view>
+            <view class="right" @click="handleOperation(null, 0)">未绑定</view>
           </view>
           <view class="personal__top__rank">
             <text class="text">氪金</text>
@@ -69,7 +69,7 @@
   </view>
 </template>
 <script>
-import mixins from '@/mixins'
+import { api } from '@/api'
 import MyTabs from '@/components/MyTabs'
 import HomeNavBar from '@/components/HomeNavBar'
 export default {
@@ -77,9 +77,9 @@ export default {
     MyTabs,
     HomeNavBar
   },
-  mixins: [mixins],
   data() {
     return {
+      userInfo: {},
       menuData: [
         {
           url: 'like.png',
@@ -124,14 +124,31 @@ export default {
       ]
     }
   },
-  onLoad() {},
+  onLoad() {
+    this.network().runApiToGetUserInfo()
+  },
   methods: {
-    handleOperation(record) {
-      const { path } = record
-      wx.navigateTo({ url: path })
+    handleOperation(record, type) {
+      switch (type) {
+        case 0:
+          uni.navigateTo({ url: '/pages/personal/bindPhone' })
+          break
+        default: {
+          const { path } = record
+          wx.navigateTo({ url: path })
+        }
+      }
     },
     handleToPath(type) {
       wx.navigateTo({ url: '/pages/personal/orderManagement' })
+    },
+    network() {
+      return {
+        runApiToGetUserInfo: async () => {
+          const { code, data } = await api.getUseriInfo({ token: this.token })
+          if (code === 1 && data) this.userInfo = data
+        }
+      }
     }
   }
 }

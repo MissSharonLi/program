@@ -1,48 +1,32 @@
 <template>
   <view class="product__list__content">
-    <view v-for="(item, index) in dataSource" :key="index" class="list__item" @click="handleClick">
-      <image class="list__item__image" :src="require('@/assets/images/p1.jpeg')"></image>
-      <text class="label">1/45箱</text>
-      <view class="title">{{ item.title }}</view>
-      <view class="sub__title">{{ item.price }}元/张</view>
+    <view
+      v-for="(item, index) in dataSource"
+      :key="index"
+      class="list__item"
+      @click="handleClick(item)"
+    >
+      <image class="list__item__image" :src="item.goods_image"></image>
+      <text class="label">{{ item.stock_box_num }}/{{ item.box_num }}箱</text>
+      <view class="title">{{ item.goods_name }}</view>
+      <view class="sub__title">{{ item.goods_price }}元/张</view>
     </view>
+    <view v-if="dataSource.length === 0" class="empty">暂无数据哦~</view>
   </view>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      dataSource: [
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10
-        }
-      ]
+  props: {
+    dataSource: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
     handleClick(item) {
-      this.$emit('click', item)
+      uni.navigateTo({
+        url: '/pages/product/detail?id=' + item.id
+      })
     }
   }
 }
@@ -88,6 +72,12 @@ export default {
       color: $tips-color;
       margin-top: pxTorpx(5);
     }
+  }
+  .empty {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    margin: 20px auto;
   }
 }
 </style>

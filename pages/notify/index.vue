@@ -24,7 +24,6 @@
 
 <script>
 // import { api } from '@/api'
-import mixins from '@/mixins'
 import SubTabs from '@/components/SubTabs'
 import HomeNavBar from '@/components/HomeNavBar'
 import MyTabs from '@/components/MyTabs'
@@ -34,7 +33,6 @@ export default {
     MyTabs,
     HomeNavBar
   },
-  mixins: [mixins],
   data() {
     return {
       tabIndex: 0,

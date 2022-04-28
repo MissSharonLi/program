@@ -4,91 +4,89 @@ import { baseUrl } from './config'
 import commonUtils from '@/utils'
 const paramsList = ['get', 'delete', 'patch']
 const dataList = ['post', 'put']
+
 // 公共服务(加载中...)
 const common = {
-  loading: null,
-  needLoadingRequestCount: 0,
+  loadingCount: 0,
   showFullScreenLoading: () => {
-    if (common.needLoadingRequestCount === 0) commonUtils.loading('加载中...') // 当等于0时证明第一次请求 这时开启loading
-    common.needLoadingRequestCount++ // 全局变量值++
+    common.loadingCount === 0 && commonUtils.loading('加载中...') // 防止多次弹出加载中
+    common.loadingCount++
   },
   tryHideFullScreenLoading: () => {
-    if (common.needLoadingRequestCount <= 0) return // 小于等于0 证明没有开启loading 此时return
-    common.needLoadingRequestCount-- // 正常响应后 全局变量 --
-    if (common.needLoadingRequestCount === 0) commonUtils.hideLoading() // 等于0 时证明全部加载完毕 此时结束loading 加载
-  }
-}
-/**
- * 参数md5加密
- * @param {Object} params - 参数
- */
-const jsonSort = (params) => {
-  let xtoken = ''
-  const timestamp = Date.parse(new Date())
-  const xtime = timestamp / 1000
-  params['x-time'] = xtime
-  const arr = []
-  const json = {}
-  for (const key in params) {
-    arr.push(key)
-  }
-  arr.sort()
-  for (const i in arr) {
-    xtoken += md5(params[arr[i]].toString()) + 'romantic'
-    json[arr[i]] = params[arr[i]]
-  }
-  xtoken = md5('roman_' + xtoken + '_tic')
-  delete json['x-time']
-  const myJson = JSON.parse(JSON.stringify(json))
-  return { 'x-time': xtime, 'x-token': xtoken, data: myJson }
-}
-
-/**
- * 处理空参数都为null
- * @param {Object} params - 参数
- */
-const handlerNullParams = (config) => {
-  const params = config[isTypeList(config.method)]
-  for (const key in params) {
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
-      const val = params[key]
-      if (val === '') {
-        params[key] = null
+    if (common.loadingCount <= 0) return
+    common.loadingCount--
+    common.loadingCount === 0 && commonUtils.hideLoading() // 关闭对应loading
+  },
+  /**
+   * 处理空参数都为null
+   * @param {Object} params - 参数
+   */
+  handlerNullParams(config) {
+    const params = config[common.isTypeList(config.method)]
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        const val = params[key]
+        if (val === '') {
+          params[key] = null
+        }
       }
     }
-  }
-}
-/**
- * RESTFUL请求设置参数位置
- * @param {string} method 方法 get|delete|patch|post|put
- * @returns
- */
-const isTypeList = (method) => {
-  if (paramsList.includes(method)) {
-    return 'params'
-  } else if (dataList.includes(method)) {
-    return 'data'
-  }
-}
-
-// 默认配置
-const defaultParams = {
-  baseURL: baseUrl,
-  validateStatus: (status) => status < 500, // 拦截状态码大于500
-  headers: {
-    common: { Accept: 'application/json; charset=UTF-8' },
-    patch: { 'Content-Type': 'application/json; charset=UTF-8' },
-    post: { 'Content-Type': 'application/json; charset=UTF-8' },
-    put: { 'Content-Type': 'application/json; charset=UTF-8' }
   },
-  transformRequest: [],
-  timeout: 30000, // 请求超时时间
-  isRepeatRequest: false, // 是否开启重复请求拦截
-  isResetEmptyParams: false, // 是否开启重置空参数
-  request: null,
-  requestError: null,
-  response: null,
-  responseError: null
+  /**
+   * RESTFUL请求设置参数位置
+   * @param {string} method 方法 get|delete|patch|post|put
+   * @returns
+   */
+  isTypeList(method) {
+    if (paramsList.includes(method)) {
+      return 'params'
+    } else if (dataList.includes(method)) {
+      return 'data'
+    }
+  },
+  // 默认配置
+  defaultParams: {
+    baseURL: baseUrl,
+    validateStatus: (status) => status < 500, // 拦截状态码大于500
+    headers: {
+      common: { Accept: 'application/json; charset=UTF-8' },
+      patch: { 'Content-Type': 'application/json; charset=UTF-8' },
+      post: { 'Content-Type': 'application/json; charset=UTF-8' },
+      put: { 'Content-Type': 'application/json; charset=UTF-8' }
+    },
+    transformRequest: [],
+    timeout: 30000, // 请求超时时间
+    isRepeatRequest: false, // 是否开启重复请求拦截
+    isResetEmptyParams: false, // 是否开启重置空参数
+    request: null,
+    requestError: null,
+    response: null,
+    responseError: null
+  },
+  /**
+   * 参数md5加密
+   * @param {Object} params - 参数
+   */
+  jsonSort(params) {
+    let xtoken = ''
+    const timestamp = Date.parse(new Date())
+    const xtime = timestamp / 1000
+    params['x-time'] = xtime
+    const arr = []
+    const json = {}
+    for (const key in params) {
+      arr.push(key)
+    }
+    arr.sort()
+    for (const i in arr) {
+      xtoken += md5(params[arr[i]].toString()) + 'romantic'
+      json[arr[i]] = params[arr[i]]
+    }
+    xtoken = md5('roman_' + xtoken + '_tic')
+    delete json['x-time']
+    const myJson = JSON.parse(JSON.stringify(json))
+    return { 'x-time': xtime, 'x-token': xtoken, data: myJson }
+  }
 }
 
 // 自定义适配器来适配uniapp语法
@@ -105,7 +103,6 @@ axios.defaults.adapter = (config) => {
       responseType: config.responseType,
       sslVerify: config.sslVerify,
       complete: (response) => {
-        console.log(response)
         response = {
           data: response.data,
           status: response.statusCode,
@@ -129,13 +126,11 @@ axios.defaults.adapter = (config) => {
  * @param {object} store - vuex实例
  * @returns { GET, DEL, POST, PUT, PATCH, POST_FILE, GET_EXPORT }
  */
-export default (params = defaultParams, store) => {
-  params = Object.assign(defaultParams, params || {})
+export default (params = common.defaultParams, store) => {
+  params = Object.assign(common.defaultParams, params || {})
   // 创建axios实例
   const service = axios.create(params)
-
   const { request, requestError, response, responseError, isResetEmptyParams } = params
-
   /**
    * 请求前拦截
    * @param {object} config - axios实例
@@ -144,17 +139,16 @@ export default (params = defaultParams, store) => {
     request ||
     ((config) => {
       if (config.loading) common.showFullScreenLoading()
-      const transformData = jsonSort(config[isTypeList(config.method)])
+      const transformData = common.jsonSort(config[common.isTypeList(config.method)])
       // 添加token
       config.headers['x-token'] = transformData['x-token']
       config.headers['x-time'] = transformData['x-time']
       config.headers['content-type'] = 'application/x-www-form-urlencoded'
       config.data = transformData.data
       // 处理为空的参数，设置为null
-      isResetEmptyParams && handlerNullParams(config)
+      isResetEmptyParams && common.handlerNullParams(config)
       return config
     })
-
   /**
    * 请求前拦截异常处理
    * @param {object} config - axios实例
@@ -170,7 +164,6 @@ export default (params = defaultParams, store) => {
     ((response) => {
       common.tryHideFullScreenLoading()
       const res = response.data
-
       if (response.config.responseType === 'blob') {
         if (response.data instanceof Blob) {
           return res
@@ -178,22 +171,17 @@ export default (params = defaultParams, store) => {
           commonUtils.toast('导出文件类型异常')
           return Promise.reject(new Error('导出流异常'))
         }
-      } else if (res instanceof Object && !res.code) {
+      } else if (res instanceof Object && res.code !== 0 && !res.code) {
         return {
-          code: 200,
+          code: 1,
           data: res
         }
       }
-
-      if (res.code === 1) {
-        return Promise.resolve(res)
-      } else {
-        // isHandleResponse 是否业务自行处理响应
-        if (!response.config.isHandleResponse) {
-          commonUtils.toast(res.msg)
-        }
-        return res
-      }
+      // 请求成功
+      if (res.code === 1) return Promise.resolve(res)
+      // isHandleResponse 是否业务自行处理响应
+      if (!response.config.isHandleResponse) commonUtils.toast(res.msg)
+      return res
     })
 
   /**
@@ -211,7 +199,8 @@ export default (params = defaultParams, store) => {
           commonUtils.toast('系统异常')
         }
       }
-      return Promise.reject(error)
+      return error
+      // return Promise.reject(error)
     })
 
   // request 请求前拦截

@@ -28,13 +28,11 @@
   </view>
 </template>
 <script>
-import mixins from '@/mixins'
 import SubTabs from '@/components/SubTabs'
 export default {
   components: {
     SubTabs
   },
-  mixins: [mixins],
   data() {
     return {
       tabList: ['全部', '在售', '售罄'],

@@ -1,7 +1,7 @@
 <template>
   <view class="product__detail__content">
     <view class="product__detail__top">
-      <CustomSwiper :isBanner="true"></CustomSwiper>
+      <CustomSwiper :isBanner="true" :dataSource="imgDataSource"></CustomSwiper>
       <view class="rank__content">
         <view class="love"></view>
         <view class="rank">
@@ -46,11 +46,11 @@
         class="list__item"
         @click="handleClick"
       >
-        <image class="list__item__image" :src="require('@/assets/images/p1.jpeg')"></image>
-        <text class="label">1/45</text>
-        <view class="title">{{ item.title }}</view>
-        <view class="sub__title">售价：{{ item.price }}元/张</view>
-        <view class="sub__title">获得概率：{{ item.rate }}%</view>
+        <image class="list__item__image" :src="item.item_image"></image>
+        <text class="label">{{ item.buy_num }}/{{ item.item_num }}</text>
+        <view class="title">{{ item.item_name }}</view>
+        <view class="sub__title">售价：{{ item.item_price }}元/张</view>
+        <view class="sub__title">获得概率：{{ item.parcent }}%</view>
       </view>
     </view>
     <view class="product__detail__footer">
@@ -71,6 +71,7 @@
   </view>
 </template>
 <script>
+import { api } from '@/api'
 import RankModule from '@/components/RankModule'
 import BuyDetail from '@/components/BuyDetail'
 import CustomSwiper from '@/components/CustomSwiper'
@@ -84,6 +85,7 @@ export default {
   },
   data() {
     return {
+      imgDataSource: [],
       rankProps: {
         show: false,
         dataSource: []
@@ -122,10 +124,18 @@ export default {
       ]
     }
   },
-  onLoad() {
-    console.log('dd')
+  onLoad(options) {
+    this.query(options.id)
+    console.log(options)
   },
   methods: {
+    async query(id) {
+      const { code, data } = await api.getProductDetail({ id })
+      if (code === 1 && data) {
+        this.dataSource = data.item_list || []
+        this.imgDataSource = data.goods_image.split(',')
+      }
+    },
     handleLottery() {
       this.$refs.rankProps.show = true
     },

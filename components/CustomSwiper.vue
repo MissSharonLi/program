@@ -10,7 +10,7 @@
       <Block v-for="(item, index) in dataSource" :key="index">
         <SwiperItem>
           <view class="swiper-item">
-            <image class="swiper-image" :src="'https://a.yiyunrj.com/' + item"></image>
+            <image class="swiper-image" :src="item"></image>
           </view>
         </SwiperItem>
       </Block>

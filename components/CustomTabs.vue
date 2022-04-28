@@ -4,9 +4,9 @@
       v-for="(item, index) in dataSource"
       :key="index"
       :class="{ active: tabIndex === index }"
-      @click="handleTab(index)"
+      @click="handleTab(item, index)"
     >
-      {{ item }}
+      {{ item.title }}
     </text>
   </view>
 </template>
@@ -15,18 +15,21 @@ export default {
   props: {
     dataSource: {
       type: Array,
-      default: () => ['擂台赛', '随机赏', '推荐', '随机赏', '擂台赛']
+      default: () => []
     }
   },
   data() {
     return {
-      tabIndex: 2
+      tabIndex: 0
     }
   },
   methods: {
-    handleTab(index) {
+    handleTab(item, index) {
       this.tabIndex = index
       this.$emit('shift', index)
+    },
+    handleShift(index) {
+      this.tabIndex = index
     }
   }
 }

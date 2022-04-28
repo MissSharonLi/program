@@ -12,9 +12,7 @@
   </view>
 </template>
 <script>
-import mixins from '@/mixins'
 export default {
-  mixins: [mixins],
   props: {
     isCustom: {
       type: Boolean,

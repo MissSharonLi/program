@@ -15,20 +15,16 @@
           <input
             class="search__input"
             type="text"
+            :disabled="true"
             placeholder="搜索商品"
-            @focus="handleOperation"
+            @click="handleOperation"
           />
         </view>
         <CustomSwiper :dataSource="bannerList"></CustomSwiper>
       </view>
     </view>
     <view class="home__main__list">
-      <CustomTabs ref="tabsProps" @shift="handleOperation($event, 3)"></CustomTabs>
-      <HomeScrollView
-        ref="scrollProps"
-        @click="handleOperation($event, 0)"
-        @shiftTab="handleOperation($event, 2)"
-      ></HomeScrollView>
+      <HomeScrollView ref="scrollProps"></HomeScrollView>
     </view>
     <MyTabs></MyTabs>
   </view>
@@ -36,9 +32,7 @@
 
 <script>
 import { api } from '@/api'
-import mixins from '@/mixins'
 import HomeNavBar from '@/components/HomeNavBar'
-import CustomTabs from '@/components/CustomTabs'
 import CustomSwiper from '@/components/CustomSwiper'
 import HomeScrollView from '@/components/HomeScrollView'
 import MyTabs from '@/components/MyTabs'
@@ -46,27 +40,31 @@ import MyTabs from '@/components/MyTabs'
 export default {
   components: {
     HomeNavBar,
-    CustomTabs,
     CustomSwiper,
     HomeScrollView,
     MyTabs
   },
-  mixins: [mixins],
   data() {
     return {
       bannerList: []
     }
   },
   onLoad() {
-    this.query()
+    this.network().runApiToGetBannerList()
   },
   methods: {
-    async query() {
-      const { code, data } = await api.getBannerList()
-      if (code === 1) this.bannerList = (data || []).map((i) => i.image)
+    async query() {},
+    network() {
+      return {
+        runApiToGetBannerList: async () => {
+          const { code, data } = await api.getBannerList()
+          if (code === 1) this.bannerList = (data || []).map((i) => i.image)
+        }
+      }
     },
-    onReachBottom() {
-      console.log('dd')
+    async onReachBottom() {
+      await this.$nextTick()
+      this.$refs.scrollProps.handleOperation(null, 3)
     },
     handleOperation($event, type) {
       switch (type) {
@@ -87,9 +85,7 @@ export default {
           this.$refs.scrollProps.current = $event
           break
         default:
-          wx.navigateTo({
-            url: '/pages/product/search'
-          })
+          uni.navigateTo({ url: '/pages/product/search' })
       }
     }
   }
@@ -98,6 +94,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
+.content {
+  min-height: auto;
+}
 .font-loaded {
   font-family: $ZKKuaiLeTi;
 }
