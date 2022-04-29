@@ -4,7 +4,7 @@ const mixins = {
       return this.$store.getters.getNavBarHeight
     },
     token() {
-      return uni.getStorageSync('storage_token')
+      return this.$store.state.token || uni.getStorageSync('storage_token')
     }
   }
 }

@@ -3,13 +3,35 @@
     <SubTabs :dataSource="tabList" @tabClick="handleTab"></SubTabs>
     <view class="bind__content">
       <view class="bind__list">
-        <view v-if="tabIndex === 0" class="bind__authorize">
-          <input class="bind__authorize__input" placeholder="点击授权获取手机号" type="text" />
-          <view class="bind__authorize__button">点击授权</view>
+        <view v-if="params.type === 1" class="bind__authorize">
+          <input
+            v-model="params.mobile"
+            type="number"
+            class="bind__authorize__input"
+            placeholder="点击授权获取手机号"
+            disabled
+          />
+          <button
+            open-type="getPhoneNumber"
+            class="bind__authorize__button"
+            @getphonenumber="getPhoneNumber"
+          >
+            点击授权
+          </button>
         </view>
         <view v-else class="bind__authorize">
-          <input class="bind__authorize__input mobile" placeholder="输入手机号" type="text" />
-          <input class="bind__authorize__input" placeholder="输入验证码" type="text" />
+          <input
+            v-model="params.mobile"
+            class="bind__authorize__input mobile"
+            placeholder="输入手机号"
+            type="number"
+          />
+          <input
+            v-model="params.captcha"
+            class="bind__authorize__input"
+            placeholder="输入验证码"
+            type="number"
+          />
           <view class="bind__authorize__button">获取验证码</view>
         </view>
         <view class="bind__button" @click="handleSubmit">确认</view>
@@ -25,16 +47,29 @@ export default {
   },
   data() {
     return {
-      tabIndex: 0,
-      tabList: ['直接授权', '手动收入']
+      tabList: ['直接授权', '手动收入'],
+      params: {
+        type: 1,
+        mobile: '',
+        captcha: ''
+      }
     }
   },
   methods: {
     handleTab(index) {
-      this.tabIndex = index
+      this.params.type = index + 1
     },
     handleSubmit() {
+      const { type, mobile, captcha } = this.params
+      if (!mobile) return this.commonUtils.toast('请输入手机号码')
+      if (!this.commonUtils.isPhoneAvailable(mobile)) {
+        return this.commonUtils.toast('请输入正确的手机号码')
+      }
+      if (type === 2 && !captcha) return this.commonUtils.toast('请输入验证码')
       wx.redirectTo({ url: '/pages/personal/bindSuccess' })
+    },
+    getPhoneNumber(e) {
+      console.log(e)
     }
   }
 }

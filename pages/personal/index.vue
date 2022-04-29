@@ -6,7 +6,8 @@
         <view class="personal__top__content">
           <view class="personal__top__item">
             <view class="left">
-              <image class="left__avator" :src="userInfo.avatar"></image>
+              <image v-if="userInfo.avatar" class="left__avator" :src="userInfo.avatar"></image>
+              <view v-else class="login_btn" @click="doLogin">点击登录</view>
               <view class="left__detail">
                 <text class="left__text">{{ userInfo.mobile }}</text>
                 <view class="left__button">
@@ -15,7 +16,9 @@
                 </view>
               </view>
             </view>
-            <view class="right" @click="handleOperation(null, 0)">未绑定</view>
+            <view v-if="!userInfo.mobile" class="right" @click="handleOperation(null, 0)">
+              未绑定
+            </view>
           </view>
           <view class="personal__top__rank">
             <text class="text">氪金</text>
@@ -139,6 +142,11 @@ export default {
         }
       }
     },
+    doLogin(item) {
+      this.commonUtils.login().then((res) => {
+        this.network().runApiToGetUserInfo()
+      })
+    },
     handleToPath(type) {
       wx.navigateTo({ url: '/pages/personal/orderManagement' })
     },
@@ -172,6 +180,16 @@ export default {
   &__item {
     @include flex(center, space-between);
     margin-bottom: pxTorpx(20);
+    .login_btn {
+      text-align: center;
+      font-size: pxTorpx(14);
+      line-height: pxTorpx(32);
+      border-radius: pxTorpx(10);
+      padding: 0 pxTorpx(10);
+      margin-right: pxTorpx(5);
+      background-color: #fcd3af;
+      color: #8a6032;
+    }
     .left {
       @include flex(center, '');
       &__avator {

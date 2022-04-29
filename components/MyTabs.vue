@@ -2,14 +2,7 @@
   <view class="my__tabs__wrapper">
     <view class="my__tabs__content">
       <template v-for="(item, index) in tabbarList">
-        <image
-          v-if="index !== 2"
-          :key="index"
-          class="img"
-          :src="item.url"
-          @click="handleSwitch(item)"
-        ></image>
-        <image v-else :key="index" class="img" :src="item.url" @click="doLogin(item)"></image>
+        <image :key="index" class="img" :src="item.url" @click="handleSwitch(item)"></image>
       </template>
     </view>
   </view>
@@ -38,11 +31,6 @@ export default {
   methods: {
     handleSwitch(item) {
       uni.switchTab({ url: item.path })
-    },
-    doLogin(item) {
-      this.commonUtils.login().then((res) => {
-        uni.switchTab({ url: item.path })
-      })
     }
   }
 }

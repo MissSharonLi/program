@@ -1,6 +1,7 @@
 const globalModule = {
   namespaced: true,
   state: {
+    token: '',
     navBarHeight: '',
     familyArray: [
       {
@@ -57,6 +58,9 @@ const globalModule = {
           }
         })
       })
+    },
+    setToken(state, data) {
+      state.token = data || ''
     }
   },
   actions: {

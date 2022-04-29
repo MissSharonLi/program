@@ -179,6 +179,8 @@ export default (params = common.defaultParams, store) => {
       }
       // 请求成功
       if (res.code === 1) return Promise.resolve(res)
+      // token过期
+      if (res.code === 401) uni.clearStorageSync()
       // isHandleResponse 是否业务自行处理响应
       if (!response.config.isHandleResponse) commonUtils.toast(res.msg)
       return res

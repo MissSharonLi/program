@@ -25,14 +25,14 @@
           <view class="prev">上一箱</view>
           <view class="context">
             <view class="text">第</view>
-            <text class="em">16</text>
-            <view class="text">/60</view>
+            <text class="em">{{ returnObj.current_box_id }}</text>
+            <view class="text">/{{ returnObj.box_num }}</view>
             <view class="text">箱</view>
           </view>
           <view class="context">
             <view class="text">剩余</view>
-            <text class="em">20</text>
-            <view class="text">/100</view>
+            <text class="em">{{ returnObj.current_box_stock_num }}</text>
+            <view class="text">/{{ returnObj.current_box_total_num }}</view>
             <view class="text">张</view>
           </view>
           <view class="next">下一箱</view>
@@ -90,6 +90,13 @@ export default {
         show: false,
         dataSource: []
       },
+      params: {
+        id: '',
+        box_id: 1
+      },
+      returnObj: {
+        box_num: 0
+      },
       dataSource: [
         {
           title: '（全随机）NS归属单随机全系列5',
@@ -125,13 +132,14 @@ export default {
     }
   },
   onLoad(options) {
-    this.query(options.id)
-    console.log(options)
+    this.params.id = options.id
+    this.query()
   },
   methods: {
     async query(id) {
-      const { code, data } = await api.getProductDetail({ id })
+      const { code, data } = await api.getProductDetail({ id: 15, box_id: 1 })
       if (code === 1 && data) {
+        this.returnObj = data || {}
         this.dataSource = data.item_list || []
         this.imgDataSource = data.goods_image.split(',')
       }

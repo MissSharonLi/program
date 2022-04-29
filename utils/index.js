@@ -1,4 +1,5 @@
 import { api } from '@/api'
+import store from '@/store'
 const commonUtils = {
   toast() {
     uni.showToast({
@@ -18,10 +19,19 @@ const commonUtils = {
   hideLoading() {
     uni.hideLoading()
   },
+  isPhoneAvailable(phone) {
+    const myreg = /^[1][3,4,5,7,8][0-9]{9}$/
+    if (!myreg.test(phone)) {
+      return false
+    } else {
+      return true
+    }
+  },
   login() {
     return new Promise((resolve, reject) => {
       const token = uni.getStorageSync('storage_token')
       if (token) {
+        store.commit('setToken', token)
         resolve(true)
       } else {
         uni.getUserProfile({
@@ -42,6 +52,7 @@ const commonUtils = {
                 params.code = obj.code
                 const { code, data } = await api.getWxapplogin(params)
                 if (code === 1 && data) {
+                  store.commit('setToken', data.token)
                   uni.setStorageSync('storage_token', data.token)
                   uni.setStorageSync('storage_userInfo', JSON.stringify(data.userinfo))
                   resolve(true)
