@@ -3,10 +3,10 @@
     <view class="recharge__records__list">
       <view v-for="(item, index) in returnData" :key="index" class="recharge__records__item">
         <view class="left">
-          <text class="em">100元</text>
-          <view class="time">充值时间：2022-03-07 19:20:10</view>
+          <text class="em">{{ item.money }}元</text>
+          <view class="time">充值时间：{{ item.createtime }}</view>
         </view>
-        <view class="right">余额：300元</view>
+        <view class="right">余额：{{ item.after }}元</view>
       </view>
     </view>
   </view>
