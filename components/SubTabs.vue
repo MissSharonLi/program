@@ -5,9 +5,9 @@
       :key="index"
       class="notify__nav__item"
       :class="{ active: tabIndex === index }"
-      @click="handleTab(index)"
+      @click="handleTab(item.value)"
     >
-      {{ item }}
+      {{ item.label }}
     </view>
   </view>
 </template>

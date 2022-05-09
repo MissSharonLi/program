@@ -1,37 +1,48 @@
 <template>
   <view class="order__detail__wrapper">
     <view class="order__detail__status">
-      <text>买家已发货</text>
+      <text>{{ returnObj.status_text }}</text>
       <image class="img" :src="require('@/assets/images/logistics.png')"></image>
     </view>
     <view class="order__detail__list">
-      <view class="order__detail__item" @click="handleOperation">查看物流</view>
-      <view class="order__detail__item">
+      <view
+        v-if="returnObj.status === 4 || returnObj.status === 5"
+        class="order__detail__item logistics"
+        @click="handleOperation"
+      >
+        查看物流
+      </view>
+      <view
+        v-if="returnObj.status === 3 || returnObj.status === 4 || returnObj.status === 5"
+        class="order__detail__item addresses"
+      >
         <view class="information">
           <view class="text">
-            <text class="name">肖先生</text>
-            <text class="address">15574324795</text>
+            <text class="name">{{ returnObj.address.name }}</text>
+            <text class="address">{{ returnObj.address.mobile }}</text>
           </view>
-          <view class="address">湖南省长沙市岳麓区，麓谷企业广场F4栋3楼</view>
+          <view class="address">
+            {{ returnObj.address.address_full }}
+          </view>
         </view>
       </view>
     </view>
     <view class="collection__list">
       <view class="collection__item">
-        <text class="collection__time">2022-03-07 19:20:10</text>
+        <text class="collection__time">{{ returnObj.createtime }}</text>
         <view class="collection__images">
-          <image class="img" :src="require('@/assets/images/p1.jpeg')"></image>
+          <image class="img" :src="returnObj.goods.goods_image"></image>
           <view class="collection__detail">
-            <text class="title">休闲火影系列双随机</text>
+            <text class="title">{{ returnObj.goods.goods_name }}</text>
             <view class="price">
-              <text>A赏 鸣人</text>
-              <text>￥10.00/张</text>
+              <text>{{ returnObj.goods.item_name }}</text>
+              <text>￥{{ returnObj.goods.goods_price }}/张</text>
             </view>
           </view>
         </view>
         <view class="collection__footer">
           <text class="label">订单总价</text>
-          <text class="price">￥9.00</text>
+          <text class="price">￥{{ returnObj.price }}</text>
         </view>
       </view>
     </view>
@@ -41,42 +52,49 @@
         <view class="order__detail__footer__item">
           <text class="label">订单编号</text>
           <view class="time">
-            <text>AA 482823351</text>
-            <text class="copy" @click="handleCopy('AA 482823351')">复制</text>
+            <text>{{ returnObj.order_sn }}</text>
+            <text class="copy" @click="handleCopy(returnObj.order_sn)">复制</text>
           </view>
         </view>
         <view class="order__detail__footer__item">
           <text class="label">下单时间</text>
-          <text class="time">2020.03.16 14：00</text>
+          <text class="time">{{ returnObj.createtime }}</text>
         </view>
         <view class="order__detail__footer__item">
           <text class="label">付款时间</text>
-          <text class="time">2020.03.16 14：00</text>
+          <text class="time">{{ returnObj.pay_time }}</text>
         </view>
         <view class="order__detail__footer__item">
           <text class="label">发货时间</text>
-          <text class="time">2020.03.16 14：00</text>
+          <text class="time">{{ returnObj.express_time }}</text>
         </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
-    return {}
+    return {
+      returnObj: {}
+    }
+  },
+  onLoad(options) {
+    this.query(options.order_id)
   },
   methods: {
+    async query(id) {
+      const { code, data } = await api.getOrderDetail({ token: this.token, order_id: id })
+      if (code === 1 && data) {
+        this.returnObj = data || {}
+      }
+    },
     handleCopy(data) {
-      uni.setClipboardData({
-        data: data,
-        success: function () {
-          console.log('复制成功')
-        }
-      })
+      uni.setClipboardData({ data })
     },
     handleOperation() {
-      wx.navigateTo({ url: '/pages/personal/deliveryInfo' })
+      wx.navigateTo({ url: '/pages/personal/deliveryInfo?order_id=' + this.returnObj.id })
     }
   }
 }
@@ -111,7 +129,7 @@ export default {
     color: rgb(36, 34, 34);
     text-align: justify;
     @include flex(center, '', 'wrap');
-    &:first-child {
+    &.logistics {
       padding-bottom: pxTorpx(20);
       border-bottom: 1px solid #f2f2f2;
       margin-bottom: pxTorpx(20);
@@ -133,12 +151,12 @@ export default {
       height: pxTorpx(27);
       border-radius: 50%;
       position: absolute;
-      background: url('@/assets/images/location_a.png') no-repeat center center;
+      background: url('@/assets/images/logistics.png') no-repeat center center;
       background-color: $uni-theme-color;
       background-size: 60%;
       left: 0;
     }
-    &:last-child {
+    &.addresses {
       &::before {
         content: '';
         display: block;
@@ -146,7 +164,7 @@ export default {
         height: pxTorpx(27);
         border-radius: 50%;
         position: absolute;
-        background: url('@/assets/images/logistics.png') no-repeat center center;
+        background: url('@/assets/images/location_a.png') no-repeat center center;
         background-color: $uni-theme-color;
         background-size: 60%;
         left: 0;

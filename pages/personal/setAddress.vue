@@ -4,26 +4,26 @@
       <view class="set__address__item">
         <view class="label">收货人</view>
         <view class="input">
-          <input v-model="formProps.userName" placeholder="请填写收货人姓名" />
+          <input v-model="formProps.name" placeholder="请填写收货人姓名" />
         </view>
       </view>
       <view class="set__address__item">
         <view class="label">手机号码</view>
         <view class="input">
-          <input v-model.number="formProps.mobile" placeholder="请填写收货人手机号" />
+          <input v-model.number="formProps.mobile" type="number" placeholder="请填写收货人手机号" />
         </view>
       </view>
       <view class="set__address__item province">
         <view class="label">所在地区</view>
         <view class="input" @click="show = true">
-          {{ formProps.provinceName }}{{ formProps.cityName }}{{ formProps.areaName }}
+          {{ formProps.province_name }}{{ formProps.city_name }}{{ formProps.area_name }}
         </view>
       </view>
       <view class="set__address__item address">
         <view class="label">详细地址</view>
         <view class="input">
           <textarea
-            v-model="formProps.detail"
+            v-model="formProps.address"
             class="textarea"
             placeholder="街道、楼牌号等"
           ></textarea>
@@ -36,19 +36,13 @@
         <view class="tips">提醒：每次下单会默认推荐该地址</view>
       </view>
       <view class="shift__content">
-        <view class="switch" :class="{ active: shift }" @click="handleShift"></view>
+        <view class="switch" :class="{ active: formProps.is_default }" @click="handleShift"></view>
       </view>
     </view>
     <view class="set__address__footer">
-      <view class="button">保存</view>
+      <view class="button" @click="handleSubmit()">保存</view>
     </view>
-    <VanPopup
-      :show="show"
-      custom-style="height:60%"
-      :duration="300"
-      position="bottom"
-      @close="handleClose"
-    >
+    <VanPopup :show="show" custom-style="height:60%" :duration="300" position="bottom">
       <VanArea
         :area-list="areaList"
         :columns-num="3"
@@ -59,51 +53,62 @@
   </view>
 </template>
 <script>
-import { areaList } from '@vant/area-data'
+import { api } from '@/api'
 export default {
   name: 'SetAddress',
   data() {
     return {
       formProps: {
-        userName: '',
+        name: '',
         mobile: '',
         address: '',
         province: '',
         city: '',
         area: '',
-        provinceName: '',
-        cityName: '',
-        areaName: '',
-        addressDetail: ''
+        province_name: '',
+        city_name: '',
+        area_name: '',
+        is_default: false
       },
       value: '',
       show: false,
-      shift: false,
-      areaList
+      shift: false
     }
   },
-  onLoad() {
-    console.log(JSON.stringify(areaList))
+  onLoad(options) {
+    this.formProps = Object.assign(this.formProps, JSON.parse(options.data))
   },
   methods: {
-    handleClose(val) {
-      console.log(val)
-    },
     handleConfirm(val) {
-      console.log(val.detail)
       this.formProps.province = val.detail.values[0].code
       this.formProps.city = val.detail.values[0].code
       this.formProps.area = val.detail.values[0].code
-      this.formProps.provinceName = val.detail.values[0].name
-      this.formProps.cityName = val.detail.values[1].name
-      this.formProps.areaName = val.detail.values[2].name
+      this.formProps.province_name = val.detail.values[0].name
+      this.formProps.city_name = val.detail.values[1].name
+      this.formProps.area_name = val.detail.values[2].name
       this.handleCancel()
     },
     handleCancel(val) {
       this.show = false
     },
     handleShift() {
-      this.shift = !this.shift
+      this.formProps.is_default = !this.formProps.is_default
+    },
+    async handleSubmit() {
+      const { name, province, city, area, mobile, address } = this.formProps
+      if (!name) return this.$toast('请输入收货人姓名')
+      if (!mobile) return this.$toast('请输入手机号码')
+      if (!/^1[0-9]{10}$/.test(mobile)) return this.$toast('请输入正确的手机号码')
+      if (!province || !city || !area) return this.$toast('请选择所在地区')
+      if (!address) return this.$toast('请输入详细地址')
+      const { code } = await api.handleSetAddress({
+        ...this.formProps,
+        token: this.token
+      })
+      if (code === 1) {
+        this.$toast('操作成功')
+        uni.navigateBack()
+      }
     }
   }
 }
@@ -141,7 +146,6 @@ export default {
       padding-bottom: 0;
       .textarea {
         width: 100%;
-        padding: pxTorpx(2);
         height: 80px;
       }
     }

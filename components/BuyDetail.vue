@@ -3,28 +3,32 @@
     <view class="buy__content">
       <view class="buy__title">
         <view class="left">
-          <text class="buy__number">购买xxx（900/1000）</text>
-          <text class="em">单价：9.00元</text>
+          <text class="buy__number">
+            购买{{ params.goods_name }}（{{ params.current_box_total_num }}/{{
+              params.current_box_total_num
+            }}）
+          </text>
+          <text class="em">单价：{{ params.goods_price }}元</text>
         </view>
         <view class="right" @click="handleClose">取消</view>
       </view>
-      <view class="buy__button">买5张</view>
+      <view class="buy__button">买{{ params.num }}张</view>
       <view class="buy__text">
-        购买数量5张，共计￥
-        <text class="em">45</text>
+        购买数量{{ params.num }}张，共计￥
+        <text class="em">{{ (params.num * params.goods_price).toFixed(2) }}</text>
         元
       </view>
       <view class="buy__way">
         支付方式
-        <text class="em">钱袋余额￥0元</text>
+        <text class="em">钱袋余额￥{{ userInfo.money }}元</text>
       </view>
       <view class="buy__limit">
         防限额专属充值通道
         <text class="em">点我自助充值！秒到账！！</text>
       </view>
       <view class="buy__list">
-        <view class="button">钱袋余额支付</view>
-        <view class="button">微信支付</view>
+        <view class="button" @click="handleToPay(1)">钱袋余额支付</view>
+        <view class="button" @click="handleToPay(2)">微信支付</view>
       </view>
       <VanCheckbox
         :value="checked"
@@ -43,6 +47,7 @@
   </VanPopup>
 </template>
 <script>
+import { api } from '@/api'
 import VanPopup from '@/wxcomponents/vant/popup/index'
 import VanCheckbox from '@/wxcomponents/vant/checkbox/index'
 export default {
@@ -52,9 +57,9 @@ export default {
     VanCheckbox
   },
   props: {
-    dataSource: {
-      type: Array,
-      default: () => [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+    params: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -69,6 +74,38 @@ export default {
     },
     handleChange(val) {
       this.checked = !this.checked
+    },
+    handleSuccess() {
+      this.$toast('购买成功！')
+      const timer = setTimeout(() => {
+        uni.redirectTo({ url: '/pages/personal/orderManagement' })
+        clearTimeout(timer)
+      }, 200)
+    },
+    async handleToPay(type) {
+      if (!this.checked) return this.$toast('请勾选我已仔细阅读并且同意协议')
+      const params = { ...this.params, type }
+      const { code, data } = await api.handleToBuy(params)
+      if (code === 1) {
+        if (type === 2) {
+          this.$loading()
+          uni.requestPayment({
+            provider: 'wxpay', // 微信支付
+            ...data,
+            success: (res) => {
+              this.handleSuccess()
+            },
+            fail: () => {
+              this.$toast('购买失败！')
+            },
+            compelete: () => {
+              this.$hideLoading()
+            }
+          })
+        } else {
+          this.handleSuccess()
+        }
+      }
     }
   }
 }

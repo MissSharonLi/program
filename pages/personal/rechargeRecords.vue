@@ -1,7 +1,7 @@
 <template>
   <view class="recharge__records__wrapper">
     <view class="recharge__records__list">
-      <view v-for="(item, index) in list" :key="index" class="recharge__records__item">
+      <view v-for="(item, index) in returnData" :key="index" class="recharge__records__item">
         <view class="left">
           <text class="em">100元</text>
           <view class="time">充值时间：2022-03-07 19:20:10</view>
@@ -12,10 +12,32 @@
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
     return {
-      list: [{}, {}, {}, {}]
+      params: { page: 1 },
+      returnData: []
+    }
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
+  },
+  onLoad() {
+    this.getData()
+  },
+  methods: {
+    async getData() {
+      const { code, data } = await api.getMoneyRecords({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        if (data.data.length > 0) {
+          this.returnData = this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
+        }
+      }
     }
   }
 }

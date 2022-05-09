@@ -5,12 +5,12 @@
       <view class="rank__list">
         <view v-for="(item, index) in dataSource" :key="index" class="rank__item">
           <view class="nickname">
-            <image class="img" :src="require('@/assets/images/avator.jpeg')"></image>
-            <text>昵称昵称昵称</text>
+            <image class="img" :src="item.avatar"></image>
+            <text>{{ item.nickname }}</text>
           </view>
           <view class="number">
             冲
-            <text class="em">66</text>
+            <text class="em">{{ item.total }}</text>
             发
           </view>
         </view>
@@ -29,7 +29,7 @@ export default {
   props: {
     dataSource: {
       type: Array,
-      default: () => [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+      default: () => []
     }
   },
   data() {

@@ -107,6 +107,7 @@ export default {
               this.productDataSource = this.productDataSource.concat(data.data)
             } else {
               this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+              this.params.page > 1 ? this.params.page-- : (this.productDataSource = [])
             }
           }
         }

@@ -5,7 +5,7 @@
         <view class="bind__success">
           <image class="img" :src="require('@/assets/images/phone.png')"></image>
           <view class="text">已绑定手机</view>
-          <view class="text">18888888888</view>
+          <view class="text">{{ mobile }}</view>
         </view>
         <view class="bind__button" @click="handleSubmit">更换绑定手机</view>
       </view>
@@ -15,12 +15,17 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      mobile: ''
+    }
   },
   methods: {
     handleSubmit() {
-      wx.redirectTo({ url: '/pages/personal/bindPhone' })
+      uni.redirectTo({ url: '/pages/personal/bindPhone' })
     }
+  },
+  onLoad(options) {
+    this.mobile = options.mobile
   }
 }
 </script>

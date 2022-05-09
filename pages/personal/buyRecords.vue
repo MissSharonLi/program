@@ -2,15 +2,12 @@
   <view class="collection__wrapper">
     <view class="collection__list">
       <view v-for="(item, index) in returnData" :key="index" class="collection__item">
-        <text class="collection__time">2022-03-07 19:20:10</text>
+        <text class="collection__time">{{ item.pay_time }}</text>
         <view class="collection__images">
-          <image class="img" :src="require('@/assets/images/p1.jpeg')"></image>
+          <image class="img" :src="item.goods_image"></image>
           <view class="collection__detail">
-            <text class="title">休闲火影系列双随机</text>
-            <view class="price">
-              <text>A赏 鸣人</text>
-              <text>￥10.00/张</text>
-            </view>
+            <text class="title">{{ item.goods_name }}</text>
+            <view class="price">￥{{ item.goods_price }}/张</view>
           </view>
         </view>
       </view>
@@ -18,10 +15,32 @@
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
     return {
-      returnData: [{ isOut: true }, {}, {}]
+      params: { page: 1 },
+      returnData: []
+    }
+  },
+  onLoad() {
+    this.getData()
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
+  },
+  methods: {
+    async getData() {
+      const { code, data } = await api.getBuyLogList({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        if (data.data.length > 0) {
+          this.returnData = this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
+        }
+      }
     }
   }
 }
@@ -72,7 +91,7 @@ export default {
       font-size: pxTorpx(12);
       color: rgb(133, 133, 133);
       display: block;
-      @include flex(center, space-between);
+      text-align: right;
     }
   }
   &__detail {

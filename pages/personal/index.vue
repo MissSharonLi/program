@@ -12,7 +12,7 @@
                 <text class="left__text">{{ userInfo.mobile }}</text>
                 <view class="left__button">
                   <text class="left__button__left">余</text>
-                  <text class="left__button__left">余额3911</text>
+                  <text class="left__button__left">余额{{ userInfo.money || 0 }}</text>
                 </view>
               </view>
             </view>
@@ -23,31 +23,31 @@
           <view class="personal__top__rank">
             <text class="text">氪金</text>
             <text class="text">氪金分值：88888</text>
-            <text class="text">排行</text>
+            <text class="text" @click="handleOperation(null, 1)">排行</text>
           </view>
         </view>
       </view>
       <view class="personal__main__content">
         <view class="personal__main__list">
-          <view class="main__list__item" @click="handleToPath">
+          <view class="main__list__item" @click="handleToPath(0)">
             <image class="img" :src="require('@/assets/images/order.png')"></image>
           </view>
           <text class="main__list__text">全部订单</text>
         </view>
         <view class="personal__main__list">
-          <view class="main__list__item" @click="handleToPath">
+          <view class="main__list__item" @click="handleToPath(1)">
             <image class="img" :src="require('@/assets/images/deal.png')"></image>
           </view>
           <text class="main__list__text">待处理</text>
         </view>
         <view class="personal__main__list">
-          <view class="main__list__item" @click="handleToPath">
+          <view class="main__list__item" @click="handleToPath(4)">
             <image class="img" :src="require('@/assets/images/car.png')"></image>
           </view>
           <text class="main__list__text">已发货</text>
         </view>
         <view class="personal__main__list">
-          <view class="main__list__item" @click="handleToPath">
+          <view class="main__list__item" @click="handleToPath(5)">
             <image class="img" :src="require('@/assets/images/compelete.png')"></image>
           </view>
           <text class="main__list__text">已完成</text>
@@ -82,7 +82,6 @@ export default {
   },
   data() {
     return {
-      userInfo: {},
       menuData: [
         {
           url: 'like.png',
@@ -105,11 +104,6 @@ export default {
           path: '/pages/personal/recharge'
         },
         {
-          url: 'about.png',
-          title: '关于我们',
-          path: '/pages/personal/aboutUs'
-        },
-        {
           url: 'gold.png',
           title: '氪金排行',
           path: '/pages/personal/goldRanking'
@@ -122,13 +116,16 @@ export default {
         {
           url: 'reward.png',
           title: '中奖记录',
-          path: '/pages/personal/winningRecords'
+          path: '/pages/personal/orderManagement?status=1'
         }
       ]
     }
   },
-  onLoad() {
+  onShow() {
     this.network().runApiToGetUserInfo()
+  },
+  onLoad() {
+    this.network().runApiToGetAreaList()
   },
   methods: {
     handleOperation(record, type) {
@@ -136,9 +133,12 @@ export default {
         case 0:
           uni.navigateTo({ url: '/pages/personal/bindPhone' })
           break
+        case 1:
+          uni.navigateTo({ url: '/pages/personal/goldRanking' })
+          break
         default: {
           const { path } = record
-          wx.navigateTo({ url: path })
+          uni.navigateTo({ url: path })
         }
       }
     },
@@ -148,13 +148,20 @@ export default {
       })
     },
     handleToPath(type) {
-      wx.navigateTo({ url: '/pages/personal/orderManagement' })
+      uni.navigateTo({ url: '/pages/personal/orderManagement?status=' + type })
     },
     network() {
       return {
         runApiToGetUserInfo: async () => {
           const { code, data } = await api.getUseriInfo({ token: this.token })
-          if (code === 1 && data) this.userInfo = data
+          if (code === 1 && data) {
+            this.$store.commit('setUserInfo', JSON.stringify(data))
+            uni.setStorageSync('storage_userInfo', JSON.stringify(data))
+          }
+        },
+        runApiToGetAreaList: async () => {
+          const { code, data } = await api.getAreaList({ token: this.token })
+          if (code === 1) this.$store.commit('setAreaList', JSON.stringify(data))
         }
       }
     }

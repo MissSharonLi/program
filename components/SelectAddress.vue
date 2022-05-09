@@ -1,46 +1,59 @@
 <template>
-  <view class="address__wrapper">
-    <view class="address__list">
-      <view
-        v-for="(item, index) in returnData"
-        :key="index"
-        class="address__item"
-        :class="{ default: item.is_default === 1 }"
-      >
-        <view class="address__title">
-          <text class="text">{{ item.name }}</text>
-          <text class="text">{{ item.mobile }}</text>
-        </view>
-        <view class="address__detail">
-          <text>{{ item.province_name }}{{ item.city_name }}{{ item.area_name }}</text>
-          <image
-            class="img"
-            :src="require('@/assets/images/edit.png')"
-            @click="handleToEdit(item)"
-          ></image>
+  <VanPopup :show="show" round custom-style="border-radius:10px;width:90%">
+    <view class="address__wrapper">
+      <view class="address__list">
+        <view
+          v-for="(item, index) in returnData"
+          :key="index"
+          class="address__item"
+          :class="{ default: item.is_default === 1 }"
+          @click="handleToClick(item)"
+        >
+          <view class="address__title">
+            <text class="text">{{ item.name }}</text>
+            <text class="text">{{ item.mobile }}</text>
+          </view>
+          <view class="address__detail">
+            <text>{{ item.province_name }}{{ item.city_name }}{{ item.area_name }}</text>
+          </view>
         </view>
       </view>
     </view>
-    <view class="address__footer" @click="handleToAdd">新增收货地址</view>
-  </view>
+  </VanPopup>
 </template>
 <script>
 import { api } from '@/api'
+import VanPopup from '@/wxcomponents/vant/popup/index'
 export default {
+  name: 'RankModule',
+  components: {
+    VanPopup
+  },
   data() {
     return {
+      show: false,
+      order_id: null,
       returnData: []
     }
   },
-  onShow() {
-    this.network().runApiToGetAddressList()
-  },
   methods: {
-    handleToAdd() {
-      uni.navigateTo({ url: '/pages/personal/setAddress' })
+    handleClose(val) {
+      this.show = false
     },
     handleToEdit(item) {
       uni.navigateTo({ url: '/pages/personal/setAddress?data=' + JSON.stringify(item) })
+    },
+    async handleToClick(item) {
+      const { id: address_id } = item
+      const { code } = await api.handleTakeGoods({
+        token: this.token,
+        order_id: this.order_id,
+        address_id
+      })
+      if (code === 1) {
+        this.handleClose()
+        this.$parent.refresh()
+      }
     },
     network() {
       return {

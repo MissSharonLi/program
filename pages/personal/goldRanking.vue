@@ -1,17 +1,17 @@
 <template>
   <view class="gold__wrapper">
     <view class="gold__self">
-      <image class="img" :src="require('@/assets/images/p2.jpeg')"></image>
-      <view class="nickname">我的昵称</view>
+      <image class="img" :src="userInfo.avatar"></image>
+      <view class="nickname">{{ userInfo.nickname }}</view>
       <view class="rate">
         <text class="text">
           第
-          <text class="em">188</text>
+          <text class="em">{{ returnObj.ranking }}</text>
           名
         </text>
         <text class="text">
           冲
-          <text class="em">66</text>
+          <text class="em">{{ returnObj.total }}</text>
           发
         </text>
       </view>
@@ -20,18 +20,18 @@
       <view v-for="(item, index) in returnData" :key="index" class="gold__item">
         <view class="left">
           <view class="images__content" :class="{ champion: index === 0 }">
-            <image class="img" :src="require('@/assets/images/p2.jpeg')"></image>
-            <view class="text">我的昵称</view>
+            <image class="img" :src="item.avatar"></image>
+            <view class="text">{{ item.nickname }}</view>
           </view>
           <view class="ranking__content">
             第
-            <text class="em">{{ index + 1 }}</text>
+            <text class="em">{{ item.ranking }}</text>
             名
           </view>
         </view>
         <view class="right">
           冲
-          <text class="em">666</text>
+          <text class="em">{{ item.total }}</text>
           发
         </view>
       </view>
@@ -39,17 +39,37 @@
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
     return {
-      returnData: [
-        {
-          url: ''
-        },
-        {
-          url: ''
+      params: {
+        page: 1
+      },
+      returnObj: {},
+      returnData: []
+    }
+  },
+  onLoad() {
+    this.getData()
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
+  },
+  methods: {
+    async getData() {
+      const { code, data } = await api.getBuyRankingList({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        const { my, list } = data
+        this.returnObj = my
+        if (list.data.length > 0) {
+          this.returnData = this.returnData.concat(list.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
         }
-      ]
+      }
     }
   }
 }
@@ -116,7 +136,7 @@ export default {
             height: pxTorpx(20);
             background: url('@/assets/images/crown.png') no-repeat;
             background-size: 100% 100%;
-            left: -6rpx;
+            left: 36rpx;
             top: -16rpx;
             transform: rotate(-45deg);
           }
@@ -137,6 +157,9 @@ export default {
         font-weight: 400;
         font-size: pxTorpx(12);
         color: rgb(16, 16, 16);
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
       }
       .ranking__content {
         font-family: 'PingFangSC';

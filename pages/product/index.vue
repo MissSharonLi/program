@@ -11,8 +11,8 @@
         />
       </view>
     </view>
-    <ProductList :dataSource="dataSource"></ProductList>
-    <view v-if="dataSource.length > 0" class="loader__more__content">
+    <ProductList :dataSource="returnData"></ProductList>
+    <view v-if="returnData.length > 0" class="loader__more__content">
       <VanLoading size="18px" color="#999" :type="loadStatus === 1 && 'spinner'">
         {{ contentText }}
       </VanLoading>
@@ -35,7 +35,7 @@ export default {
         page: 1,
         keyword: ''
       },
-      dataSource: []
+      returnData: []
     }
   },
   computed: {
@@ -48,33 +48,30 @@ export default {
   },
   onLoad(options) {
     this.params.keyword = options.keyword
-    this.network().runApiToGetProductList()
+    this.getData()
   },
   methods: {
     handleOperation(type) {
       switch (type) {
         case 0:
           this.params.page = 1
-          this.dataSource = []
-          this.network().runApiToGetProductList()
+          this.returnData = []
+          this.getData()
           break
         default:
           this.params.page++
-          this.network().runApiToGetProductList()
+          this.getData()
       }
     },
-    network() {
-      return {
-        runApiToGetProductList: async () => {
-          const { code, data } = await api.getProductList(this.params)
-          if (code === 1) {
-            if (data.data.length > 0) {
-              this.loadStatus = data.data.length === 10 ? 0 : null // 返回10条=>上拉加载更多
-              this.dataSource = this.dataSource.concat(data.data)
-            } else {
-              this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
-            }
-          }
+    async getData() {
+      const { code, data } = await api.getProductList(this.params)
+      if (code === 1) {
+        if (data.data.length > 0) {
+          this.loadStatus = data.data.length === 10 ? 0 : null // 返回10条=>上拉加载更多
+          this.returnData = this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
         }
       }
     }

@@ -2,6 +2,8 @@ const globalModule = {
   namespaced: true,
   state: {
     token: '',
+    userInfo: {},
+    areaList: {},
     navBarHeight: '',
     familyArray: [
       {
@@ -61,6 +63,12 @@ const globalModule = {
     },
     setToken(state, data) {
       state.token = data || ''
+    },
+    setUserInfo(state, data) {
+      state.userInfo = JSON.parse(data || '{}')
+    },
+    setAreaList(state, data) {
+      state.areaList = JSON.parse(data || '{}')
     }
   },
   actions: {

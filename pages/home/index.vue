@@ -49,11 +49,21 @@ export default {
       bannerList: []
     }
   },
-  onLoad() {
+  onShow() {
     this.network().runApiToGetBannerList()
   },
+  async onPullDownRefresh() {
+    await this.$nextTick()
+    this.$refs.scrollProps.params.page = 1
+    this.$refs.scrollProps.productDataSource = []
+    await this.$refs.scrollProps.network().runApiToGetProductList()
+    uni.stopPullDownRefresh()
+  },
+  async onReachBottom() {
+    await this.$nextTick()
+    this.$refs.scrollProps.handleOperation(null, 3)
+  },
   methods: {
-    async query() {},
     network() {
       return {
         runApiToGetBannerList: async () => {
@@ -61,10 +71,6 @@ export default {
           if (code === 1) this.bannerList = (data || []).map((i) => i.image)
         }
       }
-    },
-    async onReachBottom() {
-      await this.$nextTick()
-      this.$refs.scrollProps.handleOperation(null, 3)
     },
     handleOperation($event, type) {
       switch (type) {

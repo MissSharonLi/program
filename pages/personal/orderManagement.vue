@@ -2,68 +2,178 @@
   <view class="order__management">
     <view class="order__management__top">
       <view class="search__input__content">
-        <input class="search__input" type="text" placeholder="商品名称（仅支持三个月以内的订单）" />
+        <input
+          v-model="params.keywords"
+          class="search__input"
+          type="text"
+          placeholder="商品名称（仅支持三个月以内的订单）"
+          @confirm="getData(true)"
+        />
       </view>
-      <SubTabs :dataSource="tabList" @tabClick="handleTab"></SubTabs>
+      <SubTabs ref="subTabsProps" :dataSource="tabList" @tabClick="handleTab"></SubTabs>
     </view>
     <view class="order__management__list">
       <view v-for="(item, index) in returnData" :key="index" class="order__management__item">
-        <view class="order__management__time">
-          <text>2022-03-07 19:20:10</text>
-          <text>待处理</text>
-        </view>
-        <view class="order__management__images">
-          <image class="img" :src="require('@/assets/images/p1.jpeg')"></image>
-          <view class="order__management__detail">
-            <text class="title">休闲火影系列双随机</text>
-            <view class="price">
-              <text>A赏 鸣人</text>
+        <view @click="handleOperation(2, item)">
+          <view class="order__management__time">
+            <text>{{ item.createtime }}</text>
+            <text>
+              {{
+                item.status === 1
+                  ? '待处理'
+                  : item.status === 2
+                  ? '完成回购'
+                  : item.status === 3
+                  ? '提货待发'
+                  : item.status === 4
+                  ? '发货中'
+                  : '完成交易'
+              }}
+            </text>
+          </view>
+          <view class="order__management__images">
+            <image class="img" :src="item.item_image"></image>
+            <view class="order__management__detail">
+              <text class="title">{{ item.goods_name }}</text>
+              <view class="price">
+                <text>{{ item.item_name }}</text>
+              </view>
             </view>
           </view>
         </view>
         <view class="order__management__footer">
-          <view v-if="!item.success">回购价格：￥8.00</view>
+          <view v-if="!item.success">回购价格：￥{{ item.back_price }}</view>
           <view>
-            <text>共1件</text>
+            <!-- <text>共1件</text> -->
             <text class="price">
               价格：
-              <text class="em">￥9.00</text>
+              <text class="em">￥{{ item.price }}</text>
             </text>
           </view>
         </view>
         <view class="order__management__buttons">
-          <text class="button" @click="handleOperation(0)">回购</text>
-          <text class="button">提货</text>
-          <text class="button" @click="handleOperation">查看物流</text>
+          <text v-if="item.status === 1" class="button" @click="handleOperation(0, item)">
+            回购
+          </text>
+          <text v-if="item.status === 1" class="button" @click="handleOperation(1, item)">
+            提货
+          </text>
+          <text v-if="item.status === 4" class="button" @click="handleOperation(3, item)">
+            确认收货
+          </text>
+          <text
+            v-if="item.status === 4 || item.status === 5"
+            class="button"
+            @click="handleOperation(null, item)"
+          >
+            查看物流
+          </text>
         </view>
       </view>
     </view>
+    <SelectAddress ref="addressProps"></SelectAddress>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
+import SelectAddress from '@/components/SelectAddress'
 export default {
   components: {
-    SubTabs
+    SubTabs,
+    SelectAddress
   },
   data() {
     return {
-      tabIndex: 0,
-      tabList: ['全部', '待处理', '完成回购', '提货待发', '发货中', '完成交易'],
-      returnData: [{ success: true }, {}]
+      params: {
+        page: 1,
+        status: 0,
+        keywords: ''
+      },
+      tabList: [
+        { label: '全部', value: 0 },
+        { label: '待处理', value: 1 },
+        { label: '完成回购', value: 2 },
+        { label: '提货待发', value: 3 },
+        { label: '发货中', value: 4 },
+        { label: '完成交易', value: 5 }
+      ],
+      returnData: []
     }
+  },
+  onLoad(options) {
+    this.$refs.subTabsProps.handleTab(Number(options.status || 0))
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
   },
   methods: {
     handleTab(index) {
-      this.tabIndex = index
+      this.returnData = []
+      this.params.page = 1
+      this.params.status = index
+      this.getData()
     },
-    handleOperation(type) {
+    refresh() {
+      this.$toast('操作成功')
+      this.params.page = 1
+      this.returnData = []
+      this.getData()
+    },
+    async getData(search) {
+      const { code, data } = await api.getOrderList({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        if (data.data.length > 0) {
+          this.returnData = search ? data.data : this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
+        }
+      }
+    },
+    handleOperation(type, item) {
       switch (type) {
         case 0:
-          wx.navigateTo({ url: '/pages/personal/orderDetail' })
+          {
+            const { id: order_id } = item
+            api
+              .handleOrderBackbuy({
+                token: this.token,
+                order_id
+              })
+              .then((res) => {
+                if (res.code === 1) {
+                  this.refresh()
+                }
+              })
+          }
+          break
+        case 1:
+          this.$refs.addressProps.show = true
+          this.$refs.addressProps.order_id = item.id
+          this.$refs.addressProps.network().runApiToGetAddressList()
+          break
+        case 2:
+          uni.navigateTo({ url: '/pages/personal/orderDetail?order_id=' + item.id })
+          break
+        case 3:
+          {
+            const { id: order_id } = item
+            api
+              .handleToReceipt({
+                token: this.token,
+                order_id
+              })
+              .then((res) => {
+                if (res.code === 1) {
+                  this.refresh()
+                }
+              })
+          }
           break
         default:
-          wx.navigateTo({ url: '/pages/personal/deliveryInfo' })
+          uni.navigateTo({ url: '/pages/personal/deliveryInfo?order_id=' + item.id })
       }
     }
   }

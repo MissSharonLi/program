@@ -1,33 +1,34 @@
 <template>
   <view class="collection__wrapper">
-    <SubTabs :dataSource="tabList"></SubTabs>
+    <SubTabs :dataSource="tabList" @tabClick="handleTab"></SubTabs>
     <view class="collection__list">
       <view v-for="(item, index) in returnData" :key="index" class="collection__item">
-        <text class="collection__time">2022-03-07 19:20:10</text>
+        <text class="collection__time">{{ item.createtime }}</text>
         <view class="collection__images">
           <image
             class="img"
-            :class="{ sold__out: item.isOut }"
-            :src="require('@/assets/images/p1.jpeg')"
+            :class="{ sold__out: item.stock_num === 0 }"
+            :src="item.goods_image"
           ></image>
           <view>
-            <text class="title">休闲火影系列双随机</text>
-            <text class="price">￥10.00/张</text>
+            <text class="title">{{ item.goods_name }}</text>
+            <text class="price">￥{{ item.goods.price }}/张</text>
           </view>
         </view>
         <view class="collection__footer">
           <text class="footer__text">
             第
-            <text class="speacial">19</text>
-            /100箱
+            <text class="speacial">{{ item.serial_num }}</text>
+            /{{ item.box_num }}箱
           </text>
-          <text class="footer__text">剩余190张</text>
+          <text class="footer__text">剩余{{ item.stock_num }}张</text>
         </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
 export default {
   components: {
@@ -35,8 +36,43 @@ export default {
   },
   data() {
     return {
-      tabList: ['全部', '在售', '售罄'],
-      returnData: [{ isOut: true }, {}, {}]
+      params: { page: 1, type: 0 },
+      tabList: [
+        { label: '全部', value: 0 },
+        { label: '在售', value: 1 },
+        { label: '售罄', value: 2 }
+      ],
+      returnData: []
+    }
+  },
+  onLoad() {
+    this.getData()
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
+  },
+  onPullDownRefresh() {
+    console.log('refresh')
+    this.$toast('refresh')
+  },
+  methods: {
+    handleTab(index) {
+      this.returnData = []
+      this.params.page = 1
+      this.params.type = index
+      this.getData()
+    },
+    async getData() {
+      const { code, data } = await api.getCollectionList({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        if (data.data.length > 0) {
+          this.returnData = this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
+        }
+      }
     }
   }
 }

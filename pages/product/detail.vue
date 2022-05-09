@@ -3,16 +3,16 @@
     <view class="product__detail__top">
       <CustomSwiper :isBanner="true" :dataSource="imgDataSource"></CustomSwiper>
       <view class="rank__content">
-        <view class="love"></view>
+        <view class="love" :class="{ active: is_collect }" @click="handleToCollect"></view>
         <view class="rank">
-          <view class="button">我的赏袋</view>
+          <view class="button" @click="handleToRewards">我的赏袋</view>
           <view class="button" @click="handleLottery">抽奖排行</view>
         </view>
       </view>
     </view>
     <view class="product__detail__buttons">
-      <view class="button">购买说明</view>
-      <view class="button">刷新</view>
+      <view class="button" @click="$refs.buyTipsProps.show = true">购买说明</view>
+      <view class="button" @click="query()">刷新</view>
     </view>
     <view class="product__detail__rate">
       <view class="product__detail__rate__content">
@@ -22,7 +22,7 @@
           <text class="right">赏品余量</text>
         </view>
         <view class="pages">
-          <view class="prev">上一箱</view>
+          <view class="prev" @click="prev">上一箱</view>
           <view class="context">
             <view class="text">第</view>
             <text class="em">{{ returnObj.current_box_id }}</text>
@@ -35,7 +35,7 @@
             <view class="text">/{{ returnObj.current_box_total_num }}</view>
             <view class="text">张</view>
           </view>
-          <view class="next">下一箱</view>
+          <view class="next" @click="next">下一箱</view>
         </view>
       </view>
     </view>
@@ -55,41 +55,62 @@
     </view>
     <view class="product__detail__footer">
       <view class="product__detail__lang">
-        <image class="img" :src="require('@/assets/images/lang1.png')" @click="handleToBuy"></image>
-        <image class="img" :src="require('@/assets/images/lang2.png')" @click="handleToBuy"></image>
-        <image class="img" :src="require('@/assets/images/lang3.png')" @click="handleToBuy"></image>
-        <image class="img" :src="require('@/assets/images/lang4.png')" @click="handleToBuy"></image>
+        <image
+          class="img"
+          :src="require('@/assets/images/lang1.png')"
+          @click="handleToBuy(1)"
+        ></image>
+        <image
+          class="img"
+          :src="require('@/assets/images/lang2.png')"
+          @click="handleToBuy(3)"
+        ></image>
+        <image
+          class="img"
+          :src="require('@/assets/images/lang3.png')"
+          @click="handleToBuy(5)"
+        ></image>
+        <image
+          class="img"
+          :src="require('@/assets/images/lang4.png')"
+          @click="handleToBuy(10)"
+        ></image>
       </view>
       <view class="product__detail__footer__buttons">
         <view class="button" @click="handleOperation(null, '换箱')">换箱</view>
         <view class="button" @click="handleOperation(null, '锁箱')">锁箱</view>
       </view>
     </view>
-    <BuyDetail ref="buyProps"></BuyDetail>
-    <RankModule ref="rankProps"></RankModule>
+    <BuyDetail ref="buyProps" :params="buyParams"></BuyDetail>
+    <RankModule ref="rankProps" :dataSource="rankProps.dataSource"></RankModule>
     <VanDialog id="van-dialog"></VanDialog>
+    <BuyTips ref="buyTipsProps"></BuyTips>
   </view>
 </template>
 <script>
 import { api } from '@/api'
 import RankModule from '@/components/RankModule'
 import BuyDetail from '@/components/BuyDetail'
+import BuyTips from '@/components/BuyTips'
 import CustomSwiper from '@/components/CustomSwiper'
 import Dialog from '@/wxcomponents/vant/dialog/dialog'
 export default {
   name: 'Detail',
   components: {
+    BuyTips,
     BuyDetail,
     RankModule,
     CustomSwiper
   },
   data() {
     return {
+      is_collect: false,
       imgDataSource: [],
       rankProps: {
         show: false,
         dataSource: []
       },
+      buyParams: {},
       params: {
         id: '',
         box_id: 1
@@ -97,38 +118,7 @@ export default {
       returnObj: {
         box_num: 0
       },
-      dataSource: [
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        },
-        {
-          title: '（全随机）NS归属单随机全系列5',
-          price: 10,
-          rate: 5
-        }
-      ]
+      dataSource: []
     }
   },
   onLoad(options) {
@@ -136,19 +126,70 @@ export default {
     this.query()
   },
   methods: {
-    async query(id) {
-      const { code, data } = await api.getProductDetail({ id: 15, box_id: 1 })
+    async query() {
+      const { code, data } = await api.getProductDetail(this.params)
       if (code === 1 && data) {
         this.returnObj = data || {}
+        this.is_collect = data.is_collect
         this.dataSource = data.item_list || []
         this.imgDataSource = data.goods_image.split(',')
       }
     },
-    handleLottery() {
+    async handleLottery() {
       this.$refs.rankProps.show = true
+      const { code, data } = await api.getRankingList({ id: this.params.id, token: this.token })
+      if (code === 1) this.rankProps.dataSource = data
     },
-    handleToBuy() {
-      this.$refs.buyProps.show = true
+    handleToRewards() {
+      uni.navigateTo({ url: '/pages/personal/orderManagement?status=1' })
+    },
+    handleToBuy(num) {
+      this.commonUtils.login().then(async (res) => {
+        await this.network().runApiToGetUserInfo()
+        this.buyParams = {
+          ...this.params,
+          num,
+          token: this.token,
+          money: this.userInfo.money,
+          goods_name: this.returnObj.goods_name,
+          goods_price: this.returnObj.goods_price,
+          current_box_stock_num: this.returnObj.current_box_stock_num,
+          current_box_total_num: this.returnObj.current_box_total_num
+        }
+        this.$refs.buyProps.show = true
+      })
+    },
+    network() {
+      return {
+        runApiToGetUserInfo: async () => {
+          const { code, data } = await api.getUseriInfo({ token: this.token })
+          if (code === 1 && data) {
+            this.$store.commit('setUserInfo', JSON.stringify(data))
+            uni.setStorageSync('storage_userInfo', JSON.stringify(data))
+          }
+        }
+      }
+    },
+    // 下一箱
+    next() {
+      if (this.params.box_id === this.returnObj.box_num) return this.$toast('已经是最后一箱了')
+      this.params.box_id++
+      this.query()
+    },
+    // 上一箱
+    prev() {
+      if (this.params.box_id === 1) return this.$toast('已经是第一箱了')
+      this.params.box_id--
+      this.query()
+    },
+    // 收藏
+    async handleToCollect() {
+      const { id: goods_id, box_id } = this.params
+      const { code, data } = await api.handleAddCollect({ goods_id, box_id, token: this.token })
+      if (code === 1 && data) {
+        this.is_collect = !this.is_collect
+        this.is_collect ? this.$toast('已成功收藏') : this.$toast('已取消收藏')
+      }
     },
     handleOperation(title = '提示', message) {
       Dialog.alert({
@@ -194,6 +235,12 @@ export default {
         background-size: pxTorpx(20) pxTorpx(20);
         background-color: $uni-theme-color;
         margin-left: pxTorpx(15);
+        &.active {
+          background: url('@/assets/images/loved.png') no-repeat center;
+          background-size: pxTorpx(20) pxTorpx(20);
+          background-color: $uni-theme-color;
+          margin-left: pxTorpx(15);
+        }
       }
       .button {
         background-color: $uni-theme-color;

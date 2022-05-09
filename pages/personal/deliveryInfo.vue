@@ -9,36 +9,31 @@
         v-for="(item, index) in returnData"
         :key="index"
         class="delivery__item"
-        :class="{ success: item.status === 1 }"
+        :class="{ success: item.status === '签收' }"
       >
-        <text class="context">{{ item.content }}</text>
-        <text v-if="item.status === 0" class="time">{{ item.time }}</text>
+        <text class="context">{{ item.context }}</text>
+        <text class="time">{{ item.time }}</text>
       </view>
     </view>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
     return {
-      returnData: [
-        {
-          status: 1,
-          content: '已签收，签收人类型：收发室',
-          time: '2022-03-09 18:20:10'
-        },
-        {
-          status: 0,
-          content:
-            '派送中,快递小哥已接种新冠疫苗，德邦已开启u201d安全呼叫u201c，保护您的电话隐私，小哥今日体温正常，将佩戴口罩为您配送，也可联系小哥将包裹放置指定地点，祝您身体健康。派送人：陆倪东,电话:1888888888',
-          time: '2022-03-09 18:20:10'
-        },
-        {
-          status: 0,
-          content: '可联系小哥将包裹放置指定地点，祝您身体健康。派送人：陆倪东,电话:1888888888',
-          time: '2022-03-09 18:20:10'
-        }
-      ]
+      returnData: []
+    }
+  },
+  onLoad(options) {
+    this.getData(options.order_id)
+  },
+  methods: {
+    async getData(id) {
+      const { code, data } = await api.handleCheckLogistics({ token: this.token, order_id: id })
+      if (code === 1) {
+        this.returnData = data.data || []
+      }
     }
   }
 }

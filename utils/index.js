@@ -30,8 +30,10 @@ const commonUtils = {
   login() {
     return new Promise((resolve, reject) => {
       const token = uni.getStorageSync('storage_token')
+      const userInfo = uni.getStorageSync('storage_userInfo')
       if (token) {
         store.commit('setToken', token)
+        store.commit('setUserInfo', userInfo)
         resolve(true)
       } else {
         uni.getUserProfile({
@@ -54,6 +56,7 @@ const commonUtils = {
                 if (code === 1 && data) {
                   store.commit('setToken', data.token)
                   uni.setStorageSync('storage_token', data.token)
+                  store.commit('setUserInfo', JSON.stringify(data.userinfo))
                   uni.setStorageSync('storage_userInfo', JSON.stringify(data.userinfo))
                   resolve(true)
                 }

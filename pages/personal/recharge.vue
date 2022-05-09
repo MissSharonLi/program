@@ -4,14 +4,14 @@
       <view class="left">
         <text class="label">当前余额</text>
         <view class="input">
-          <text class="number">45.5</text>
+          <text class="number">{{ userInfo.money }}</text>
           元
         </view>
       </view>
       <view class="right">
         <text class="label">累计充值</text>
         <view class="input">
-          <text class="number">136.5</text>
+          <text class="number">{{ userInfo.total_money }}</text>
           元
           <text class="path" @click="handleOperation">充值记录</text>
         </view>
@@ -25,13 +25,20 @@
           :key="index"
           :class="{ active: listIndex === index }"
           class="recharge__item"
-          @click="handleTabs(index)"
+          @click="handleTabs(item, index)"
         >
-          {{ item }}
+          {{ item }}元
+        </view>
+        <view
+          class="recharge__item"
+          :class="{ active: listIndex === 5 }"
+          @click="handleTabs(modelForm.money, 5)"
+        >
+          其他
         </view>
       </view>
       <view v-if="listIndex === 5" class="recharge__custom">
-        <input v-model="modelForm.value" class="recharge__input" />
+        <input v-model.number="modelForm.money" type="number" class="recharge__input" />
         <text class="em">自定义充值金额</text>
       </view>
     </view>
@@ -43,29 +50,67 @@
         </view>
       </view>
     </view>
-    <view class="recharge__submit">确认</view>
+    <view class="recharge__submit" @click="handleSubmit">确认</view>
   </view>
 </template>
 <script>
+import { api } from '@/api'
 export default {
   data() {
     return {
       listIndex: 5,
       modelForm: {
-        value: '65.5'
+        money: '65.5'
       },
-      list: ['5元', '15元', '30元', '50元', '80元', '其他'],
+      list: [],
       tipsList: ['', '', '']
     }
   },
+  onLoad() {
+    this.network().runApiToGetConfigList()
+  },
   methods: {
-    handleTabs(index) {
+    handleTabs(item, index) {
       this.listIndex = index
+      this.modelForm.money = item
     },
     handleOperation() {
       wx.navigateTo({
         url: '/pages/personal/rechargeRecords'
       })
+    },
+    // 提交充值
+    async handleSubmit() {
+      if (!this.modelForm.money) return this.$toast('请输入充值金额')
+      if (Number(this.modelForm.money) === 0) return this.$toast('充值金额不能为0')
+      const { code, data } = await api.handleSubmitAmount({ ...this.modelForm, token: this.token })
+      if (code === 1 && data) {
+        this.$loading('跳转中...')
+        uni.requestPayment({
+          provider: 'wxpay', // 微信支付
+          ...data,
+          success: (res) => {
+            this.$toast('充值成功！')
+            uni.navigateBack()
+          },
+          fail: () => {
+            this.$toast('充值失败！')
+          },
+          compelete: () => {
+            this.$hideLoading()
+          }
+        })
+      }
+    },
+    network() {
+      return {
+        runApiToGetConfigList: async () => {
+          const { code, data } = await api.getConfigList()
+          if (code === 1 && data) {
+            this.list = data || []
+          }
+        }
+      }
     }
   }
 }
@@ -150,10 +195,10 @@ export default {
     }
   }
   &__list {
-    @include flex(center, space-between, wrap);
+    @include flex(center, '', wrap);
   }
   &__item {
-    width: pxTorpx(90);
+    // width: pxTorpx(90);
     height: pxTorpx(46);
     line-height: pxTorpx(46);
     border: 1px solid #e8e8e9;
@@ -165,6 +210,11 @@ export default {
     color: $uni-theme-color;
     font-size: pxTorpx(16);
     margin-bottom: pxTorpx(10);
+    width: 29%;
+    margin-right: 5%;
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
     &.active {
       color: $uni-theme-color;
       border-color: $uni-theme-color;

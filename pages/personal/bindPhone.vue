@@ -32,7 +32,9 @@
             placeholder="输入验证码"
             type="number"
           />
-          <view class="bind__authorize__button">获取验证码</view>
+          <view class="bind__authorize__button" @click="handleGetVerifyCode">
+            {{ time === 60 ? '获取验证码' : `${time}s` }}
+          </view>
         </view>
         <view class="bind__button" @click="handleSubmit">确认</view>
       </view>
@@ -40,6 +42,7 @@
   </view>
 </template>
 <script>
+import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
 export default {
   components: {
@@ -47,7 +50,11 @@ export default {
   },
   data() {
     return {
-      tabList: ['直接授权', '手动收入'],
+      time: 60,
+      tabList: [
+        { label: '直接授权', value: 0 },
+        { label: '手动收入', value: 1 }
+      ],
       params: {
         type: 1,
         mobile: '',
@@ -59,17 +66,54 @@ export default {
     handleTab(index) {
       this.params.type = index + 1
     },
-    handleSubmit() {
+    // 获取验证码
+    async handleGetVerifyCode() {
+      const { mobile } = this.params
+      if (!mobile) return this.commonUtils.toast('请输入手机号码')
+      if (!this.commonUtils.isPhoneAvailable(mobile)) {
+        return this.commonUtils.toast('请输入正确的手机号码')
+      }
+      if (this.time < 60) return this.$toast('请稍后再发送验证码')
+      const { code } = await api.getVerifyCode({
+        mobile: this.params.mobile,
+        token: this.token,
+        event: 'changemobile'
+      })
+      if (code === 1) {
+        this.$toast('发送成功！')
+        this.time--
+        const timer = setInterval(() => {
+          if (this.time === 0) {
+            this.time = 60
+            return clearInterval(timer)
+          }
+          this.time--
+        }, 1000)
+      }
+    },
+    async handleSubmit() {
       const { type, mobile, captcha } = this.params
       if (!mobile) return this.commonUtils.toast('请输入手机号码')
       if (!this.commonUtils.isPhoneAvailable(mobile)) {
         return this.commonUtils.toast('请输入正确的手机号码')
       }
-      if (type === 2 && !captcha) return this.commonUtils.toast('请输入验证码')
-      wx.redirectTo({ url: '/pages/personal/bindSuccess' })
+      if (type === 2 && !captcha) return this.$toast('请输入验证码')
+      const { code } = await api.handleBindMobile({
+        ...this.params,
+        type: this.params.type === 1 ? 2 : 1,
+        token: this.token
+      })
+      if (code === 1) {
+        this.$toast('绑定成功！')
+        uni.redirectTo({ url: '/pages/personal/bindSuccess?mobile=' + this.params.mobile })
+      }
     },
-    getPhoneNumber(e) {
-      console.log(e)
+    async getPhoneNumber(e) {
+      const { code, data } = await api.handleAuthorityToGetPhone({
+        code: e.detail.code,
+        token: this.token
+      })
+      if (code === 1 && data) this.params.mobile = data.phone_number
     }
   }
 }
