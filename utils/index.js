@@ -27,6 +27,18 @@ const commonUtils = {
       return true
     }
   },
+  getTel(tel) {
+    tel = (tel || '').toString() || '18888888888'
+    const reg = /^(\d{3})\d{4}(\d{4})$/
+    return tel.replace(reg, '$1****$2')
+  },
+  async runApiToGetUserInfo(token) {
+    const { code, data } = await api.getUseriInfo({ token })
+    if (code === 1 && data) {
+      store.commit('setUserInfo', JSON.stringify(data))
+      uni.setStorageSync('storage_userInfo', JSON.stringify(data))
+    }
+  },
   login() {
     return new Promise((resolve, reject) => {
       const token = uni.getStorageSync('storage_token')
@@ -56,8 +68,7 @@ const commonUtils = {
                 if (code === 1 && data) {
                   store.commit('setToken', data.token)
                   uni.setStorageSync('storage_token', data.token)
-                  store.commit('setUserInfo', JSON.stringify(data.userinfo))
-                  uni.setStorageSync('storage_userInfo', JSON.stringify(data.userinfo))
+                  await commonUtils.runApiToGetUserInfo(data.token)
                   resolve(true)
                 }
               },

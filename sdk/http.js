@@ -2,6 +2,7 @@ import axios from 'axios'
 import md5 from 'js-md5'
 import { baseUrl } from './config'
 import commonUtils from '@/utils'
+import store from '@/store'
 const paramsList = ['get', 'delete', 'patch']
 const dataList = ['post', 'put']
 
@@ -126,7 +127,7 @@ axios.defaults.adapter = (config) => {
  * @param {object} store - vuex实例
  * @returns { GET, DEL, POST, PUT, PATCH, POST_FILE, GET_EXPORT }
  */
-export default (params = common.defaultParams, store) => {
+export default (params = common.defaultParams) => {
   params = Object.assign(common.defaultParams, params || {})
   // 创建axios实例
   const service = axios.create(params)
@@ -180,7 +181,11 @@ export default (params = common.defaultParams, store) => {
       // 请求成功
       if (res.code === 1) return Promise.resolve(res)
       // token过期
-      if (res.code === 401) uni.clearStorageSync()
+      if (res.code === 401) {
+        uni.clearStorageSync()
+        store.commit('setToken')
+        store.commit('setUserInfo')
+      }
       // isHandleResponse 是否业务自行处理响应
       if (!response.config.isHandleResponse) commonUtils.toast(res.msg)
       return res

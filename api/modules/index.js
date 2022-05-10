@@ -83,3 +83,9 @@ export const handleCheckLogistics = (params) => POST('order/logistics', params, 
 
 // 购买记录
 export const getBuyLogList = (params) => POST('buylog/index', params, null, true)
+
+// 获取预告列表
+export const getAdvanceList = (params) => POST('advance/index', params, null, true)
+
+// 确认锁箱
+export const handleLockBox = (params) => POST('goods/lockbox', params, null, true)

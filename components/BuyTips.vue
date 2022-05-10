@@ -1,6 +1,6 @@
 <template>
   <VanPopup :show="show" round custom-style="border-radius:10px;width:90%">
-    <view class="tips">1jfdlf的恢复快的撒放假房贷啥法兰克防水防汗打散富士达客户</view>
+    <view class="tips">{{ notice }}</view>
     <view class="tips__footer" @click="show = false">关闭</view>
   </VanPopup>
 </template>
@@ -9,6 +9,12 @@ import VanPopup from '@/wxcomponents/vant/popup/index'
 export default {
   components: {
     VanPopup
+  },
+  props: {
+    notice: {
+      type: String,
+      default: () => ''
+    }
   },
   data() {
     return {
@@ -21,9 +27,9 @@ export default {
 @import '@/assets/css/index.scss';
 .tips {
   text-align: justify;
-  font-size: 24rpx;
-  min-height: 200px;
-  padding: 20px;
+  font-size: pxTorpx(12);
+  min-height: pxTorpx(100);
+  padding: pxTorpx(20);
   line-height: 1.8;
   &__footer {
     width: pxTorpx(80);

@@ -1,5 +1,8 @@
 <script>
 export default {
+  globalData: {
+    type: 1
+  },
   onLaunch: function () {
     uni.hideTabBar()
     this.$store.dispatch('initFontFamily')
@@ -9,11 +12,6 @@ export default {
   },
   onHide: function () {
     // console.log('App Hide')
-  },
-  watch: {
-    $route(newV, oldV) {
-      console.log(newV)
-    }
   }
 }
 </script>

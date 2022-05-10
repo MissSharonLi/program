@@ -16,7 +16,7 @@
     </view>
     <view class="product__detail__rate">
       <view class="product__detail__rate__content">
-        <view class="title">锁箱机会剩余1次</view>
+        <view class="title">锁箱机会剩余{{ returnObj.lock_times || 0 }}次</view>
         <view class="subtitle">
           <text class="left">赏品一览</text>
           <text class="right">赏品余量</text>
@@ -84,7 +84,7 @@
     <BuyDetail ref="buyProps" :params="buyParams"></BuyDetail>
     <RankModule ref="rankProps" :dataSource="rankProps.dataSource"></RankModule>
     <VanDialog id="van-dialog"></VanDialog>
-    <BuyTips ref="buyTipsProps"></BuyTips>
+    <BuyTips ref="buyTipsProps" :notice="returnObj.notice"></BuyTips>
   </view>
 </template>
 <script>
@@ -104,6 +104,8 @@ export default {
   },
   data() {
     return {
+      current: 0,
+      isLock: false,
       is_collect: false,
       imgDataSource: [],
       rankProps: {
@@ -145,12 +147,12 @@ export default {
     },
     handleToBuy(num) {
       this.commonUtils.login().then(async (res) => {
-        await this.network().runApiToGetUserInfo()
         this.buyParams = {
           ...this.params,
           num,
           token: this.token,
           money: this.userInfo.money,
+          notice: this.returnObj.buy_notice,
           goods_name: this.returnObj.goods_name,
           goods_price: this.returnObj.goods_price,
           current_box_stock_num: this.returnObj.current_box_stock_num,
@@ -158,17 +160,6 @@ export default {
         }
         this.$refs.buyProps.show = true
       })
-    },
-    network() {
-      return {
-        runApiToGetUserInfo: async () => {
-          const { code, data } = await api.getUseriInfo({ token: this.token })
-          if (code === 1 && data) {
-            this.$store.commit('setUserInfo', JSON.stringify(data))
-            uni.setStorageSync('storage_userInfo', JSON.stringify(data))
-          }
-        }
-      }
     },
     // 下一箱
     next() {
@@ -192,14 +183,27 @@ export default {
       }
     },
     handleOperation(title = '提示', message) {
+      if (message === '换箱') {
+        this.params.box_id++
+        if (this.params.box_id <= this.returnObj.box_num) this.query()
+        if (this.params.box_id >= this.returnObj.box_num) this.params.box_id = 0
+        return
+      }
+      if (!this.returnObj.lock_times) return this.$toast('锁箱机会剩余0次,不可锁箱')
       Dialog.alert({
         title: title,
         message: `确认${message}?`,
         showCancelButton: true,
         theme: 'round-button'
       })
-        .then(() => {
-          // on close
+        .then(async () => {
+          if (message === '锁箱') {
+            const { code } = await api.handleLockBox({ ...this.params, token: this.token })
+            if (code === 1) {
+              this.$toast('操作成功')
+              this.query()
+            }
+          }
         })
         .catch(() => {})
     }

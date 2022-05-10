@@ -52,10 +52,6 @@ export default {
     this.params.page++
     this.getData()
   },
-  onPullDownRefresh() {
-    console.log('refresh')
-    this.$toast('refresh')
-  },
   methods: {
     handleTab(index) {
       this.returnData = []

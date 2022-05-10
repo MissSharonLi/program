@@ -102,7 +102,9 @@ export default {
     }
   },
   onLoad(options) {
-    this.$refs.subTabsProps.handleTab(Number(options.status || 0))
+    this.$nextTick(() => {
+      this.$refs.subTabsProps.handleTab(Number(options.status || 0))
+    })
   },
   onReachBottom() {
     this.params.page++

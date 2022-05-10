@@ -2,13 +2,18 @@
   <view class="content">
     <HomeNavBar title="最新预告" isDefault></HomeNavBar>
     <view class="notify__wrapper" :style="{ 'padding-top': navBarHeight }">
-      <SubTabs :isCustom="true" :dataSource="tabList"></SubTabs>
+      <SubTabs
+        ref="subTabsProps"
+        :isCustom="true"
+        :dataSource="tabList"
+        @tabClick="handleTab"
+      ></SubTabs>
       <view class="notify__content">
         <view class="notify__progress__bar">
-          <view v-for="(item, index) in progressList" :key="index" class="notify__progress__item">
-            <text class="progress__text">{{ item.time }}</text>
+          <view v-for="(item, index) in returnData" :key="index" class="notify__progress__item">
+            <text class="progress__text">{{ item.advancetime }}</text>
             <view class="progress__image">
-              <image class="img" :src="require('@/assets/images/' + item.url)"></image>
+              <image class="img" :src="item.thumb_image"></image>
               <view>
                 <text class="progress__title">{{ item.title }}</text>
                 <text class="progress__price">￥{{ item.price }}/张</text>
@@ -23,7 +28,7 @@
 </template>
 
 <script>
-// import { api } from '@/api'
+import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
 import HomeNavBar from '@/components/HomeNavBar'
 import MyTabs from '@/components/MyTabs'
@@ -35,27 +40,49 @@ export default {
   },
   data() {
     return {
-      tabIndex: 0,
-      tabList: ['新品预告', '补箱预告', '每日补箱'],
-      progressList: [
-        {
-          time: '2022-03-06 01:00:05 补1箱',
-          title: '（水滴）海贼王',
-          price: '9.00',
-          url: 'p2.jpeg'
-        },
-        {
-          time: '2022-03-06 01:00:05 补1箱',
-          title: '（水滴）海贼王',
-          price: '9.00',
-          url: 'p2.jpeg'
-        }
-      ]
+      params: {
+        page: 1,
+        type: 1
+      },
+      tabList: [
+        { label: '新品预告', value: 1 },
+        { label: '补箱预告', value: 2 },
+        { label: '每日补箱', value: 3 }
+      ],
+      returnData: []
     }
+  },
+  onLoad() {
+    if (!getApp().globalData.type) this.getData()
+  },
+  onShow() {
+    const { type } = getApp().globalData
+    if (type && type === 1) this.$nextTick(() => this.$refs.subTabsProps.handleTab(0, type))
+  },
+  onHide() {
+    getApp().globalData.type = null
+  },
+  onReachBottom() {
+    this.params.page++
+    this.getData()
   },
   methods: {
     handleTab(index) {
-      this.tabIndex = index
+      this.returnData = []
+      this.params.page = 1
+      this.params.type = index
+      this.getData()
+    },
+    async getData() {
+      const { code, data } = await api.getAdvanceList({ ...this.params, token: this.token })
+      if (code === 1 && data) {
+        if (data.data.length > 0) {
+          this.returnData = this.returnData.concat(data.data)
+        } else {
+          this.params.page > 1 ? this.$toast('没有更多数据了') : this.$toast('暂无数据')
+          this.params.page > 1 ? this.params.page-- : (this.returnData = [])
+        }
+      }
     }
   }
 }

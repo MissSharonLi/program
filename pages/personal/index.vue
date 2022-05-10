@@ -9,7 +9,9 @@
               <image v-if="userInfo.avatar" class="left__avator" :src="userInfo.avatar"></image>
               <view v-else class="login_btn" @click="doLogin">点击登录</view>
               <view class="left__detail">
-                <text class="left__text">{{ userInfo.mobile }}</text>
+                <text class="left__text">
+                  {{ commonUtils.getTel(userInfo.mobile) }}
+                </text>
                 <view class="left__button">
                   <text class="left__button__left">余</text>
                   <text class="left__button__left">余额{{ userInfo.money || 0 }}</text>
@@ -22,7 +24,7 @@
           </view>
           <view class="personal__top__rank">
             <text class="text">氪金</text>
-            <text class="text">氪金分值：88888</text>
+            <text class="text">氪金分值：{{ userInfo.buy_total_num || 0 }}</text>
             <text class="text" @click="handleOperation(null, 1)">排行</text>
           </view>
         </view>
@@ -143,9 +145,7 @@ export default {
       }
     },
     doLogin(item) {
-      this.commonUtils.login().then((res) => {
-        this.network().runApiToGetUserInfo()
-      })
+      this.commonUtils.login()
     },
     handleToPath(type) {
       uni.navigateTo({ url: '/pages/personal/orderManagement?status=' + type })

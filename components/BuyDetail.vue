@@ -4,7 +4,7 @@
       <view class="buy__title">
         <view class="left">
           <text class="buy__number">
-            购买{{ params.goods_name }}（{{ params.current_box_total_num }}/{{
+            购买{{ params.goods_name }}（{{ params.current_box_stock_num }}/{{
               params.current_box_total_num
             }}）
           </text>
@@ -41,7 +41,7 @@
         我已仔细阅读并且同意协议
       </VanCheckbox>
       <view class="buy__tips">
-        1、特殊商品，理性购买。。。。。。1、特殊商品，理性购买。。。。。。1、特殊商品，理性购买。。。。。。1、特殊商品，理性购买。。。。。。1、特殊商品，理性购买。。。。。。1、特殊商品，理性购买。。。。。。
+        {{ params.notice }}
       </view>
     </view>
   </VanPopup>

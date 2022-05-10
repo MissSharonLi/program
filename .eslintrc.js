@@ -5,7 +5,8 @@ module.exports = {
   },
   globals: {
     uni: 'readonly',
-    wx: 'readonly'
+    wx: 'readonly',
+    getApp: 'readonly'
   },
   extends: ['plugin:prettier/recommended', 'plugin:vue/essential', '@vue/standard', 'prettier'],
   plugins: ['prettier', 'vue'],

@@ -52,8 +52,8 @@ export default {
     return {
       time: 60,
       tabList: [
-        { label: '直接授权', value: 0 },
-        { label: '手动收入', value: 1 }
+        { label: '直接授权', value: 1 },
+        { label: '手动收入', value: 2 }
       ],
       params: {
         type: 1,
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     handleTab(index) {
-      this.params.type = index + 1
+      this.params.type = index
     },
     // 获取验证码
     async handleGetVerifyCode() {
@@ -133,7 +133,7 @@ export default {
     padding-top: pxTorpx(15);
     @include flex(center, space-between, wrap);
     &__input {
-      width: pxTorpx(235);
+      width: pxTorpx(215);
       height: pxTorpx(35);
       background-color: rgb(245, 245, 245);
       border-radius: pxTorpx(5);
@@ -145,7 +145,7 @@ export default {
       }
     }
     &__button {
-      width: pxTorpx(80);
+      width: pxTorpx(100);
       height: pxTorpx(35);
       background-color: $uni-theme-color;
       color: $white;

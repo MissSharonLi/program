@@ -5,7 +5,7 @@
       :key="index"
       class="notify__nav__item"
       :class="{ active: tabIndex === index }"
-      @click="handleTab(item.value)"
+      @click="handleTab(index, item.value)"
     >
       {{ item.label }}
     </view>
@@ -29,9 +29,9 @@ export default {
     }
   },
   methods: {
-    handleTab(index) {
+    handleTab(index, value) {
       this.tabIndex = index
-      this.$emit('tabClick', index)
+      this.$emit('tabClick', value || index)
     }
   }
 }
