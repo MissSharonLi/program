@@ -123,11 +123,14 @@ export default {
       ]
     }
   },
-  onShow() {
-    this.network().runApiToGetUserInfo()
+  async onPullDownRefresh() {
+    await this.$nextTick()
+    await this.network().runApiToGetUserInfo()
+    uni.stopPullDownRefresh()
   },
   onLoad() {
     this.network().runApiToGetAreaList()
+    this.network().runApiToGetUserInfo()
   },
   methods: {
     handleOperation(record, type) {

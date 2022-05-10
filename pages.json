@@ -12,13 +12,17 @@
     {
       "path": "pages/notify/index",
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true, //允许下拉刷新
+        "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
       }
     },
     {
       "path": "pages/personal/index",
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true, //允许下拉刷新
+        "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
       }
     },
     {
