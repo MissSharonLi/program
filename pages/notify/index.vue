@@ -12,7 +12,7 @@
         <view class="notify__progress__bar">
           <view v-for="(item, index) in returnData" :key="index" class="notify__progress__item">
             <text class="progress__text">
-              {{ item.advancetime }}
+              <text>{{ params.type === 3 ? `每日${item.timing}` : item.advancetime }}</text>
               <text v-if="item.num" style="padding-left: 5px">{{ ` 补${item.num}箱` }}</text>
             </text>
             <view class="progress__image">
