@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <HomeNavBar title="最新预告" isDefault></HomeNavBar>
+    <HomeNavBar :title="navTitle" isDefault></HomeNavBar>
     <view class="notify__wrapper" :style="{ 'padding-top': navBarHeight }">
       <SubTabs
         ref="subTabsProps"
@@ -11,7 +11,10 @@
       <view class="notify__content">
         <view class="notify__progress__bar">
           <view v-for="(item, index) in returnData" :key="index" class="notify__progress__item">
-            <text class="progress__text">{{ item.advancetime }}</text>
+            <text class="progress__text">
+              {{ item.advancetime }}
+              <text v-if="item.num" style="padding-left: 5px">{{ ` 补${item.num}箱` }}</text>
+            </text>
             <view class="progress__image">
               <image class="img" :src="item.thumb_image"></image>
               <view>
@@ -50,6 +53,11 @@ export default {
         { label: '每日补箱', value: 3 }
       ],
       returnData: []
+    }
+  },
+  computed: {
+    navTitle() {
+      return this.params.type === 1 ? '新品预告' : this.params.type === 2 ? '补箱预告' : '每日补箱'
     }
   },
   onLoad() {

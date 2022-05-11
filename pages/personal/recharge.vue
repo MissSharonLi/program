@@ -45,8 +45,8 @@
     <view class="recharge__tips">
       <view class="recharge__tips__title">充值提示</view>
       <view class="recharge__tips__list">
-        <view v-for="(item, index) in tipsList" :key="index" class="recharge__tips__item">
-          {{ index + 1 }}、充值提示
+        <view class="recharge__tips__item">
+          {{ modelForm.money_notice }}
         </view>
       </view>
     </view>
@@ -60,7 +60,7 @@ export default {
     return {
       listIndex: 5,
       modelForm: {
-        money: '65.5'
+        money: ''
       },
       list: [],
       tipsList: ['', '', '']
@@ -81,9 +81,10 @@ export default {
     },
     // 提交充值
     async handleSubmit() {
-      if (!this.modelForm.money) return this.$toast('请输入充值金额')
-      if (Number(this.modelForm.money) === 0) return this.$toast('充值金额不能为0')
-      const { code, data } = await api.handleSubmitAmount({ ...this.modelForm, token: this.token })
+      const { money } = this.modelForm
+      if (!money) return this.$toast('请输入充值金额')
+      if (Number(money) === 0) return this.$toast('充值金额不能为0')
+      const { code, data } = await api.handleSubmitAmount({ money, token: this.token })
       if (code === 1 && data) {
         this.$loading('跳转中...')
         uni.requestPayment({
@@ -107,7 +108,8 @@ export default {
         runApiToGetConfigList: async () => {
           const { code, data } = await api.getConfigList()
           if (code === 1 && data) {
-            this.list = data || []
+            this.list = data.moneylist || []
+            this.modelForm = { ...data, money: data.defaultmoney || '' }
           }
         }
       }

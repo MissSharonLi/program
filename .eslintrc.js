@@ -26,7 +26,7 @@ module.exports = {
       'PascalCase',
       {
         registeredComponentsOnly: false,
-        ignores: []
+        ignores: ['mp-html', 'rich-text']
       }
     ],
     'vue/no-use-v-if-with-v-for': [

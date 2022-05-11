@@ -89,3 +89,6 @@ export const getAdvanceList = (params) => POST('advance/index', params, null, tr
 
 // 确认锁箱
 export const handleLockBox = (params) => POST('goods/lockbox', params, null, true)
+
+// 关于我们
+export const getAboutUsList = (params) => POST('index/aboutus', params, null, true)

@@ -7,7 +7,7 @@
           <view class="personal__top__item">
             <view class="left">
               <image v-if="userInfo.avatar" class="left__avator" :src="userInfo.avatar"></image>
-              <view v-else class="login_btn" @click="doLogin">点击登录</view>
+              <view v-else class="login_btn" @click="doLogin">登录</view>
               <view class="left__detail">
                 <text class="left__text">
                   {{ commonUtils.getTel(userInfo.mobile) }}
@@ -106,6 +106,11 @@ export default {
           path: '/pages/personal/recharge'
         },
         {
+          url: 'about.png',
+          title: '关于我们',
+          path: '/pages/personal/aboutUs'
+        },
+        {
           url: 'gold.png',
           title: '氪金排行',
           path: '/pages/personal/goldRanking'
@@ -191,14 +196,15 @@ export default {
     @include flex(center, space-between);
     margin-bottom: pxTorpx(20);
     .login_btn {
+      width: pxTorpx(55);
+      height: pxTorpx(55);
+      border-radius: 50%;
+      margin-right: pxTorpx(10);
       text-align: center;
       font-size: pxTorpx(14);
-      line-height: pxTorpx(32);
-      border-radius: pxTorpx(10);
-      padding: 0 pxTorpx(10);
-      margin-right: pxTorpx(5);
-      background-color: #fcd3af;
-      color: #8a6032;
+      line-height: pxTorpx(55);
+      background-color: #b5b5b5;
+      color: #fff;
     }
     .left {
       @include flex(center, '');

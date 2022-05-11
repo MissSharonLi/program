@@ -64,6 +64,12 @@
       }
     },
     {
+      "path": "pages/personal/aboutUs",
+      "style": {
+        "navigationBarTitleText": "关于我们"
+      }
+    },
+    {
       "path": "pages/personal/goldRanking",
       "style": {
         "navigationBarTitleText": "氪金排行",
