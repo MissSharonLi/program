@@ -1,13 +1,8 @@
 <template>
   <view class="content">
-    <HomeNavBar :title="navTitle" isDefault></HomeNavBar>
-    <view class="notify__wrapper" :style="{ 'padding-top': navBarHeight }">
-      <SubTabs
-        ref="subTabsProps"
-        :isCustom="true"
-        :dataSource="tabList"
-        @tabClick="handleTab"
-      ></SubTabs>
+    <!-- <HomeNavBar :title="navTitle" isDefault></HomeNavBar> -->
+    <view class="notify__wrapper">
+      <SubTabs ref="subTabsProps" :dataSource="tabList" @tabClick="handleTab"></SubTabs>
       <view class="notify__content">
         <view class="notify__progress__bar">
           <view v-for="(item, index) in returnData" :key="index" class="notify__progress__item">
@@ -33,13 +28,13 @@
 <script>
 import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
-import HomeNavBar from '@/components/HomeNavBar'
+// import HomeNavBar from '@/components/HomeNavBar'
 import MyTabs from '@/components/MyTabs'
 export default {
   components: {
     SubTabs,
-    MyTabs,
-    HomeNavBar
+    MyTabs
+    // HomeNavBar
   },
   data() {
     return {
@@ -80,6 +75,7 @@ export default {
       this.params.page = 1
       this.params.type = index
       this.getData()
+      uni.setNavigationBarTitle({ title: this.navTitle })
     },
     async getData() {
       const { code, data } = await api.getAdvanceList({ ...this.params, token: this.token })

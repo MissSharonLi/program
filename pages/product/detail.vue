@@ -6,7 +6,7 @@
         <view class="love" :class="{ active: is_collect }" @click="handleToCollect"></view>
         <view class="rank">
           <view class="button" @click="handleToRewards">我的赏袋</view>
-          <view class="button" @click="handleLottery">抽奖排行</view>
+          <view class="button" @click="handleLottery">抽奖记录</view>
         </view>
       </view>
     </view>
@@ -40,16 +40,14 @@
       </view>
     </view>
     <view class="product__detail__list">
-      <view
-        v-for="(item, index) in dataSource"
-        :key="index"
-        class="list__item"
-        @click="handleClick"
-      >
-        <image class="list__item__image" :src="item.item_image"></image>
-        <text class="label">{{ item.buy_num }}/{{ item.item_num }}</text>
+      <view v-for="(item, index) in dataSource" :key="index" class="list__item">
+        <image
+          class="list__item__image"
+          :class="{ sold__out: item.stock_num === 0 }"
+          :src="item.item_image"
+        ></image>
         <view class="title">{{ item.item_name }}</view>
-        <view class="sub__title">售价：{{ item.item_price }}元/张</view>
+        <view class="sub__title">{{ item.buy_num }}/{{ item.item_num }}</view>
         <view class="sub__title">获得概率：{{ item.parcent }}%</view>
       </view>
     </view>
@@ -81,15 +79,15 @@
         <view class="button" @click="handleOperation(null, '锁箱')">锁箱</view>
       </view>
     </view>
-    <BuyDetail ref="buyProps" :params="buyParams"></BuyDetail>
-    <RankModule ref="rankProps" :dataSource="rankProps.dataSource"></RankModule>
+    <BuyDetail ref="buyProps" :params="buyParams" @success="handleSuccess"></BuyDetail>
+    <BuySuccess ref="rankProps" :dataSource="rankProps.dataSource"></BuySuccess>
     <VanDialog id="van-dialog"></VanDialog>
     <BuyTips ref="buyTipsProps" :notice="returnObj.notice"></BuyTips>
   </view>
 </template>
 <script>
 import { api } from '@/api'
-import RankModule from '@/components/RankModule'
+import BuySuccess from '@/components/BuySuccess'
 import BuyDetail from '@/components/BuyDetail'
 import BuyTips from '@/components/BuyTips'
 import CustomSwiper from '@/components/CustomSwiper'
@@ -99,7 +97,7 @@ export default {
   components: {
     BuyTips,
     BuyDetail,
-    RankModule,
+    BuySuccess,
     CustomSwiper
   },
   data() {
@@ -138,8 +136,15 @@ export default {
       }
     },
     async handleLottery() {
+      uni.navigateTo({ url: '/pages/product/lottery?id=' + this.params.id })
+    },
+    async handleSuccess(log_sn) {
+      this.query()
       this.$refs.rankProps.show = true
-      const { code, data } = await api.getRankingList({ id: this.params.id, token: this.token })
+      const { code, data } = await api.getBuyLogDetial({
+        token: this.token,
+        log_sn
+      })
       if (code === 1) this.rankProps.dataSource = data
     },
     handleToRewards() {

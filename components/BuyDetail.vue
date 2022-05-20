@@ -36,9 +36,8 @@
         custom-class="special"
         icon-class="icon__class"
         icon-size="10px"
-        @change="handleChange"
       >
-        我已仔细阅读并且同意协议
+        购买则表示已阅读并同意协议
       </VanCheckbox>
       <view class="buy__tips">
         {{ params.notice }}
@@ -64,7 +63,7 @@ export default {
   },
   data() {
     return {
-      checked: false,
+      checked: true,
       show: false
     }
   },
@@ -72,18 +71,16 @@ export default {
     handleClose(val) {
       this.show = false
     },
-    handleChange(val) {
-      this.checked = !this.checked
-    },
-    handleSuccess() {
+    handleSuccess(data) {
       this.$toast('购买成功！')
-      const timer = setTimeout(() => {
-        uni.redirectTo({ url: '/pages/personal/orderManagement' })
-        clearTimeout(timer)
-      }, 200)
+      this.$emit('success', data)
+      this.show = false
+      // const timer = setTimeout(() => {
+      //   uni.redirectTo({ url: '/pages/personal/orderManagement' })
+      //   clearTimeout(timer)
+      // }, 200)
     },
     async handleToPay(type) {
-      if (!this.checked) return this.$toast('请勾选我已仔细阅读并且同意协议')
       const params = { ...this.params, type }
       const { code, data } = await api.handleToBuy(params)
       if (code === 1) {
@@ -93,7 +90,7 @@ export default {
             provider: 'wxpay', // 微信支付
             ...data,
             success: (res) => {
-              this.handleSuccess()
+              this.handleSuccess(data.log_sn)
             },
             fail: () => {
               this.$toast('购买失败！')
@@ -103,7 +100,7 @@ export default {
             }
           })
         } else {
-          this.handleSuccess()
+          this.handleSuccess(data.log_sn)
         }
       }
     }

@@ -81,7 +81,7 @@ export default {
           break
         case 1:
           getApp().globalData.type = 1
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/notify/index'
           })
           break

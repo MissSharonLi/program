@@ -12,7 +12,8 @@
     {
       "path": "pages/notify/index",
       "style": {
-        "navigationStyle": "custom",
+        // "navigationStyle": "custom",
+        "navigationBarTitleText": "新品预告",
         "enablePullDownRefresh": true, //允许下拉刷新
         "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
       }
@@ -21,6 +22,14 @@
       "path": "pages/personal/index",
       "style": {
         "navigationStyle": "custom",
+        "enablePullDownRefresh": true, //允许下拉刷新
+        "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
+      }
+    },
+    {
+      "path": "pages/product/lottery",
+      "style": {
+        "navigationBarTitleText": "抽奖记录",
         "enablePullDownRefresh": true, //允许下拉刷新
         "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
       }
@@ -157,12 +166,12 @@
         // "selectedIconPath": "static/images/tabs/home-a.png",
         // "text": "首页"
       },
-      {
-        "pagePath": "pages/notify/index"
-        // "iconPath": "static/images/tabs/notify.png",
-        // "selectedIconPath": "static/images/tabs/notify-a.png",
-        // "text": "预告"
-      },
+      // {
+      //   "pagePath": "pages/notify/index"
+      //   // "iconPath": "static/images/tabs/notify.png",
+      //   // "selectedIconPath": "static/images/tabs/notify-a.png",
+      //   // "text": "预告"
+      // },
       {
         "pagePath": "pages/personal/index"
         // "iconPath": "static/images/tabs/person.png",

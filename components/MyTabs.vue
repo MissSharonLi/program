@@ -2,7 +2,12 @@
   <view class="my__tabs__wrapper">
     <view class="my__tabs__content">
       <template v-for="(item, index) in tabbarList">
-        <image :key="index" class="img" :src="item.url" @click="handleSwitch(item)"></image>
+        <image
+          :key="item.path"
+          class="img"
+          :src="item.url"
+          @click="handleSwitch(item, index)"
+        ></image>
       </template>
     </view>
   </view>
@@ -17,7 +22,7 @@ export default {
           path: '/pages/home/index'
         },
         {
-          url: require('@/assets/images/tabs/tab2.png'),
+          url: require('@/assets/images/tabs/tab4.png'),
           path: '/pages/notify/index'
         },
         {
@@ -29,7 +34,8 @@ export default {
   },
 
   methods: {
-    handleSwitch(item) {
+    handleSwitch(item, index) {
+      if (index === 1) uni.navigateTo({ url: '/pages/personal/orderManagement?status=1' })
       uni.switchTab({ url: item.path })
     }
   }

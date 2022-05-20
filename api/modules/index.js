@@ -92,3 +92,9 @@ export const handleLockBox = (params) => POST('goods/lockbox', params, null, tru
 
 // 关于我们
 export const getAboutUsList = (params) => POST('index/aboutus', params, null, true)
+
+// 抽奖记录
+export const getBuyorderLogList = (params) => POST('goods/buyorderlog', params, null, true)
+
+// 获取购买的商品
+export const getBuyLogDetial = (params) => POST('buylog/detail', params, null, true)
