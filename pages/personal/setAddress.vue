@@ -76,7 +76,8 @@ export default {
     }
   },
   onLoad(options) {
-    this.formProps = Object.assign(this.formProps, JSON.parse(options.data))
+    const data = options.data ? options.data : '{}'
+    this.formProps = Object.assign(this.formProps, JSON.parse(data))
   },
   methods: {
     handleConfirm(val) {

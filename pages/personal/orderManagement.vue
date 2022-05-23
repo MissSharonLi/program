@@ -152,7 +152,6 @@ export default {
           }
           break
         case 1:
-          this.$refs.addressProps.show = true
           this.$refs.addressProps.order_id = item.id
           this.$refs.addressProps.network().runApiToGetAddressList()
           break

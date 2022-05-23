@@ -12,16 +12,15 @@
           ></image>
           <view>
             <text class="title">{{ item.goods_name }}</text>
-            <text class="price">￥{{ item.goods.price }}/张</text>
+            <text class="price">￥{{ item.goods_price }}/张</text>
           </view>
         </view>
         <view class="collection__footer">
           <text class="footer__text">
-            第
-            <text class="speacial">{{ item.serial_num }}</text>
-            /{{ item.box_num }}箱
+            剩余
+            <text class="speacial">{{ item.stock_num }}</text>
+            /{{ item.goods_num }}张
           </text>
-          <text class="footer__text">剩余{{ item.stock_num }}张</text>
         </view>
       </view>
     </view>

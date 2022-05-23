@@ -10,7 +10,9 @@
               <view v-else class="login_btn" @click="doLogin">登录</view>
               <view class="left__detail">
                 <text class="left__text">
-                  {{ commonUtils.getTel(userInfo.mobile) }}
+                  {{
+                    userInfo.mobile ? commonUtils.getTel(userInfo.mobile) : userInfo.nickname || ''
+                  }}
                 </text>
                 <view class="left__button">
                   <text class="left__button__left">余</text>
@@ -224,7 +226,7 @@ export default {
             text-align: center;
           }
           &__button {
-            width: pxTorpx(100);
+            min-width: pxTorpx(100);
             height: pxTorpx(27);
             min-height: pxTorpx(27);
             background-color: rgb(248, 220, 76);
@@ -233,6 +235,7 @@ export default {
             font-size: pxTorpx(14);
             @include flex(center, '');
             margin-top: pxTorpx(5);
+            padding-right: pxTorpx(5);
             &__left {
               &:nth-child(1) {
                 width: pxTorpx(23);

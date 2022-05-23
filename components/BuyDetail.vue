@@ -4,9 +4,7 @@
       <view class="buy__title">
         <view class="left">
           <text class="buy__number">
-            购买{{ params.goods_name }}（{{ params.current_box_stock_num }}/{{
-              params.current_box_total_num
-            }}）
+            购买{{ params.goods_name }}（{{ params.stock_num }}/{{ params.goods_num }}）
           </text>
           <text class="em">单价：{{ params.goods_price }}元</text>
         </view>
@@ -75,10 +73,6 @@ export default {
       this.$toast('购买成功！')
       this.$emit('success', data)
       this.show = false
-      // const timer = setTimeout(() => {
-      //   uni.redirectTo({ url: '/pages/personal/orderManagement' })
-      //   clearTimeout(timer)
-      // }, 200)
     },
     async handleToPay(type) {
       const params = { ...this.params, type }

@@ -21,7 +21,7 @@
         </view>
       </view>
     </view>
-    <MyTabs></MyTabs>
+    <!-- <MyTabs></MyTabs> -->
   </view>
 </template>
 
@@ -29,11 +29,11 @@
 import { api } from '@/api'
 import SubTabs from '@/components/SubTabs'
 // import HomeNavBar from '@/components/HomeNavBar'
-import MyTabs from '@/components/MyTabs'
+// import MyTabs from '@/components/MyTabs'
 export default {
   components: {
-    SubTabs,
-    MyTabs
+    SubTabs
+    // MyTabs
     // HomeNavBar
   },
   data() {

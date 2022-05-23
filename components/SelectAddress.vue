@@ -1,33 +1,42 @@
 <template>
-  <VanPopup :show="show" round custom-style="border-radius:10px;width:90%">
-    <view class="address__wrapper">
-      <view class="address__list">
-        <view
-          v-for="(item, index) in returnData"
-          :key="index"
-          class="address__item"
-          :class="{ default: item.is_default === 1 }"
-          @click="handleToClick(item)"
-        >
-          <view class="address__title">
-            <text class="text">{{ item.name }}</text>
-            <text class="text">{{ item.mobile }}</text>
-          </view>
-          <view class="address__detail">
-            <text>{{ item.province_name }}{{ item.city_name }}{{ item.area_name }}</text>
+  <view>
+    <VanPopup :show="show" round custom-style="border-radius:10px;width:90%">
+      <view class="address__wrapper">
+        <view class="address__list">
+          <view
+            v-for="(item, index) in returnData"
+            :key="index"
+            class="address__item"
+            :class="{ default: item.is_default === 1 }"
+            @click="handleToClick(item)"
+          >
+            <view class="address__title">
+              <text class="text">{{ item.name }}</text>
+              <text class="text">{{ item.mobile }}</text>
+            </view>
+            <view class="address__detail">
+              <text>{{ item.province_name }}{{ item.city_name }}{{ item.area_name }}</text>
+            </view>
           </view>
         </view>
       </view>
-    </view>
-  </VanPopup>
+    </VanPopup>
+    <VanDialog id="van-dialog"></VanDialog>
+  </view>
 </template>
 <script>
 import { api } from '@/api'
 import VanPopup from '@/wxcomponents/vant/popup/index'
+import VanDialog from '@/wxcomponents/vant/dialog/index'
+import Dialog from '@/wxcomponents/vant/dialog/dialog'
 export default {
-  name: 'RankModule',
+  name: 'SelectAddress',
   components: {
-    VanPopup
+    VanPopup,
+    VanDialog
+  },
+  props: {
+    type: null
   },
   data() {
     return {
@@ -45,7 +54,8 @@ export default {
     },
     async handleToClick(item) {
       const { id: address_id } = item
-      const { code } = await api.handleTakeGoods({
+      const apiField = this.type ? 'handleToTakegoods' : 'handleTakeGoods'
+      const { code } = await api[apiField]({
         token: this.token,
         order_id: this.order_id,
         address_id
@@ -53,6 +63,8 @@ export default {
       if (code === 1) {
         this.handleClose()
         this.$parent.refresh()
+      } else {
+        this.show = false
       }
     },
     network() {
@@ -60,7 +72,21 @@ export default {
         runApiToGetAddressList: async () => {
           const { code, data } = await api.getAddressList({ token: this.token })
           if (code === 1) {
-            this.returnData = data || []
+            this.returnData = data
+            if (!data.length) {
+              Dialog.alert({
+                title: '提示',
+                message: `您暂未添加地址，前往添加地址?`,
+                showCancelButton: true,
+                theme: 'round-button'
+              })
+                .then(async () => {
+                  uni.navigateTo({ url: '/pages/personal/setAddress' })
+                })
+                .catch(() => {})
+            } else {
+              this.show = true
+            }
           }
         }
       }
@@ -68,6 +94,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '@/wxcomponents/vant/dialog/index.wxss';
+</style>
+
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
 .address {

@@ -76,7 +76,7 @@ export default {
       switch (type) {
         case 0:
           uni.navigateTo({
-            url: '/pages/product/detail'
+            url: '/pages/product/detailV2'
           })
           break
         case 1:

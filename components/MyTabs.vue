@@ -35,7 +35,7 @@ export default {
 
   methods: {
     handleSwitch(item, index) {
-      if (index === 1) uni.navigateTo({ url: '/pages/personal/orderManagement?status=1' })
+      if (index === 1) uni.redirectTo({ url: '/pages/personal/myAwardBag' })
       uni.switchTab({ url: item.path })
     }
   }

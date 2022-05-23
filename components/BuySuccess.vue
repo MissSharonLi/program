@@ -16,7 +16,7 @@
       </view>
       <view class="rank__footer">
         <view class="close" @click="handleClose">关闭</view>
-        <view class="check" @click="handleToDetail">查看订单</view>
+        <!-- <view class="check" @click="handleToDetail">查看订单</view> -->
       </view>
     </view>
   </VanPopup>
@@ -103,7 +103,7 @@ export default {
     }
   }
   &__footer {
-    @include flex('center', 'space-around');
+    @include flex(center, center);
     .close {
       width: pxTorpx(80);
       height: pxTorpx(30);
@@ -113,7 +113,7 @@ export default {
       text-align: center;
       margin: pxTorpx(10) auto;
       border-radius: pxTorpx(5);
-      margin-right: pxTorpx(10);
+      // margin-right: pxTorpx(10);
     }
     .check {
       width: pxTorpx(80);

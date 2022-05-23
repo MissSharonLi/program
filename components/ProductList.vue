@@ -7,7 +7,8 @@
       @click="handleClick(item)"
     >
       <image class="list__item__image" :src="item.goods_image"></image>
-      <text class="label">{{ item.stock_box_num }}/{{ item.box_num }}箱</text>
+      <text class="label">{{ item.tag_title }}:{{ item.stock_num }}/{{ item.goods_num }}</text>
+      <text class="number">{{ item.stock_num }}/{{ item.goods_num }}</text>
       <view class="title">{{ item.goods_name }}</view>
       <view class="sub__title">{{ item.goods_price }}元/张</view>
     </view>
@@ -25,7 +26,7 @@ export default {
   methods: {
     handleClick(item) {
       uni.navigateTo({
-        url: '/pages/product/detail?id=' + item.id
+        url: '/pages/product/detailV2?id=' + item.id
       })
     }
   }
@@ -48,14 +49,27 @@ export default {
     }
     .label {
       position: absolute;
-      top: 0;
-      left: pxTorpx(15);
+      top: pxTorpx(8);
+      left: pxTorpx(10);
       font-family: $FZYuan;
-      font-weight: 700;
       font-size: pxTorpx(12);
-      color: $white;
+      color: #ff0000;
       letter-spacing: 1px;
-      padding: pxTorpx(5);
+      padding: pxTorpx(2);
+      background-color: $white;
+      border-radius: pxTorpx(20);
+    }
+    .number {
+      position: absolute;
+      top: pxTorpx(8);
+      right: pxTorpx(15);
+      font-family: $FZYuan;
+      font-size: pxTorpx(12);
+      color: #000;
+      letter-spacing: 1px;
+      padding: pxTorpx(2);
+      background-color: $white;
+      border-radius: pxTorpx(20);
     }
     .title {
       font-family: $FZYuan;

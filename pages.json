@@ -113,15 +113,29 @@
       }
     },
     {
+      "path": "pages/personal/myAwardBag",
+      "style": {
+        "navigationBarTitleText": "我的赏袋",
+        "enablePullDownRefresh": true, //允许下拉刷新
+        "backgroundTextStyle": "light", //背景颜色为黑色，可选参数white
+        "usingComponents": {
+          "van-dialog": "/wxcomponents/vant/dialog/index",
+          "van-area": "/wxcomponents/vant/area/index",
+          "van-popup": "/wxcomponents/vant/popup/index"
+        }
+      }
+    },
+    {
       "path": "pages/personal/orderManagement",
       "style": {
         "navigationBarTitleText": "订单管理",
         "enablePullDownRefresh": true, //允许下拉刷新
-        "backgroundTextStyle": "light" //背景颜色为黑色，可选参数white
-      },
-      "usingComponents": {
-        "van-area": "/wxcomponents/vant/area/index",
-        "van-popup": "/wxcomponents/vant/popup/index"
+        "backgroundTextStyle": "light", //背景颜色为黑色，可选参数white
+        "usingComponents": {
+          "van-area": "/wxcomponents/vant/area/index",
+          "van-popup": "/wxcomponents/vant/popup/index",
+          "van-dialog": "/wxcomponents/vant/dialog/index"
+        }
       }
     },
     {
@@ -139,7 +153,7 @@
       }
     },
     {
-      "path": "pages/product/detail",
+      "path": "pages/product/detailV2",
       "style": {
         "navigationBarTitleText": "商品详情",
         "usingComponents": {

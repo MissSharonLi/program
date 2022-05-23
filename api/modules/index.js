@@ -98,3 +98,12 @@ export const getBuyorderLogList = (params) => POST('goods/buyorderlog', params, 
 
 // 获取购买的商品
 export const getBuyLogDetial = (params) => POST('buylog/detail', params, null, true)
+
+// 获取我的赏袋
+export const getRewardBagList = (params) => POST('rewardbag/baglist', params, null, true)
+
+// 批量回购
+export const handleToBackbuy = (params) => POST('rewardbag/backbuy', params, null, true)
+
+// 批量提货
+export const handleToTakegoods = (params) => POST('rewardbag/takegoods', params, null, true)

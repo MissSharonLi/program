@@ -7,6 +7,9 @@
             <image class="img" :src="item.avatar"></image>
             <view class="text">{{ item.nickname }}</view>
           </view>
+          <view class="ranking__content em">
+            {{ item.tag_title }}
+          </view>
           <view class="ranking__content">
             {{ item.item_name }}
           </view>
@@ -112,6 +115,13 @@ export default {
           font-size: pxTorpx(16);
           color: rgba(248, 220, 76, 1);
         }
+        &.em {
+          color: red;
+          margin-right: pxTorpx(10);
+          font-weight: 700;
+          font-size: pxTorpx(16);
+          min-width: pxTorpx(48);
+        }
       }
     }
     .right {
@@ -121,7 +131,7 @@ export default {
       color: rgb(16, 16, 16);
       text-align: right;
       .em {
-        color: red;
+        color: $uni-theme-color;
         margin-bottom: pxTorpx(20);
         display: block;
       }
