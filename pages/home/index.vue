@@ -27,6 +27,7 @@
       <HomeScrollView ref="scrollProps"></HomeScrollView>
     </view>
     <MyTabs></MyTabs>
+    <view class="refresh" @click="refresh()"></view>
   </view>
 </template>
 
@@ -64,6 +65,13 @@ export default {
     this.$refs.scrollProps.handleOperation(null, 3)
   },
   methods: {
+    async refresh() {
+      await this.$nextTick()
+      this.$refs.scrollProps.params.page = 1
+      this.$refs.scrollProps.productDataSource = []
+      await this.$refs.scrollProps.network().runApiToGetProductList()
+      uni.stopPullDownRefresh()
+    },
     network() {
       return {
         runApiToGetBannerList: async () => {
@@ -101,14 +109,23 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
-.content {
-  min-height: auto;
-}
 .font-loaded {
   font-family: $ZKKuaiLeTi;
 }
 .content {
+  min-height: auto;
   padding-bottom: pxTorpx(100);
+  .refresh {
+    position: fixed;
+    right: 0;
+    top: 70%;
+    width: pxTorpx(40);
+    height: pxTorpx(40);
+    border-radius: 50%;
+    background: url('@/assets/images/refresh1.png') no-repeat center;
+    background-size: pxTorpx(30) pxTorpx(30);
+    background-color: $uni-theme-color;
+  }
 }
 .home__main {
   &__content {

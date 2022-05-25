@@ -107,3 +107,6 @@ export const handleToBackbuy = (params) => POST('rewardbag/backbuy', params, nul
 
 // 批量提货
 export const handleToTakegoods = (params) => POST('rewardbag/takegoods', params, null, true)
+
+// 抽奖中奖记录
+export const getBuyOrderwinlog = (params) => POST('goods/buyorderwinlog', params, null, true)

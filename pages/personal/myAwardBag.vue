@@ -108,7 +108,7 @@ export default {
       if (!selectIds) return this.$toast('请先选择商品')
       switch (type) {
         case 1:
-          this.$refs.addressProps.order_ids = selectIds
+          this.$refs.addressProps.order_id = selectIds
           this.$refs.addressProps.network().runApiToGetAddressList()
           break
         default: {

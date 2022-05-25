@@ -54,15 +54,16 @@ export default {
     },
     async handleToClick(item) {
       const { id: address_id } = item
+      const { token, order_id } = this
       const apiField = this.type ? 'handleToTakegoods' : 'handleTakeGoods'
-      const { code } = await api[apiField]({
-        token: this.token,
-        order_id: this.order_id,
-        address_id
-      })
+      const params = this.type
+        ? { order_ids: order_id, token, address_id }
+        : { order_id, token, address_id }
+      const { code, msg } = await api[apiField](params)
       if (code === 1) {
-        this.handleClose()
+        this.$toast(msg)
         this.$parent.refresh()
+        this.handleClose()
       } else {
         this.show = false
       }
