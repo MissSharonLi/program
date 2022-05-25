@@ -149,7 +149,7 @@ export default {
         &.em {
           color: red;
           font-weight: 700;
-          font-size: pxTorpx(16);
+          font-size: pxTorpx(18);
           min-width: pxTorpx(48);
         }
       }
