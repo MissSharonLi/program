@@ -24,7 +24,7 @@
       </Block>
     </Swiper>
     <view v-if="productDataSource.length > 0" class="loader__more__content">
-      <VanLoading size="18px" color="#999" :type="loadStatus === 1 && 'spinner'">
+      <VanLoading size="18px" color="#fff" :type="loadStatus === 1 && 'spinner'">
         {{ contentText }}
       </VanLoading>
     </view>

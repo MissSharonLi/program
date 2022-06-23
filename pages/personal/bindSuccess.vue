@@ -34,7 +34,6 @@ export default {
 .bind {
   &__list {
     height: 100vh;
-    background: $white;
     padding: 0 pxTorpx(15);
   }
   &__success {
@@ -58,7 +57,7 @@ export default {
   }
   &__button {
     height: pxTorpx(35);
-    background-color: $uni-theme-color;
+    background-color: $sub-nav-theme-color;
     color: $white;
     border-radius: pxTorpx(10);
     font-size: pxTorpx(14);

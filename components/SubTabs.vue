@@ -40,7 +40,7 @@ export default {
 @import '@/assets/css/index.scss';
 .notify__nav {
   &__content {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     @include flex(center, space-around);
     position: fixed;
     width: 100%;
@@ -52,7 +52,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
+    color: $white;
     padding-top: pxTorpx(20);
     padding-bottom: pxTorpx(5);
     &::after {
@@ -66,9 +66,9 @@ export default {
       border-radius: pxTorpx(3);
     }
     &.active {
-      color: $uni-theme-color;
+      color: $theme-light-color;
       &::after {
-        background-color: $uni-theme-color;
+        background-color: $theme-light-color;
       }
     }
   }

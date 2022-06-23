@@ -43,7 +43,7 @@ export default {
 .delivery {
   &__status {
     height: pxTorpx(100);
-    background-color: $uni-theme-color;
+    background-color: $theme-light-color;
     padding: 0 pxTorpx(20);
     @include flex(center, space-between);
     font-family: $SourceHanSansSC;
@@ -81,11 +81,11 @@ export default {
         color: $white;
         line-height: pxTorpx(20);
         text-align: center;
-        background: $uni-theme-color;
+        background: $theme-light-color;
         border-radius: 50%;
       }
       .context {
-        color: $uni-theme-color;
+        color: $theme-light-color;
       }
     }
     &:not(:last-child) {

@@ -104,7 +104,7 @@ export default {
 .order__detail {
   &__status {
     height: pxTorpx(100);
-    background-color: $uni-theme-color;
+    background-color: $theme-light-color;
     padding: 0 pxTorpx(20);
     @include flex(center, space-between);
     font-family: $SourceHanSansSC;
@@ -117,7 +117,7 @@ export default {
     }
   }
   &__list {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(20);
   }
   &__item {
@@ -126,12 +126,12 @@ export default {
     font-family: 'SourceHanSansSC';
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(36, 34, 34);
+    color: $white;
     text-align: justify;
     @include flex(center, '', 'wrap');
     &.logistics {
       padding-bottom: pxTorpx(20);
-      border-bottom: 1px solid #f2f2f2;
+      border-bottom: 1px solid #10101014;
       margin-bottom: pxTorpx(20);
       &::after {
         content: '';
@@ -152,7 +152,7 @@ export default {
       border-radius: 50%;
       position: absolute;
       background: url('@/assets/images/logistics.png') no-repeat center center;
-      background-color: $uni-theme-color;
+      background-color: $theme-light-color;
       background-size: 60%;
       left: 0;
     }
@@ -165,7 +165,7 @@ export default {
         border-radius: 50%;
         position: absolute;
         background: url('@/assets/images/location_a.png') no-repeat center center;
-        background-color: $uni-theme-color;
+        background-color: $theme-light-color;
         background-size: 60%;
         left: 0;
       }
@@ -180,13 +180,14 @@ export default {
   &__footer {
     padding: pxTorpx(15) pxTorpx(20);
     margin-top: pxTorpx(10);
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     font-size: pxTorpx(14);
     font-family: $SourceHanSansSC;
+    color: $white;
     &__title {
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       @include flex(center, '');
       margin-bottom: pxTorpx(15);
       &::before {
@@ -222,7 +223,7 @@ export default {
 }
 .collection {
   &__list {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(15) pxTorpx(20);
     margin-top: pxTorpx(10);
   }
@@ -233,7 +234,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(13);
-    color: rgb(68, 68, 68);
+    color: $white;
     margin-bottom: pxTorpx(10);
     margin-top: pxTorpx(5);
     display: block;
@@ -241,8 +242,8 @@ export default {
   &__images {
     @include flex(center, '');
     padding: pxTorpx(10) 0;
-    border-top: 1px solid #f2f2f2;
-    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #10101014;
+    border-bottom: 1px solid #10101014;
     .img {
       width: pxTorpx(80);
       height: pxTorpx(80);
@@ -253,7 +254,7 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       margin-bottom: pxTorpx(30);
       display: block;
     }
@@ -261,7 +262,7 @@ export default {
       font-family: $SFUIText;
       font-weight: 400;
       font-size: pxTorpx(12);
-      color: rgb(133, 133, 133);
+      color: $white;
       display: block;
       @include flex(center, space-between);
     }
@@ -273,7 +274,7 @@ export default {
     font-family: $SourceHanSansSC;
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
+    color: $white;
     margin-top: pxTorpx(15);
     @include flex(center, space-between);
     .price {

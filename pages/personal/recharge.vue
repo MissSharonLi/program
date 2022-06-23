@@ -122,14 +122,13 @@ export default {
 .recharge {
   &__wrapper {
     min-height: 100vh;
-    background-color: $white;
   }
   &__top__content {
     color: $white;
     height: pxTorpx(94);
     font-size: pxTorpx(14);
     font-weight: normal;
-    background-color: $uni-theme-color;
+    background-color: $theme-light-color;
     padding: pxTorpx(10) pxTorpx(20);
     padding-right: 0;
     @include flex(center, space-between);
@@ -176,13 +175,13 @@ export default {
   }
   &__content {
     padding: pxTorpx(10) pxTorpx(20);
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
   }
   &__title {
     font-family: $SourceHanSansSC;
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
+    color: $white;
     margin-bottom: pxTorpx(15);
     margin-top: pxTorpx(5);
     @include flex(center, '');
@@ -200,16 +199,15 @@ export default {
     @include flex(center, '', wrap);
   }
   &__item {
-    // width: pxTorpx(90);
     height: pxTorpx(46);
     line-height: pxTorpx(46);
-    border: 1px solid #e8e8e9;
+    border: 1px solid #10101014;
     text-align: center;
     margin-bottom: pxTorpx(10);
     border-radius: pxTorpx(4);
     font-family: $SourceHanSansSC;
     font-weight: 700;
-    color: $uni-theme-color;
+    color: $white;
     font-size: pxTorpx(16);
     margin-bottom: pxTorpx(10);
     width: 29%;
@@ -218,8 +216,8 @@ export default {
       margin-right: 0;
     }
     &.active {
-      color: $uni-theme-color;
-      border-color: $uni-theme-color;
+      color: $theme-light-color;
+      border-color: $theme-light-color;
     }
   }
   &__custom {
@@ -228,15 +226,15 @@ export default {
     font-weight: 400;
     font-size: pxTorpx(12);
     .em {
-      color: $uni-theme-color;
+      color: $theme-light-color;
       display: block;
       margin-top: pxTorpx(5);
     }
   }
   &__input {
     font-size: pxTorpx(35);
-    color: rgb(16, 16, 16);
-    border-bottom: 1px solid #e8e8e9;
+    color: $white;
+    border-bottom: 1px solid #10101014;
     position: relative;
     height: pxTorpx(65);
     line-height: pxTorpx(65);
@@ -255,13 +253,14 @@ export default {
     }
   }
   &__tips {
-    background-color: $white;
-    border-top: pxTorpx(10) solid #f8f8f8;
+    background-color: $sub-nav-theme-color;
+    // border-top: pxTorpx(10) solid #f8f8f8;
     font-family: $SourceHanSansSC;
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(47, 37, 32);
+    color: $white;
     padding: pxTorpx(10) pxTorpx(20);
+    margin-top: pxTorpx(10);
     &__title {
       @include flex(center, '');
       margin-bottom: pxTorpx(10);
@@ -270,7 +269,7 @@ export default {
         width: pxTorpx(4);
         display: block;
         height: pxTorpx(12);
-        background-color: $uni-theme-color;
+        background-color: $theme-light-color;
         margin-right: pxTorpx(8);
       }
     }
@@ -282,7 +281,7 @@ export default {
   }
   &__submit {
     height: pxTorpx(43);
-    background-color: $uni-theme-color;
+    background-color: $theme-light-color;
     box-shadow: #00000066 0px 2px 6px 0px;
     color: $white;
     border-radius: pxTorpx(20);

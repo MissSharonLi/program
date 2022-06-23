@@ -52,7 +52,7 @@ export default {
     padding: pxTorpx(10);
   }
   &__item {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(10);
     border-radius: pxTorpx(5);
     margin-bottom: pxTorpx(10);
@@ -61,7 +61,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(13);
-    color: rgb(68, 68, 68);
+    color: $white;
     margin-bottom: pxTorpx(10);
     margin-top: pxTorpx(5);
     display: block;
@@ -69,8 +69,8 @@ export default {
   &__images {
     @include flex(center, '');
     padding: pxTorpx(10);
-    border-top: 1px solid #f2f2f2;
-    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #10101014;
+    border-bottom: 1px solid #10101014;
     .img {
       width: pxTorpx(80);
       height: pxTorpx(80);
@@ -81,7 +81,7 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       margin-bottom: pxTorpx(30);
       display: block;
     }
@@ -89,7 +89,7 @@ export default {
       font-family: $SFUIText;
       font-weight: 400;
       font-size: pxTorpx(12);
-      color: rgb(133, 133, 133);
+      color: $white;
       display: block;
       text-align: right;
     }

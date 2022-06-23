@@ -172,7 +172,7 @@
     "color": "#fff",
     "selectedColor": "#f8dc4c",
     "borderStyle": "white",
-    "backgroundColor": "#F2F2F2",
+    "backgroundColor": "#404040",
     "list": [
       {
         "pagePath": "pages/home/index"
@@ -195,9 +195,9 @@
     ]
   },
   "globalStyle": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarBackgroundColor": "#404040",
+    "backgroundColor": "#08131e"
   }
 }

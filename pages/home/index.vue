@@ -11,7 +11,7 @@
           </view>
         </view>
         <view class="home__main__search">
-          <image class="search__icon" :src="require('@/assets/images/search.png')"></image>
+          <image class="search__icon" :src="require('@/assets/images/search-grey.png')"></image>
           <input
             class="search__input"
             type="text"
@@ -124,7 +124,7 @@ export default {
     border-radius: 50%;
     background: url('@/assets/images/refresh1.png') no-repeat center;
     background-size: pxTorpx(30) pxTorpx(30);
-    background-color: $uni-theme-color;
+    background-color: $sub-nav-theme-color;
   }
 }
 .home__main {
@@ -141,7 +141,6 @@ export default {
     .notice {
       width: pxTorpx(76);
       height: pxTorpx(30);
-      background-color: $uni-theme-color;
       border: 1px solid $uni-text-color-inverse;
       border-radius: 15px 0px 0px 15px;
       margin-right: -30rpx;
@@ -185,7 +184,6 @@ export default {
   }
   &__list {
     min-height: pxTorpx(400);
-    background-color: $white;
     border-radius: pxTorpx(26);
     margin-top: pxTorpx(35);
     margin-bottom: pxTorpx(20);

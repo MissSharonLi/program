@@ -22,7 +22,7 @@ export default {
           path: '/pages/home/index'
         },
         {
-          url: require('@/assets/images/tabs/tab4.png'),
+          url: require('@/assets/images/tabs/tab2.png'),
           path: '/pages/notify/index'
         },
         {
@@ -52,7 +52,7 @@ export default {
   }
   &__content {
     padding: pxTorpx(10) pxTorpx(15) pxTorpx(15);
-    background-color: $uni-theme-color;
+    background-color: $nav-theme-color;
     @include flex(center, space-between);
     .img {
       width: pxTorpx(80);

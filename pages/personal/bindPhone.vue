@@ -94,7 +94,7 @@ export default {
     async handleSubmit() {
       const { type, mobile, captcha } = this.params
       if (!mobile) return this.commonUtils.toast('请输入手机号码')
-      if (!this.commonUtils.isPhoneAvailable(mobile)) {
+      if (!this.commonUtils.isPhoneAvailable(Number(mobile))) {
         return this.commonUtils.toast('请输入正确的手机号码')
       }
       if (type === 2 && !captcha) return this.$toast('请输入验证码')
@@ -126,7 +126,7 @@ export default {
   }
   &__list {
     height: calc(100vh - 120rpx);
-    background: $white;
+    // background: $white;
     padding: 0 pxTorpx(15);
   }
   &__authorize {
@@ -147,7 +147,7 @@ export default {
     &__button {
       width: pxTorpx(100);
       height: pxTorpx(35);
-      background-color: $uni-theme-color;
+      background-color: $sub-nav-theme-color;
       color: $white;
       border-radius: pxTorpx(4);
       font-size: pxTorpx(14);
@@ -157,7 +157,7 @@ export default {
   }
   &__button {
     height: pxTorpx(35);
-    background-color: $uni-theme-color;
+    background-color: $sub-nav-theme-color;
     color: $white;
     border-radius: pxTorpx(10);
     font-size: pxTorpx(14);

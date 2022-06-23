@@ -21,7 +21,7 @@ const commonUtils = {
   },
   isPhoneAvailable(phone) {
     const myreg = /^[1][3,4,5,7,8][0-9]{9}$/
-    return !myreg.test(phone)
+    return myreg.test(phone)
   },
   getTel(tel) {
     tel = (tel || '').toString() || '18888888888'

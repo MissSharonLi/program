@@ -1,5 +1,5 @@
 <template>
-  <VanPopup :show="show" round custom-style="border-radius:10px">
+  <VanPopup :show="show" round custom-style="border-radius:10px;background-color:#808080">
     <view class="rank__content">
       <view class="rank__title">抽奖排行榜</view>
       <view class="rank__list">
@@ -48,7 +48,7 @@ export default {
 @import '@/assets/css/index.scss';
 .rank {
   &__content {
-    background-color: $white;
+    // background-color: $white;
     width: pxTorpx(300);
     height: pxTorpx(400);
     border-radius: pxTorpx(5);
@@ -57,7 +57,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
+    color: $white;
     text-align: center;
     line-height: pxTorpx(40);
   }

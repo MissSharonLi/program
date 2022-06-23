@@ -36,7 +36,7 @@ export default {
 .custom__nav__content {
   width: 100%;
   height: 100%;
-  background-color: $uni-theme-color;
+  background-color: $nav-theme-color;
   display: flex;
   align-items: bottom;
   display: flex;

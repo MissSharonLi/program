@@ -1,5 +1,5 @@
 <template>
-  <VanPopup :show="show" round custom-style="border-radius:10px;width:90%">
+  <VanPopup :show="show" round custom-style="border-radius:10px;width:90%;background-color:#404040">
     <view class="tips">{{ notice }}</view>
     <view class="tips__footer" @click="show = false">关闭</view>
   </VanPopup>
@@ -31,6 +31,7 @@ export default {
   min-height: pxTorpx(100);
   padding: pxTorpx(20);
   line-height: 1.8;
+  color: $white;
   &__footer {
     width: pxTorpx(80);
     height: pxTorpx(30);

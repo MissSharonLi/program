@@ -5,6 +5,7 @@
         <input
           v-model="params.keyword"
           class="search__input"
+          placeholder-style="color:#fff"
           type="text"
           placeholder="海贼王"
           @confirm="handleOperation(0)"
@@ -13,7 +14,7 @@
     </view>
     <ProductList :dataSource="returnData"></ProductList>
     <view v-if="returnData.length > 0" class="loader__more__content">
-      <VanLoading size="18px" color="#999" :type="loadStatus === 1 && 'spinner'">
+      <VanLoading size="18px" color="#fff" :type="loadStatus === 1 && 'spinner'">
         {{ contentText }}
       </VanLoading>
     </view>
@@ -81,7 +82,6 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
 .product__content {
-  background-color: $white;
   min-height: 100vh;
   .search__input {
     width: calc(100% - 100rpx);
@@ -90,7 +90,7 @@ export default {
       padding: pxTorpx(5) pxTorpx(15);
     }
     &__content {
-      background-color: rgba(0, 0, 0, 0.07);
+      background-color: $sub-nav-theme-color;
       border-radius: pxTorpx(15);
       font-size: pxTorpx(14);
       height: pxTorpx(40);

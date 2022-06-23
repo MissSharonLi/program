@@ -80,7 +80,7 @@ export default {
     padding-top: pxTorpx(65);
   }
   &__item {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(10);
     border-radius: pxTorpx(5);
     margin-bottom: pxTorpx(10);
@@ -89,7 +89,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(13);
-    color: rgb(68, 68, 68);
+    color: $white;
     margin-bottom: pxTorpx(10);
     margin-top: pxTorpx(5);
     display: block;
@@ -97,30 +97,40 @@ export default {
   &__images {
     @include flex(center, '');
     padding: pxTorpx(10);
-    border-top: 1px solid #f2f2f2;
-    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #10101014;
+    border-bottom: 1px solid #10101014;
     .img {
       width: pxTorpx(80);
       height: pxTorpx(80);
       position: relative;
       margin-right: pxTorpx(20);
+      position: relative;
       &.sold__out {
-        opacity: 0.5;
         border-radius: pxTorpx(5);
         &::after {
           content: '售罄';
           display: block;
           width: pxTorpx(40);
           height: pxTorpx(20);
-          background-color: $uni-theme-color;
+          background-color: $sub-nav-theme-color;
           border-radius: pxTorpx(10);
           text-align: center;
           position: absolute;
           top: pxTorpx(30);
           left: pxTorpx(20);
-          color: $white;
+          color: $theme-light-color;
           font-size: pxTorpx(12);
           line-height: pxTorpx(20);
+        }
+        &::before {
+          content: '';
+          position: absolute;
+          width: pxTorpx(80);
+          height: pxTorpx(80);
+          display: block;
+          left: 0;
+          top: 0;
+          background-color: rgba(0, 0, 0, 0.3);
         }
       }
     }
@@ -128,7 +138,7 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       margin-bottom: pxTorpx(20);
       display: block;
     }
@@ -136,7 +146,7 @@ export default {
       font-family: $SFUIText;
       font-weight: 400;
       font-size: pxTorpx(12);
-      color: rgb(133, 133, 133);
+      color: $white;
       display: block;
     }
   }
@@ -144,14 +154,13 @@ export default {
     font-size: pxTorpx(12);
     text-align: right;
     padding-top: pxTorpx(10);
-    color: rgb(92, 92, 92);
+    color: $white;
     .footer__text {
       &:last-child {
         margin-left: pxTorpx(30);
       }
       .speacial {
-        color: $uni-theme-color;
-        font-style: italic;
+        color: $theme-light-color;
       }
     }
   }

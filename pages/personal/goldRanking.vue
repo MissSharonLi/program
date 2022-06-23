@@ -82,7 +82,7 @@ export default {
   }
   &__self {
     height: pxTorpx(119);
-    background-color: $uni-theme-color;
+    background-color: $sub-nav-theme-color;
     border: 1px solid rgb(248, 220, 76);
     border-radius: pxTorpx(5);
     font-size: pxTorpx(14);
@@ -117,7 +117,7 @@ export default {
     }
   }
   &__item {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     height: pxTorpx(70);
     border-radius: pxTorpx(5);
     @include flex(center, space-between);
@@ -156,7 +156,7 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 400;
         font-size: pxTorpx(12);
-        color: rgb(16, 16, 16);
+        color: $white;
         min-width: 100px;
         max-width: 100px;
         text-align: center;
@@ -165,7 +165,7 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 400;
         font-size: pxTorpx(14);
-        color: rgb(16, 16, 16);
+        color: $white;
         margin-left: pxTorpx(30);
         .em {
           font-size: pxTorpx(16);
@@ -177,9 +177,9 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 400;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       .em {
-        color: $uni-theme-color;
+        color: $theme-light-color;
       }
     }
   }

@@ -75,7 +75,7 @@ export default {
       font-family: $FZYuan;
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: $uni-text-color;
+      color: $white;
       letter-spacing: 1px;
       margin-top: pxTorpx(5);
     }

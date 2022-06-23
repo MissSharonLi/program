@@ -5,12 +5,7 @@
       <view class="rank__content">
         <view class="like">
           <view class="love" :class="{ active: is_collect }" @click="handleToCollect"></view>
-          <button
-            class="share"
-            data-name="shareBtn"
-            open-type="share"
-            @click="handleToShare()"
-          ></button>
+          <button class="share" data-name="shareBtn" open-type="share"></button>
         </view>
         <view class="rank">
           <view class="button" @click="handleToRewards">我的赏袋</view>
@@ -150,14 +145,6 @@ export default {
     handleToRewards() {
       uni.navigateTo({ url: '/pages/personal/myAwardBag' })
     },
-    handleToShare() {
-      wx.onShareAppMessage(() => {
-        return {
-          title: '转发标题',
-          imageUrl: '' // 图片 URL
-        }
-      })
-    },
     handleToBuy(num) {
       this.commonUtils.login().then(async (res) => {
         this.buyParams = {
@@ -207,13 +194,15 @@ export default {
 </script>
 <style lang="scss">
 @import '@/wxcomponents/vant/dialog/index.wxss';
+page {
+  background-position-y: 25%;
+}
 </style>
 
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
 .product__detail {
   &__content {
-    background-color: $white;
     min-height: 100vh;
     padding-bottom: pxTorpx(100);
   }
@@ -226,38 +215,33 @@ export default {
       top: pxTorpx(40);
       @include flex(center, space-between);
       .love {
-        width: pxTorpx(30);
-        height: pxTorpx(30);
+        width: pxTorpx(40);
+        height: pxTorpx(40);
         display: block;
-        border-radius: 50%;
         background: url('@/assets/images/love.png') no-repeat center;
-        background-size: pxTorpx(20) pxTorpx(20);
-        background-color: $uni-theme-color;
+        background-size: pxTorpx(40) pxTorpx(40);
         margin-left: pxTorpx(15);
         margin-bottom: pxTorpx(10);
         &.active {
           background: url('@/assets/images/loved.png') no-repeat center;
-          background-size: pxTorpx(20) pxTorpx(20);
-          background-color: $uni-theme-color;
+          background-size: pxTorpx(40) pxTorpx(40);
           margin-left: pxTorpx(15);
         }
       }
       .share {
-        width: pxTorpx(30);
-        height: pxTorpx(30);
+        width: pxTorpx(40);
+        height: pxTorpx(40);
         display: block;
-        border-radius: 50%;
         background: url('@/assets/images/share.png') no-repeat center;
-        background-size: pxTorpx(20) pxTorpx(20);
-        background-color: $uni-theme-color;
+        background-size: pxTorpx(40) pxTorpx(40);
         margin-left: pxTorpx(15);
       }
       .button {
-        background-color: $uni-theme-color;
+        background-color: $sub-nav-theme-color;
         line-height: pxTorpx(30);
         border-radius: 15px 0px 0px 15px;
         font-size: pxTorpx(14);
-        color: #f8dc4c;
+        color: $theme-light-color;
         font-weight: bold;
         width: pxTorpx(100);
         @include flex(center, '');
@@ -285,13 +269,13 @@ export default {
     @include flex(center, space-between);
     margin: pxTorpx(10) pxTorpx(15);
     .button {
-      background-color: #f8dc4c;
+      background-color: $sub-nav-theme-color;
       line-height: pxTorpx(30);
       width: pxTorpx(80);
       border-radius: pxTorpx(5);
       font-size: pxTorpx(14);
       text-align: center;
-      color: $uni-theme-color;
+      color: $theme-light-color;
       font-weight: bold;
       &:last-child {
         @include flex(center, '');
@@ -302,7 +286,7 @@ export default {
           height: pxTorpx(20);
           margin-left: pxTorpx(10);
           margin-right: pxTorpx(5);
-          background: url('@/assets/images/refresh.png') no-repeat center;
+          background: url('@/assets/images/refresh1.png') no-repeat center;
           background-size: 100% 100%;
         }
       }
@@ -318,7 +302,7 @@ export default {
       left: -10rpx;
       height: pxTorpx(88);
       width: calc(100% + 20rpx);
-      background-color: #9fd3e7;
+      background-color: rgba(64, 64, 64, 0.5);
       border-radius: pxTorpx(5);
       z-index: 0;
     }
@@ -326,8 +310,7 @@ export default {
       @include flex(center, center, wrap);
       position: relative;
       padding: 0 pxTorpx(10);
-      background-color: $uni-theme-color;
-      background-color: $uni-theme-color;
+      background-color: $sub-nav-theme-color;
       height: pxTorpx(88);
       border-radius: pxTorpx(5);
       text-align: center;
@@ -336,14 +319,14 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 400;
         font-size: pxTorpx(14);
-        color: #f8dc4c;
+        color: $theme-light-color;
         width: 100%;
       }
       .subtitle {
         font-family: $ZKKuaiLeTi;
         font-weight: 400;
         font-size: pxTorpx(18);
-        color: $white;
+        color: $theme-light-color;
         width: 100%;
         @include flex(center, space-between);
       }
@@ -366,22 +349,30 @@ export default {
         border-radius: pxTorpx(5);
         position: relative;
         &.sold__out {
-          opacity: 0.5;
           border-radius: pxTorpx(5);
           &::after {
             content: '售罄';
             display: block;
             width: pxTorpx(40);
             height: pxTorpx(20);
-            background-color: $uni-theme-color;
+            background-color: $sub-nav-theme-color;
             border-radius: pxTorpx(10);
             text-align: center;
             position: absolute;
             top: pxTorpx(30);
             left: pxTorpx(20);
-            color: $white;
+            color: $theme-light-color;
             font-size: pxTorpx(12);
             line-height: pxTorpx(20);
+          }
+          &::before {
+            content: '';
+            position: absolute;
+            width: pxTorpx(80);
+            height: pxTorpx(80);
+            left: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0.5);
           }
         }
       }
@@ -435,12 +426,11 @@ export default {
         height: pxTorpx(40);
         text-align: center;
         color: $white;
-        background-color: #f8dc4c;
+        background-color: $sub-nav-theme-color;
       }
     }
   }
   &__lang {
-    background-color: rgba(255, 255, 255, 0.5);
     padding: pxTorpx(20);
     @include flex(center, space-between);
     .img {

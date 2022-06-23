@@ -185,7 +185,7 @@ export default {
 .order__management {
   padding-top: pxTorpx(90);
   &__top {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     box-shadow: #0000000a 0px 2px 6px 0px;
     padding: pxTorpx(10);
     padding-bottom: 0;
@@ -202,7 +202,7 @@ export default {
     &__content {
       @include flex(center);
     }
-    background-color: rgba(0, 0, 0, 0.07);
+    background-color: $white;
     border-radius: pxTorpx(15);
     font-size: pxTorpx(14);
     height: pxTorpx(34);
@@ -228,14 +228,14 @@ export default {
     margin-top: pxTorpx(15);
   }
   &__item {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(10);
     border-radius: pxTorpx(5);
     margin-bottom: pxTorpx(10);
     &.success {
       .order__management__buttons {
         .button {
-          background-color: $uni-theme-color;
+          background-color: $theme-light-color;
           color: #f8dc4c;
         }
       }
@@ -249,7 +249,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(13);
-    color: rgb(68, 68, 68);
+    color: $white;
     margin-bottom: pxTorpx(10);
     margin-top: pxTorpx(5);
     display: block;
@@ -258,8 +258,8 @@ export default {
   &__images {
     @include flex(center, '');
     padding: pxTorpx(10);
-    border-top: 1px solid #f2f2f2;
-    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #10101014;
+    border-bottom: 1px solid #10101014;
     .img {
       width: pxTorpx(80);
       height: pxTorpx(80);
@@ -270,7 +270,7 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       margin-bottom: pxTorpx(30);
       display: block;
     }
@@ -278,7 +278,7 @@ export default {
       font-family: $SFUIText;
       font-weight: 400;
       font-size: pxTorpx(12);
-      color: rgb(133, 133, 133);
+      color: $white;
       display: block;
       @include flex(center, space-between);
     }
@@ -290,7 +290,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(12);
-    color: rgba(168, 168, 168, 1);
+    color: $white;
     margin-top: pxTorpx(12);
     @include flex(center, space-between);
     .price {
@@ -298,7 +298,7 @@ export default {
       .em {
         font-weight: 700;
         font-size: pxTorpx(14);
-        color: rgba(16, 16, 16, 0.99);
+        color: $white;
       }
     }
   }
@@ -306,7 +306,7 @@ export default {
     font-family: 'PingFangSC';
     font-weight: 400;
     font-size: pxTorpx(13);
-    color: $uni-theme-color;
+    color: $theme-light-color;
     text-align: right;
     margin-top: pxTorpx(20);
     .button {
@@ -314,7 +314,7 @@ export default {
       height: pxTorpx(26);
       line-height: pxTorpx(26);
       text-align: center;
-      border: 1px solid $uni-theme-color;
+      border: 1px solid $theme-light-color;
       display: inline-block;
       border-radius: pxTorpx(22);
       & + .button {

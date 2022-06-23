@@ -3,7 +3,7 @@
     <!-- <HomeNavBar :title="navTitle" isDefault></HomeNavBar> -->
     <view class="notify__wrapper">
       <SubTabs ref="subTabsProps" :dataSource="tabList" @tabClick="handleTab"></SubTabs>
-      <view class="notify__content">
+      <view v-if="returnData.length > 0" class="notify__content">
         <view class="notify__progress__bar">
           <view v-for="(item, index) in returnData" :key="index" class="notify__progress__item">
             <text class="progress__text">
@@ -94,9 +94,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
-.content {
-  background-color: $white;
-}
 .notify {
   &__wrapper {
     position: relative;
@@ -107,7 +104,6 @@ export default {
 }
 .notify__nav {
   &__content {
-    background-color: $white;
     @include flex(center, space-around);
     position: fixed;
     width: 100%;
@@ -133,9 +129,9 @@ export default {
       border-radius: pxTorpx(3);
     }
     &.active {
-      color: $uni-theme-color;
+      color: $theme-light-color;
       &::after {
-        background-color: $uni-theme-color;
+        background-color: $theme-light-color;
       }
     }
   }
@@ -143,8 +139,8 @@ export default {
 .notify__progress {
   &__bar {
     padding: pxTorpx(10) pxTorpx(15);
-    background-color: $white;
-    border-top: pxTorpx(5) solid $uni-bg-color;
+    background-color: $sub-nav-theme-color;
+    margin-top: pxTorpx(5);
   }
   &__item {
     position: relative;
@@ -165,24 +161,25 @@ export default {
       display: block;
       position: absolute;
       left: pxTorpx(10);
-      background-color: $uni-theme-color;
+      background-color: $theme-light-color;
       background-size: 100% 100%;
       width: pxTorpx(1);
       height: pxTorpx(70);
       top: pxTorpx(30);
     }
     .progress {
-      &__text {
-        margin: pxTorpx(15) 0;
-      }
       &__text,
       &__title,
       &__price {
         font-family: 'PingFangSC';
         font-weight: 400;
         font-size: pxTorpx(12);
-        color: $uni-theme-color;
+        color: $white;
         display: block;
+      }
+      &__text {
+        margin: pxTorpx(15) 0;
+        color: $theme-light-color;
       }
       &__title {
         margin-bottom: pxTorpx(5);
@@ -192,7 +189,7 @@ export default {
         margin-bottom: pxTorpx(20);
         height: pxTorpx(60);
         border-radius: pxTorpx(5);
-        background-color: rgb(248, 220, 76);
+        background-color: #4040403b;
         overflow: hidden;
         .img {
           width: pxTorpx(60);

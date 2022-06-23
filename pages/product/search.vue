@@ -5,6 +5,7 @@
         v-model="keyword"
         class="search__input"
         type="text"
+        placeholder-style="color:#fff"
         placeholder="搜索商品"
         @confirm="handleOperation(null, keyword)"
       />
@@ -90,7 +91,9 @@ export default {
 .product__search__wrapper {
   min-height: 100vh;
   padding: pxTorpx(5) pxTorpx(15);
-  background-color: $white;
+  .search__placeholder {
+    color: $white;
+  }
   .search__input {
     &__content {
       @include flex(center);
@@ -100,11 +103,11 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 700;
         font-size: pxTorpx(14);
-        color: rgb(16, 16, 16);
+        color: $white;
         width: 100rpx;
       }
     }
-    background-color: rgba(0, 0, 0, 0.07);
+    background-color: $sub-nav-theme-color;
     border-radius: pxTorpx(15);
     font-size: pxTorpx(14);
     height: pxTorpx(40);
@@ -112,6 +115,7 @@ export default {
     position: relative;
     width: calc(100% - 140rpx);
     padding-left: pxTorpx(50);
+    color: $white;
     &::before {
       content: '';
       display: block;
@@ -135,7 +139,7 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
     }
     &__icon {
       width: pxTorpx(18);
@@ -146,10 +150,10 @@ export default {
       .button {
         height: pxTorpx(28);
         line-height: pxTorpx(28);
-        background-color: rgba(0, 0, 0, 0.13);
+        background-color: $sub-nav-theme-color;
         border-radius: pxTorpx(26);
         font-size: pxTorpx(14);
-        color: #101010;
+        color: $white;
         padding: 0 pxTorpx(15);
         margin-right: pxTorpx(15);
         margin-bottom: pxTorpx(15);

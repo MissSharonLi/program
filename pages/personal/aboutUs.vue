@@ -26,12 +26,11 @@ export default {
 @import '@/assets/css/index.scss';
 .about__us {
   font-size: pxTorpx(12);
-  color: #666;
+  color: $white;
   line-height: 1.8;
   text-align: justify;
   padding: 30rpx;
-  min-height: calc(100vh - 70rpx);
-  margin-top: 10rpx;
-  background-color: #fff;
+  min-height: calc(100vh - 60rpx);
+  background-color: $sub-nav-theme-color;
 }
 </style>

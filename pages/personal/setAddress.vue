@@ -119,18 +119,18 @@ export default {
 .set__address {
   &__list {
     padding-bottom: pxTorpx(40);
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
   }
   &__item {
     @include flex(center, '');
     padding: pxTorpx(20) pxTorpx(15);
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid #10101014;
     font-family: $SourceHanSansSC;
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
+    color: $white;
     &:first-child {
-      border-top: 1px solid #f2f2f2;
+      border-top: 1px solid #10101014;
     }
     .input {
       width: calc(100% - 180rpx);
@@ -157,7 +157,7 @@ export default {
     }
   }
   &__default {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     margin-top: pxTorpx(30);
     padding: pxTorpx(20);
     @include flex(center, space-between);
@@ -165,10 +165,10 @@ export default {
       font-family: $SourceHanSansSC;
       font-weight: 400;
       font-size: pxTorpx(14);
-      color: rgb(16, 16, 16);
+      color: $white;
       .tips {
         font-size: pxTorpx(12);
-        color: rgb(144, 144, 144);
+        color: $white;
         margin-top: pxTorpx(5);
       }
     }
@@ -212,14 +212,14 @@ export default {
     width: calc(100% - 60rpx);
     bottom: 0;
     left: 0;
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(20) pxTorpx(15);
     .button {
       width: 100%;
       line-height: pxTorpx(40);
       height: pxTorpx(40);
       text-align: center;
-      background-color: $uni-theme-color;
+      background-color: $theme-light-color;
       color: $white;
       font-size: pxTorpx(14);
       border-radius: pxTorpx(100);

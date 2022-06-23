@@ -1,39 +1,29 @@
 <template>
   <view>
     <view class="lottery__list">
-      <view v-for="(item, index) in list" :key="index" class="lottery__item">
+      <view v-for="(item, index) in list" :key="index" class="lottery__item first">
         <view class="left">
           <view class="rank__num">
             <text class="em" :class="{ yellow: item.is_ticket === 0 }">{{ item.rank_num }}</text>
-            <text class="time">{{ item.pay_time }}</text>
           </view>
           <view class="images__content" :class="{ speacial: item.is_ticket === 0 }">
             <view class="text">{{ item.nickname }}</view>
             <view class="text">{{ item.item_name }}</view>
           </view>
         </view>
-        <view class="right">
-          <view class="ranking__content em">
-            {{ item.tag_title }}
-          </view>
-        </view>
+        <view class="right"></view>
       </view>
-      <view v-for="(item, index) in returnData" :key="index" class="lottery__item">
+      <view v-for="(item, index) in returnData" :key="index" class="lottery__item second">
         <view class="left">
           <view class="rank__num">
             <text class="em">{{ item.rank_num }}</text>
-            <text class="time">{{ item.pay_time }}</text>
           </view>
           <view class="images__content">
             <view class="text">{{ item.nickname }}</view>
             <view class="text">{{ item.item_name }}</view>
           </view>
         </view>
-        <view class="right">
-          <view class="ranking__content em">
-            {{ item.tag_title }}
-          </view>
-        </view>
+        <view class="right"></view>
       </view>
     </view>
   </view>
@@ -86,7 +76,22 @@ export default {
     padding: pxTorpx(10);
   }
   &__item {
-    background-color: $white;
+    &.first {
+      background: url('@/assets/images/bg2.png') no-repeat center;
+      background-size: 100% 100%;
+      .right {
+        background: url('@/assets/images/all.png') no-repeat center;
+        background-size: 100% 100%;
+      }
+    }
+    &.second {
+      background: url('@/assets/images/bg1.png') no-repeat center;
+      background-size: 100% 100%;
+      .right {
+        background: url('@/assets/images/A.png') no-repeat center;
+        background-size: 100% 100%;
+      }
+    }
     height: pxTorpx(70);
     border-radius: pxTorpx(5);
     @include flex(center, space-between);
@@ -99,19 +104,19 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 700;
         font-size: pxTorpx(14);
-        color: rgb(16, 16, 16);
+        color: #1b1464;
         text-align: center;
         margin-right: pxTorpx(30);
         .em {
-          color: $uni-theme-color;
+          color: #1b1464;
           margin-bottom: pxTorpx(10);
           display: block;
           &.yellow {
-            color: rgba(248, 220, 76, 1);
+            color: #1b1464;
           }
         }
         .time {
-          color: #101010;
+          color: #1b1464;
           display: block;
           font-weight: 400;
           font-size: pxTorpx(12);
@@ -121,7 +126,7 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 700;
         font-size: pxTorpx(14);
-        color: $uni-theme-color;
+        color: #1b1464;
         min-width: 100px;
         max-width: 100px;
         text-align: left;
@@ -131,28 +136,13 @@ export default {
       }
       .speacial {
         .text {
-          color: rgba(248, 220, 76, 1);
+          color: #1b1464;
         }
       }
     }
     .right {
-      .ranking__content {
-        font-family: 'PingFangSC';
-        font-weight: 400;
-        font-size: pxTorpx(14);
-        color: rgb(16, 16, 16);
-        text-align: right;
-        .em {
-          font-size: pxTorpx(16);
-          color: rgba(248, 220, 76, 1);
-        }
-        &.em {
-          color: red;
-          font-weight: 700;
-          font-size: pxTorpx(18);
-          min-width: pxTorpx(48);
-        }
-      }
+      width: pxTorpx(60);
+      height: pxTorpx(30);
     }
   }
 }

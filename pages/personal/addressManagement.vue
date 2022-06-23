@@ -62,7 +62,7 @@ export default {
     margin-top: pxTorpx(1);
   }
   &__item {
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     padding: pxTorpx(20);
     margin-bottom: pxTorpx(1);
     &.default {
@@ -93,7 +93,7 @@ export default {
               color: $white;
               text-align: center;
               margin-left: pxTorpx(10);
-              background-color: $uni-theme-color;
+              background-color: $theme-light-color;
               font-size: pxTorpx(12);
               font-weight: lighter;
             }
@@ -106,7 +106,7 @@ export default {
     font-family: $SourceHanSansSC;
     font-weight: 700;
     font-size: 14px;
-    color: rgb(16, 16, 16);
+    color: $white;
     margin-bottom: pxTorpx(10);
     .text {
       &:first-child {
@@ -118,7 +118,7 @@ export default {
     font-family: $SourceHanSansSC;
     font-weight: 400;
     font-size: pxTorpx(14);
-    color: rgba(144, 144, 144, 1);
+    color: $white;
     @include flex(center, space-between);
     .img {
       width: pxTorpx(21);
@@ -127,8 +127,8 @@ export default {
   }
   &__footer {
     height: pxTorpx(40);
-    background-color: $uni-theme-color;
-    border: 1px solid $uni-theme-color;
+    background-color: $theme-light-color;
+    border: 1px solid $theme-light-color;
     color: rgb(255, 255, 255);
     border-radius: pxTorpx(100);
     font-size: pxTorpx(14);

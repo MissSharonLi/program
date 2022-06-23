@@ -52,7 +52,7 @@ export default {
     border-radius: pxTorpx(5);
     font-size: pxTorpx(14);
     padding: pxTorpx(10);
-    background-color: $white;
+    background-color: $sub-nav-theme-color;
     margin-bottom: pxTorpx(10);
     @include flex(center, space-between, wrap);
     &::after {
@@ -68,11 +68,11 @@ export default {
       font-family: 'PingFangSC';
       font-weight: 700;
       font-size: pxTorpx(20);
-      color: $uni-theme-color;
+      color: $theme-light-color;
       .time {
         font-weight: 400;
         font-size: pxTorpx(12);
-        color: rgb(68, 68, 68);
+        color: $white;
         margin-top: pxTorpx(5);
       }
     }

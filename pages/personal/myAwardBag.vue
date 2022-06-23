@@ -15,12 +15,12 @@
     </view>
     <view class="my__award__bag__list">
       <view v-for="(item, index) in returnData" :key="index" class="my__award__bag__item">
-        <image :src="item.item_image" class="img" />
+        <image :src="item.item_image" class="img" @click="handleSelect(index)" />
+        <text class="select__icon" :class="{ selected: item.selected }"></text>
         <view class="text__content">
           <view class="title">{{ item.goods_name }}</view>
           <view class="price">参考价格：{{ item.back_price }}</view>
-          <view class="select__content" @click="handleSelect(index)">
-            <text class="select__icon" :class="{ selected: item.selected }"></text>
+          <view class="select__content">
             <text class="select__text">{{ item.status_text }}</text>
           </view>
         </view>
@@ -140,7 +140,7 @@ export default {
       left: -10rpx;
       height: pxTorpx(88);
       width: calc(100% + 20rpx);
-      background-color: #9fd3e7;
+      background-color: rgba(64, 64, 64, 0.5);
       border-radius: pxTorpx(5);
       z-index: 0;
     }
@@ -148,8 +148,7 @@ export default {
       @include flex(center, center, wrap);
       position: relative;
       padding: 0 pxTorpx(10);
-      background-color: $uni-theme-color;
-      background-color: $uni-theme-color;
+      background-color: $sub-nav-theme-color;
       height: pxTorpx(88);
       border-radius: pxTorpx(5);
       text-align: center;
@@ -158,7 +157,7 @@ export default {
         font-family: 'PingFangSC';
         font-weight: 400;
         font-size: pxTorpx(14);
-        color: #f8dc4c;
+        color: $theme-light-color;
         width: 100%;
       }
       .subtitle {
@@ -174,7 +173,7 @@ export default {
             margin-right: pxTorpx(10);
           }
           &.active {
-            color: #f8dc4c;
+            color: $theme-light-color;
             font-size: pxTorpx(20);
           }
         }
@@ -187,10 +186,11 @@ export default {
     }
     &__item {
       width: calc(50% - 7rpx);
-      background-color: $white;
+      background-color: $sub-nav-theme-color;
       border-radius: pxTorpx(10);
       padding-bottom: pxTorpx(10);
       margin-bottom: pxTorpx(7);
+      position: relative;
       .img {
         width: 100%;
         height: pxTorpx(180);
@@ -204,7 +204,7 @@ export default {
         font-family: PingFangSC;
         font-weight: 700;
         font-size: pxTorpx(14);
-        color: rgb(16, 16, 16);
+        color: $white;
         margin-bottom: pxTorpx(10);
       }
       .price {
@@ -216,7 +216,7 @@ export default {
       }
       .select {
         &__content {
-          @include flex(center, space-between);
+          text-align: right;
         }
         &__icon {
           width: pxTorpx(17);
@@ -224,6 +224,9 @@ export default {
           display: block;
           background: url('@/assets/images/unselect.png') no-repeat center;
           background-size: 100% 100%;
+          position: absolute;
+          right: pxTorpx(10);
+          top: pxTorpx(10);
           &.selected {
             background: url('@/assets/images/selected.png') no-repeat center;
             background-size: 100% 100%;
@@ -233,7 +236,7 @@ export default {
           font-family: PingFangSC;
           font-weight: 400;
           font-size: pxTorpx(12);
-          color: rgba(255, 0, 0, 1);
+          color: $theme-light-color;
         }
       }
     }
@@ -247,8 +250,8 @@ export default {
         width: pxTorpx(80);
         line-height: pxTorpx(30);
         height: pxTorpx(30);
-        background-color: rgb(16, 146, 195);
-        color: rgb(248, 220, 76);
+        background-color: $sub-nav-theme-color;
+        color: $theme-light-color;
         border-radius: 4px;
         font-size: 14px;
         text-align: center;

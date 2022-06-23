@@ -1,44 +1,24 @@
 <template>
-  <VanPopup :show="show" round custom-style="height:60%" position="bottom">
+  <VanPopup
+    custom-class="custom__van__popup"
+    :show="show"
+    round
+    custom-style="height:700rpx;background:transparent;padding-bottom: 0;padding:0 5px"
+    position="bottom"
+    @close.native="handleClose"
+  >
     <view class="buy__content">
-      <view class="buy__title">
-        <view class="left">
-          <text class="buy__number">
-            购买{{ params.goods_name }}（{{ params.stock_num }}/{{ params.goods_num }}）
-          </text>
-          <text class="em">单价：{{ params.goods_price }}元</text>
+      <view class="buy__list__content">
+        <view class="buy__number">{{ params.num }}发</view>
+        <view class="buy__way">点数余额：{{ userInfo.money }}</view>
+        <view class="buy__list">
+          <view class="button" @click="handleToPay(1)">钱袋余额支付</view>
+          <view class="button" @click="handleToPay(2)">微信支付</view>
         </view>
-        <view class="right" @click="handleClose">取消</view>
-      </view>
-      <view class="buy__button">买{{ params.num }}张</view>
-      <view class="buy__text">
-        购买数量{{ params.num }}张，共计￥
-        <text class="em">{{ (params.num * params.goods_price).toFixed(2) }}</text>
-        元
-      </view>
-      <view class="buy__way">
-        支付方式
-        <text class="em">钱袋余额￥{{ userInfo.money }}元</text>
-      </view>
-      <view class="buy__limit">
-        防限额专属充值通道
-        <text class="em">点我自助充值！秒到账！！</text>
-      </view>
-      <view class="buy__list">
-        <view class="button" @click="handleToPay(1)">钱袋余额支付</view>
-        <view class="button" @click="handleToPay(2)">微信支付</view>
-      </view>
-      <VanCheckbox
-        :value="checked"
-        shape="square"
-        custom-class="special"
-        icon-class="icon__class"
-        icon-size="10px"
-      >
-        购买则表示已阅读并同意协议
-      </VanCheckbox>
-      <view class="buy__tips">
-        {{ params.notice }}
+        <view class="special">购买则表示已阅读并同意协议</view>
+        <view class="buy__tips">
+          {{ params.notice }}
+        </view>
       </view>
     </view>
   </VanPopup>
@@ -46,12 +26,10 @@
 <script>
 import { api } from '@/api'
 import VanPopup from '@/wxcomponents/vant/popup/index'
-import VanCheckbox from '@/wxcomponents/vant/checkbox/index'
 export default {
   name: 'BuyDetail',
   components: {
-    VanPopup,
-    VanCheckbox
+    VanPopup
   },
   props: {
     params: {
@@ -61,7 +39,6 @@ export default {
   },
   data() {
     return {
-      checked: true,
       show: false
     }
   },
@@ -103,102 +80,66 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
-::v-deep .special,
-.icon__class {
-  font-size: 12px;
-  .icon__class {
-    width: 15px;
-    height: 15px;
-    line-height: 15px;
-  }
+.special {
+  font-size: pxTorpx(14);
+  color: $white;
 }
 .buy {
   &__content {
-    padding: pxTorpx(10);
+    min-height: 100%;
+    background: url('@/assets/images/bg.png') no-repeat center;
+    background-size: 100% 100%;
   }
-  &__title {
-    font-family: 'PingFangSC';
-    font-weight: 700;
-    font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
-    @include flex(flex-start, space-between);
-    .em {
-      color: #ff0000;
-      font-size: pxTorpx(12);
-      display: block;
-      margin-top: pxTorpx(5);
-    }
+  &__list__content {
+    padding: pxTorpx(20) pxTorpx(20);
   }
-  &__button {
-    width: pxTorpx(100);
-    line-height: pxTorpx(30);
-    text-align: center;
-    border: 1px solid #ff0000;
-    color: #ff0000;
-    margin: pxTorpx(20) auto;
+  &__number {
+    width: pxTorpx(180);
+    height: pxTorpx(60);
+    line-height: pxTorpx(60);
+    display: block;
+    box-shadow: #8c4300 5px 5px 0px 0px;
+    color: rgb(255, 0, 0);
     border-radius: pxTorpx(15);
-    font-size: pxTorpx(14);
-  }
-  &__text {
-    font-size: pxTorpx(12);
-    text-align: right;
-    margin-bottom: pxTorpx(20);
-    .em {
-      font-size: pxTorpx(18);
-    }
+    font-size: pxTorpx(36);
+    text-align: center;
+    font-weight: bold;
+    background: url('@/assets/images/bt.png') no-repeat center;
+    background-size: 100% 100%;
+    margin: pxTorpx(25) auto;
   }
   &__way {
     font-family: 'PingFangSC';
-    font-weight: 400;
-    font-size: pxTorpx(14);
-    color: rgb(16, 16, 16);
-    margin-bottom: pxTorpx(5);
-    .em {
-      font-family: 'PingFangSC';
-      font-weight: 400;
-      font-size: pxTorpx(12);
-      color: rgba(168, 168, 168, 1);
-      padding-left: pxTorpx(5);
-    }
-  }
-  &__limit {
-    font-family: 'PingFangSC';
-    font-weight: 400;
-    font-size: pxTorpx(12);
-    color: rgb(16, 16, 16);
-    .em {
-      color: rgba(255, 0, 0, 1);
-      padding-left: pxTorpx(5);
-    }
+    font-weight: 700;
+    font-size: 16px;
+    color: rgba(251, 176, 59, 1);
   }
   &__list {
     @include flex(center, center);
-    margin: pxTorpx(15) 0;
+    margin: pxTorpx(25) 0;
     .button {
       width: pxTorpx(120);
-      line-height: pxTorpx(30);
+      height: pxTorpx(50);
+      line-height: pxTorpx(50);
+      box-shadow: #8c4300 5px 5px 0px 0px;
+      color: rgb(66, 33, 11);
       border-radius: pxTorpx(4);
+      font-size: pxTorpx(18);
       text-align: center;
-      font-size: pxTorpx(14);
-      &:first-child {
-        color: #f8dc4c;
-        background-color: $uni-theme-color;
-      }
+      font-weight: bold;
+      background: rgb(251, 176, 59);
       &:last-child {
-        color: $uni-theme-color;
-        background-color: #f8dc4c;
         margin-left: pxTorpx(40);
       }
     }
   }
   &__tips {
     font-family: 'PingFangSC';
-    font-weight: 700;
     font-size: pxTorpx(12);
-    color: rgb(16, 146, 195);
+    color: $white;
     text-align: justify;
-    padding: pxTorpx(10);
-    margin-bottom: pxTorpx(15);
+    line-height: 1.5;
+    margin: pxTorpx(25) 0 pxTorpx(5);
   }
 }
 </style>

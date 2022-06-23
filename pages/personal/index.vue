@@ -25,9 +25,10 @@
             </view>
           </view>
           <view class="personal__top__rank">
-            <text class="text">氪金</text>
-            <text class="text">氪金分值：{{ userInfo.buy_total_num || 0 }}</text>
-            <text class="text" @click="handleOperation(null, 1)">排行</text>
+            <text class="text" @click="handleOperation(null, 1)">
+              氪金：{{ userInfo.buy_total_num || 0 }}
+            </text>
+            <text class="text">积分：{{ userInfo.buy_total_num || 0 }}</text>
           </view>
         </view>
       </view>
@@ -180,12 +181,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
-.content {
-  background-color: $white;
-}
 .personal__top {
   &__background {
-    background-color: $uni-theme-color;
+    background-color: $sub-nav-theme-color;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
     height: pxTorpx(140);
@@ -277,7 +275,7 @@ export default {
   &__rank {
     height: pxTorpx(53);
     line-height: pxTorpx(53);
-    background-color: rgb(64, 64, 64);
+    background-color: #101010;
     font-size: pxTorpx(14);
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
@@ -287,34 +285,19 @@ export default {
     bottom: 0;
     left: pxTorpx(30);
     width: calc(100% - 200rpx);
-    @include flex(center, space-around);
-    padding: 0 pxTorpx(20);
+    @include flex(center, space-between);
+    padding: 0 pxTorpx(30);
     .text {
       font-family: 'PingFangSC';
       font-weight: 400;
-      font-size: pxTorpx(16);
       color: rgb(227, 197, 158);
       margin-top: -15rpx;
-      &:nth-child(2) {
-        font-size: pxTorpx(14);
-        margin-top: -8rpx;
-      }
-      &:last-child {
-        width: pxTorpx(71);
-        height: pxTorpx(21);
-        background-color: rgb(252, 211, 175);
-        color: rgb(138, 96, 50);
-        border-radius: pxTorpx(19);
-        font-size: pxTorpx(14);
-        text-align: center;
-        line-height: pxTorpx(21);
-      }
     }
   }
 }
 .personal__main {
   &__content {
-    background-color: $white;
+    background-color: #808080;
     box-shadow: #0000001f 0px 2px 6px 0px;
     color: $white;
     border-radius: pxTorpx(8) pxTorpx(12) pxTorpx(12);
@@ -330,7 +313,7 @@ export default {
       &__item {
         width: pxTorpx(48);
         height: pxTorpx(48);
-        border: 1px solid $uni-theme-color;
+        border: 1px solid #08131e;
         box-shadow: #10101038 0px 2px 6px 0px;
         border-radius: pxTorpx(35);
         font-size: pxTorpx(14);
@@ -359,6 +342,7 @@ export default {
     box-shadow: #cacccc33 0px 2px 6px 0px;
     border-radius: pxTorpx(10);
     margin: pxTorpx(10);
+    background-color: #808080;
     padding-bottom: pxTorpx(35);
   }
   &__list {
