@@ -215,7 +215,7 @@ export default {
       display: block;
       width: pxTorpx(21);
       height: pxTorpx(21);
-      background: url('@/assets/images/search.png') no-repeat;
+      background: url('@/assets/images/search-grey.png') no-repeat;
       background-size: 100% 100%;
       line-height: pxTorpx(34);
       position: absolute;
