@@ -10,10 +10,15 @@
     <view class="buy__content">
       <view class="buy__list__content">
         <view class="buy__number">{{ params.num }}发</view>
-        <view class="buy__way">点数余额：{{ userInfo.money }}</view>
-        <view class="buy__list">
+        <view class="buy__way">
+          {{ params.is_score === 0 ? '点数' : '积分' }}余额：{{ userInfo.money }}
+        </view>
+        <view v-if="params.is_score === 0" class="buy__list">
           <view class="button" @click="handleToPay(1)">钱袋余额支付</view>
           <view class="button" @click="handleToPay(2)">微信支付</view>
+        </view>
+        <view v-else class="buy__list">
+          <view class="button" @click="handleToPay(1)">积分支付</view>
         </view>
         <view class="special">购买则表示已阅读并同意协议</view>
         <view class="buy__tips">

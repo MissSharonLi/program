@@ -153,6 +153,7 @@ export default {
           token: this.token,
           money: this.userInfo.money,
           notice: this.returnObj.buy_notice,
+          is_score: this.returnObj.is_score,
           goods_name: this.returnObj.goods_name,
           goods_price: this.returnObj.goods_price,
           stock_num: this.returnObj.stock_num,

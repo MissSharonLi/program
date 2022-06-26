@@ -28,7 +28,7 @@
             <text class="text" @click="handleOperation(null, 1)">
               氪金：{{ userInfo.buy_total_num || 0 }}
             </text>
-            <text class="text">积分：{{ userInfo.buy_total_num || 0 }}</text>
+            <text class="text">积分：{{ userInfo.score || 0 }}</text>
           </view>
         </view>
       </view>
