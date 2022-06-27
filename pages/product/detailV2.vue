@@ -8,21 +8,61 @@
           <button class="share" data-name="shareBtn" open-type="share"></button>
         </view>
         <view class="rank">
-          <view class="button" @click="handleToRewards">我的赏袋</view>
-          <view class="button" @click="handleLottery">抽奖记录</view>
+          <view class="button" @click="handleToRewards">
+            <text class="lint">我</text>
+            <text class="lint">的</text>
+            <text class="lint">赏</text>
+            <text class="lint">袋</text>
+          </view>
+          <view class="button" @click="handleLottery">
+            <text class="lint">抽</text>
+            <text class="lint">奖</text>
+            <text class="lint">记</text>
+            <text class="lint">录</text>
+          </view>
         </view>
       </view>
     </view>
     <view class="product__detail__buttons">
-      <view class="button" @click="$refs.buyTipsProps.show = true">购买说明</view>
-      <view class="button" @click="query()">刷新</view>
+      <view class="button" @click="$refs.buyTipsProps.show = true">
+        <text class="lint">活</text>
+        <text class="lint">动</text>
+        <text class="lint">说</text>
+        <text class="lint">明</text>
+      </view>
+      <view class="button" @click="query()">
+        <text class="lint">刷</text>
+        <text class="lint">新</text>
+      </view>
     </view>
     <view class="product__detail__rate">
       <view class="product__detail__rate__content">
-        <view class="title">锁箱机会剩余{{ returnObj.lock_times || 0 }}次</view>
+        <view class="title">
+          <text class="lint">锁</text>
+          <text class="lint">箱</text>
+          <text class="lint">机</text>
+          <text class="lint">会</text>
+          <text class="lint">剩</text>
+          <text class="lint">余</text>
+          <text class="lint">{{ returnObj.lock_times || 0 }}</text>
+          <text class="lint">次</text>
+        </view>
         <view class="subtitle">
-          <text class="left">{{ returnObj.goods_price }}/张明信片</text>
-          <text class="right">赏品余量:{{ returnObj.stock_num }}/{{ returnObj.goods_num }}</text>
+          <text class="left">
+            <text class="lint" style="font-size: 50rpx">{{ returnObj.goods_price || '' }}</text>
+            <text class="lint" style="font-size: 30rpx">
+              {{ returnObj.is_score === 0 ? '元' : '点数' }}/
+            </text>
+            <text class="lint" style="font-size: 30rpx">张</text>
+            <text class="lint" style="font-size: 30rpx">明</text>
+            <text class="lint" style="font-size: 30rpx">信</text>
+            <text class="lint" style="font-size: 30rpx">片</text>
+          </text>
+          <text class="right lint">
+            <text class="lint" style="font-size: 30rpx">剩</text>
+            <text class="lint" style="font-size: 30rpx">余：</text>
+            <text class="lint">{{ returnObj.stock_num || 0 }}/{{ returnObj.goods_num || 0 }}</text>
+          </text>
         </view>
       </view>
     </view>
@@ -66,7 +106,10 @@
         ></image>
       </view>
       <view class="product__detail__footer__buttons">
-        <view class="button" @click="handleOperation(null, '锁箱')">锁箱</view>
+        <view class="button" @click="handleOperation(null, '锁箱')">
+          <text class="lint">锁</text>
+          <text class="lint">箱</text>
+        </view>
       </view>
     </view>
     <BuyDetail ref="buyProps" :params="buyParams" @success="handleSuccess"></BuyDetail>
@@ -245,24 +288,24 @@ page {
         color: $theme-light-color;
         font-weight: bold;
         width: pxTorpx(100);
-        @include flex(center, '');
+        text-align: center;
         margin-bottom: pxTorpx(10);
-        &::before {
-          content: '';
-          display: block;
-          width: pxTorpx(16);
-          height: pxTorpx(16);
-          background: url('@/assets/images/bag.png') no-repeat;
-          background-size: 100% 100%;
-          margin-left: pxTorpx(10);
-          margin-right: pxTorpx(10);
-        }
-        &:last-child {
-          &::before {
-            background: url('@/assets/images/rank.png') no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+        // &::before {
+        //   content: '';
+        //   display: block;
+        //   width: pxTorpx(16);
+        //   height: pxTorpx(16);
+        //   background: url('@/assets/images/bag.png') no-repeat;
+        //   background-size: 100% 100%;
+        //   margin-left: pxTorpx(10);
+        //   margin-right: pxTorpx(10);
+        // }
+        // &:last-child {
+        //   &::before {
+        //     background: url('@/assets/images/rank.png') no-repeat;
+        //     background-size: 100% 100%;
+        //   }
+        // }
       }
     }
   }
@@ -426,8 +469,10 @@ page {
         line-height: pxTorpx(40);
         height: pxTorpx(40);
         text-align: center;
-        color: $white;
         background-color: $sub-nav-theme-color;
+        .lint {
+          font-size: pxTorpx(26);
+        }
       }
     }
   }

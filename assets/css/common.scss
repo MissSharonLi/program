@@ -37,3 +37,20 @@ button{
 * {
   font-family: '-apple-system, "SF UI Text", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif';
 }
+.lint {
+  font-family: $STHupo;
+  font-weight: 700;
+  font-size: 35rpx;
+  background: linear-gradient(
+    calc(0.5turn - 45deg),
+    #f6c25f,
+    #f1f431,
+    #ffffff,
+    #f1f431,
+    #f1dd7e,
+    #f6c25f
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

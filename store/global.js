@@ -25,6 +25,10 @@ const globalModule = {
       {
         family: 'SourceHanSansSC',
         source: 'url("https://modao.cc/mb-sigma/fonts/zh-CN/SourceHanSansSC/Regular.woff2")'
+      },
+      {
+        family: 'STHupo',
+        source: 'url("https://a.yiyunrj.com/assets/apifonts/STHupo_64.woff2")'
       }
     ]
   },

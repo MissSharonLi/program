@@ -10,7 +10,9 @@
       <text class="label">{{ item.tag_title }}:{{ item.stock_num }}/{{ item.goods_num }}</text>
       <text class="number">{{ item.stock_num }}/{{ item.goods_num }}</text>
       <view class="title">{{ item.goods_name }}</view>
-      <view class="sub__title">{{ item.goods_price }}元/张</view>
+      <view class="sub__title">
+        {{ item.goods_price }}{{ item.is_score === 0 ? '元' : '积分' }}/张
+      </view>
     </view>
     <view v-if="dataSource.length === 0" class="empty">暂无数据哦~</view>
   </view>
