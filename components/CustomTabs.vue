@@ -39,16 +39,16 @@ export default {
 .list__tab__content {
   line-height: pxTorpx(50);
   @include flex(center, space-around);
-  font-family: $ZKWenYi;
+  font-family: $STHupo;
   font-weight: 400;
   font-size: pxTorpx(16);
-  color: $special-color;
+  color: #8995c5;
   font-style: normal;
   letter-spacing: 1px;
   .active {
-    color: #404040;
+    color: #435dc5;
     font-size: pxTorpx(18);
-    font-family: $ZKKuaiLeTi;
+    font-family: $STHupo;
     position: relative;
     &::after {
       content: '';
