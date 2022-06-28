@@ -6,7 +6,11 @@
       class="list__item"
       @click="handleClick(item)"
     >
-      <image class="list__item__image" :src="item.goods_image"></image>
+      <image
+        class="list__item__image"
+        :class="{ sold__out: item.stock_num === 0 }"
+        :src="item.goods_image"
+      ></image>
       <text class="label">{{ item.tag_title }}:{{ item.stock_num }}/{{ item.goods_num }}</text>
       <text class="number">{{ item.stock_num }}/{{ item.goods_num }}</text>
       <view class="title">{{ item.goods_name }}</view>
@@ -48,6 +52,35 @@ export default {
       width: pxTorpx(160);
       height: pxTorpx(165);
       border-radius: pxTorpx(26);
+      position: relative;
+      &.sold__out {
+        &::after {
+          content: '售罄';
+          display: block;
+          width: pxTorpx(50);
+          height: pxTorpx(28);
+          line-height: pxTorpx(28);
+          background-color: $sub-nav-theme-color;
+          border-radius: pxTorpx(10);
+          text-align: center;
+          position: absolute;
+          top: pxTorpx(70);
+          left: pxTorpx(60);
+          color: $theme-light-color;
+          font-size: pxTorpx(16);
+        }
+        &::before {
+          content: '';
+          position: absolute;
+          width: pxTorpx(160);
+          height: pxTorpx(165);
+          border-radius: pxTorpx(26);
+          display: block;
+          left: 0;
+          top: 0;
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+      }
     }
     .label {
       position: absolute;
