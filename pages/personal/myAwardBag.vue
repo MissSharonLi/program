@@ -192,8 +192,8 @@ export default {
       margin-bottom: pxTorpx(7);
       position: relative;
       &:nth-child(3n-1) {
-        margin-left: 14rpx;
-        margin-right: 14rpx;
+        margin-left: 10rpx;
+        margin-right: 10rpx;
       }
       .img {
         width: 100%;
