@@ -131,7 +131,7 @@ export default {
 @import '@/assets/css/index.scss';
 .my__award {
   &__bag {
-    margin: pxTorpx(10);
+    margin: pxTorpx(7);
     position: relative;
     &::after {
       content: '';
@@ -180,20 +180,24 @@ export default {
       }
     }
     &__list {
-      @include flex(center, space-between, wrap);
+      @include flex(center, '', wrap);
       margin-top: pxTorpx(15);
       padding-bottom: pxTorpx(30);
     }
     &__item {
-      width: calc(50% - 7rpx);
+      width: calc(33% - 7rpx);
       background-color: $sub-nav-theme-color;
       border-radius: pxTorpx(10);
       padding-bottom: pxTorpx(10);
       margin-bottom: pxTorpx(7);
       position: relative;
+      &:nth-child(3n-1) {
+        margin-left: 14rpx;
+        margin-right: 14rpx;
+      }
       .img {
         width: 100%;
-        height: pxTorpx(180);
+        height: pxTorpx(118);
         border-radius: pxTorpx(10);
         margin-bottom: pxTorpx(10);
       }

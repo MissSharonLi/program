@@ -42,11 +42,11 @@ export default {
   font-family: $STHupo;
   font-weight: 400;
   font-size: pxTorpx(16);
-  color: #8995c5;
+  color: #f6c25f;
   font-style: normal;
   letter-spacing: 1px;
   .active {
-    color: #435dc5;
+    color: #f6a60f;
     font-size: pxTorpx(18);
     font-family: $STHupo;
     position: relative;
