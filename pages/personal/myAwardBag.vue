@@ -33,14 +33,17 @@
     </view>
     <SelectAddress ref="addressProps" type="batch"></SelectAddress>
     <VanDialog id="van-dialog"></VanDialog>
+    <MyTabs></MyTabs>
   </view>
 </template>
 <script>
 import { api } from '@/api'
+import MyTabs from '@/components/MyTabs'
 import SelectAddress from '@/components/SelectAddress'
 export default {
   name: 'MyAwardBag',
   components: {
+    MyTabs,
     SelectAddress
   },
   data() {
@@ -133,6 +136,7 @@ export default {
   &__bag {
     margin: pxTorpx(7);
     position: relative;
+    padding-bottom: pxTorpx(110);
     &::after {
       content: '';
       position: absolute;
@@ -246,7 +250,7 @@ export default {
     }
     &__footer {
       position: fixed;
-      bottom: pxTorpx(20);
+      bottom: pxTorpx(100);
       left: 0;
       width: 100%;
       @include flex(center, space-around);

@@ -180,12 +180,12 @@
         // "selectedIconPath": "static/images/tabs/home-a.png",
         // "text": "首页"
       },
-      // {
-      //   "pagePath": "pages/notify/index"
-      //   // "iconPath": "static/images/tabs/notify.png",
-      //   // "selectedIconPath": "static/images/tabs/notify-a.png",
-      //   // "text": "预告"
-      // },
+      {
+        "pagePath": "pages/personal/myAwardBag"
+        // "iconPath": "static/images/tabs/notify.png",
+        // "selectedIconPath": "static/images/tabs/notify-a.png",
+        // "text": "预告"
+      },
       {
         "pagePath": "pages/personal/index"
         // "iconPath": "static/images/tabs/person.png",

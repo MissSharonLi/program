@@ -23,7 +23,7 @@ export default {
         },
         {
           url: require('@/assets/images/tabs/tab2.png'),
-          path: '/pages/notify/index'
+          path: '/pages/personal/myAwardBag'
         },
         {
           url: require('@/assets/images/tabs/tab3.png'),
@@ -35,7 +35,6 @@ export default {
 
   methods: {
     handleSwitch(item, index) {
-      if (index === 1) uni.redirectTo({ url: '/pages/personal/myAwardBag' })
       uni.switchTab({ url: item.path })
     }
   }
