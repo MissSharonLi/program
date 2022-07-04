@@ -18,15 +18,17 @@
         <image :src="item.item_image" class="img" @click="handleSelect(index)" />
         <text class="select__icon" :class="{ selected: item.selected }"></text>
         <view class="text__content">
-          <view class="title">{{ item.goods_name }}</view>
+          <view class="title">{{ item.item_name }}</view>
           <view class="price">参考价格：{{ item.back_price }}</view>
           <view class="select__content">
+            <text class="price">×{{ item.num }}</text>
             <text class="select__text">{{ item.status_text }}</text>
           </view>
         </view>
       </view>
     </view>
     <view class="my__award__bag__footer">
+      <view class="button" @click="handleCancelAll">全不选</view>
       <view class="button" @click="handleSelectAll">全选</view>
       <view v-if="params.status === 1" class="button" @click="handleOperation">回购</view>
       <view v-if="params.status === 1" class="button" @click="handleOperation(1)">提货</view>
@@ -94,6 +96,11 @@ export default {
     // 全选
     handleSelectAll() {
       this.returnData.forEach((i) => (i.selected = true))
+      this.$forceUpdate()
+    },
+    // 全不选
+    handleCancelAll() {
+      this.returnData.forEach((i) => (i.selected = false))
       this.$forceUpdate()
     },
     // 单选
@@ -225,6 +232,10 @@ export default {
       .select {
         &__content {
           text-align: right;
+          .price {
+            float: left;
+            margin-bottom: 0 !important;
+          }
         }
         &__icon {
           width: pxTorpx(17);
