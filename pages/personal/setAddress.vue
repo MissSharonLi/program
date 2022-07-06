@@ -82,8 +82,8 @@ export default {
   methods: {
     handleConfirm(val) {
       this.formProps.province = val.detail.values[0].code
-      this.formProps.city = val.detail.values[0].code
-      this.formProps.area = val.detail.values[0].code
+      this.formProps.city = val.detail.values[1].code
+      this.formProps.area = val.detail.values[2].code
       this.formProps.province_name = val.detail.values[0].name
       this.formProps.city_name = val.detail.values[1].name
       this.formProps.area_name = val.detail.values[2].name

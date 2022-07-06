@@ -1,5 +1,5 @@
 const common = {
-  domain: 'https://a.yiyunrj.com/',
-  baseUrl: 'https://a.yiyunrj.com/api/'
+  domain: 'https://www.langmanwu2021.cn/',
+  baseUrl: 'https://www.langmanwu2021.cn/api/'
 }
 export const { baseUrl, domain } = common

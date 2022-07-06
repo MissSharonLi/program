@@ -76,7 +76,7 @@ const common = {
     const arr = []
     const json = {}
     for (const key in params) {
-      arr.push(key)
+      if (params[key] !== null) arr.push(key)
     }
     arr.sort()
     for (const i in arr) {
@@ -199,6 +199,7 @@ export default (params = common.defaultParams) => {
     responseError ||
     ((error) => {
       common.tryHideFullScreenLoading()
+      console.log(error)
       if (!(error && ['取消重复请求', 'cancelToken'].includes(error.msg))) {
         if (error && error.response) {
           commonUtils.toast('系统异常')

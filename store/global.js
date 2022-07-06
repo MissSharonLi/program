@@ -28,7 +28,7 @@ const globalModule = {
       },
       {
         family: 'STHupo',
-        source: 'url("https://a.yiyunrj.com/assets/apifonts/STHupo_64.woff2")'
+        source: 'url("https://www.langmanwu2021.cn/assets/apifonts/STHupo_64.woff2")'
       }
     ]
   },
