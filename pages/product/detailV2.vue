@@ -105,12 +105,12 @@
           @click="handleToBuy(10)"
         ></image>
       </view>
-      <view class="product__detail__footer__buttons">
+      <!-- <view class="product__detail__footer__buttons">
         <view class="button" @click="handleOperation(null, '锁箱')">
           <text class="lint">锁</text>
           <text class="lint">箱</text>
         </view>
-      </view>
+      </view> -->
     </view>
     <BuyDetail ref="buyProps" :params="buyParams" @success="handleSuccess"></BuyDetail>
     <BuySuccess ref="rankProps" :dataSource="rankProps.dataSource"></BuySuccess>
@@ -248,7 +248,7 @@ page {
 .product__detail {
   &__content {
     min-height: 100vh;
-    padding-bottom: pxTorpx(100);
+    padding-bottom: pxTorpx(60);
   }
   &__top {
     position: relative;

@@ -14,6 +14,11 @@
         <view class="address__detail">
           <text>{{ item.province_name }}{{ item.city_name }}{{ item.area_name }}</text>
           <image
+            class="delete"
+            :src="require('@/assets/images/delete2.png')"
+            @click="handleToDelete(item)"
+          ></image>
+          <image
             class="img"
             :src="require('@/assets/images/edit.png')"
             @click="handleToEdit(item)"
@@ -21,11 +26,13 @@
         </view>
       </view>
     </view>
+    <VanDialog id="van-dialog"></VanDialog>
     <view class="address__footer" @click="handleToAdd">新增收货地址</view>
   </view>
 </template>
 <script>
 import { api } from '@/api'
+import Dialog from '@/wxcomponents/vant/dialog/dialog'
 export default {
   data() {
     return {
@@ -38,6 +45,22 @@ export default {
   methods: {
     handleToAdd() {
       uni.navigateTo({ url: '/pages/personal/setAddress' })
+    },
+    async handleToDelete(item) {
+      Dialog.alert({
+        title: '提示',
+        message: `确认删除?`,
+        showCancelButton: true,
+        theme: 'round-button'
+      })
+        .then(async () => {
+          const { code } = await api.handleDeleteAddress({ token: this.token, id: item.id })
+          if (code === 1) {
+            this.$toast('操作成功')
+            this.network().runApiToGetAddressList()
+          }
+        })
+        .catch(() => {})
     },
     handleToEdit(item) {
       uni.navigateTo({ url: '/pages/personal/setAddress?data=' + JSON.stringify(item) })
@@ -55,6 +78,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import '@/wxcomponents/vant/dialog/index.wxss';
+</style>
 <style lang="scss" scoped>
 @import '@/assets/css/index.scss';
 .address {
@@ -65,6 +91,7 @@ export default {
     background-color: $sub-nav-theme-color;
     padding: pxTorpx(20);
     margin-bottom: pxTorpx(1);
+    position: relative;
     &.default {
       position: relative;
       padding-left: pxTorpx(40);
@@ -120,6 +147,14 @@ export default {
     font-size: pxTorpx(14);
     color: $white;
     @include flex(center, space-between);
+    .delete {
+      width: pxTorpx(18);
+      height: pxTorpx(20);
+      position: absolute;
+      right: pxTorpx(20);
+      top: pxTorpx(20);
+      display: block;
+    }
     .img {
       width: pxTorpx(21);
       height: pxTorpx(21);

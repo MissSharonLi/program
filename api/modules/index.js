@@ -45,6 +45,9 @@ export const getAddressList = (params) => POST('user/getaddresslist', params, nu
 // 添加收货地址
 export const handleSetAddress = (params) => POST('user/address', params, null, true)
 
+// 删除收货地址
+export const handleDeleteAddress = (params) => POST('user/deladdress', params, null, true)
+
 // 获取地区
 export const getAreaList = (params) => POST('area/getarea', params, null, true)
 

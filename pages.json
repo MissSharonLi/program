@@ -53,7 +53,10 @@
     {
       "path": "pages/personal/addressManagement",
       "style": {
-        "navigationBarTitleText": "收货地址"
+        "navigationBarTitleText": "收货地址",
+        "usingComponents": {
+          "van-dialog": "/wxcomponents/vant/dialog/index"
+        }
       }
     },
     {
