@@ -10,7 +10,7 @@
       <Block v-for="(item, index) in dataSource" :key="index">
         <SwiperItem>
           <view class="swiper-item">
-            <image class="swiper-image" :src="item"></image>
+            <image class="swiper-image" :class="{ unique: isUnique }" :src="item"></image>
           </view>
         </SwiperItem>
       </Block>
@@ -27,6 +27,10 @@ export default {
     dataSource: {
       type: Array,
       default: () => ['banner.jpeg', 'banner.jpeg']
+    },
+    isUnique: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -48,10 +52,12 @@ export default {
   }
   .swiper-item {
     height: pxTorpx(128);
+    text-align: center;
     .swiper-image {
-      width: 100%;
-      height: pxTorpx(128);
+      height: pxTorpx(130);
       border-radius: pxTorpx(16);
+      text-align: center;
+      width: pxTorpx(350);
     }
   }
   &.banner {
@@ -60,8 +66,9 @@ export default {
     }
     .swiper-item {
       height: pxTorpx(150);
+      text-align: center;
       .swiper-image {
-        width: 100%;
+        width: pxTorpx(375);
         height: pxTorpx(150);
         border-radius: 0;
       }

@@ -1,7 +1,7 @@
 <template>
   <view class="product__detail__content">
     <view class="product__detail__top">
-      <CustomSwiper :isBanner="true" :dataSource="imgDataSource"></CustomSwiper>
+      <CustomSwiper :isBanner="true" :dataSource="imgDataSource" :isUnique="true"></CustomSwiper>
       <view class="rank__content">
         <view class="like">
           <view class="love" :class="{ active: is_collect }" @click="handleToCollect"></view>
@@ -176,14 +176,24 @@ export default {
     async handleLottery() {
       uni.navigateTo({ url: '/pages/product/lottery?id=' + this.params.id })
     },
+    async runApiToGetUserInfo() {
+      const { code, data } = await api.getUseriInfo({ token: this.token })
+      if (code === 1 && data) {
+        this.$store.commit('setUserInfo', JSON.stringify(data))
+        uni.setStorageSync('storage_userInfo', JSON.stringify(data))
+      }
+    },
     async handleSuccess(log_sn) {
       this.query()
+      this.runApiToGetUserInfo()
       this.$refs.rankProps.show = true
       const { code, data } = await api.getBuyLogDetial({
         token: this.token,
         log_sn
       })
-      if (code === 1) this.rankProps.dataSource = data
+      if (code === 1) {
+        this.rankProps.dataSource = data
+      }
     },
     handleToRewards() {
       uni.navigateTo({ url: '/pages/personal/myAwardBag' })
